@@ -33,5 +33,24 @@ public final class Constants {
 
     /** Replaying from a log file. */
     REPLAY
+
+  
   }
+
+  public static final int frontLeftDriveCanID1 = 3
+  public static final int frontLeftDriveCanID2 = 4
+  public static final int frontRightDriveCanID1 = 5
+  public static final int frontRightDriveCanID2 = 6
+  public static final int backRightDriveCanID1 = 7
+  public static final int backRightDriveCanID2 = 8
+  public static final int backLeftDriveCanID1 = 9
+  public static final int backLeftDriveCanID2 = 10
+  public static final int elevatorMasterCanID = 11
+  public static final int elevatorFollowerCanID = 12
+  public static final int climberCanID = 13
+  public static final int algaeAcquirerAngleCanID = 14
+  public static final int algaeAcquirerLeftWheelCanID = 15
+  public static final int algaeAcquirerRightWheelCanID = 16
+  public static final int coralClawAngleCanID = 17
+  public static final int coralClawFlyWheelCanID = 18
 }
