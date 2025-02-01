@@ -3,9 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.climber.ClimberSubsystem;
-import frc.robot.subsystems.shooter.ShooterSubsystem;
-import frc.robot.subsystems.shooter.ShooterSubsystem.OperatorEvent;
+import frc.robot.subsystems.algaeAcquirer;
+import frc.robot.subsystems.coralClaw;
+import frc.robot.subsystems.elevator;
+import frc.robot.subsystems.vision;
 import frc.robot.subsystems.shooterAngle.ShooterAngleSubsystem.ShooterPosition;
 
 public class ButtonBoard  {
@@ -37,7 +38,7 @@ public class ButtonBoard  {
         m_joystick1 = new Joystick(kJoystickChannel1);
         m_joystick2 = new Joystick(kJoystickChannel2);
     }
-    //1234AsianLaneN
+    
     // Joystick #1 Buttons
 
     private JoystickButton lowerElevatorButton() {
@@ -48,49 +49,49 @@ public class ButtonBoard  {
         return new JoystickButton(m_joystick2, 3);
     }
 
-    private JoystickButton raiseClimberButton() {
+    private JoystickButton climbButton() {
         return new JoystickButton(m_joystick2, 4);
     }
 
-    private JoystickButton lowerClimberButton() {
+    private JoystickButton descendButton() {
         return new JoystickButton(m_joystick2, 6);
     }
 
-    private JoystickButton raiseLinearActuatorButton() {
+    private JoystickButton acquireAlgaeButton() {
         return new JoystickButton(m_joystick2, 2);
     }
 
-    private JoystickButton lowerLinearActuatorButton() {
+    private JoystickButton shootAlgaeButton() {
         return new JoystickButton(m_joystick2, 1);
     }
 
-    private JoystickButton spitButton() {
+    private JoystickButton acquireCoralButton() {
         return new JoystickButton(m_joystick2, 8);
     }
 
-    private JoystickButton driveCameraSwitch() {
+    private JoystickButton shootCoralButton() {
         return new JoystickButton(m_joystick2, 7);
     }
 
     // Joystick #2 Buttons
 
-    private JoystickButton prepSpeakerFrontButton() {
+    private JoystickButton prepCoralLevel1Button() {
         return new JoystickButton(m_joystick1, 1);
     }
 
-    private JoystickButton prepSpeakerSideButton() {
+    private JoystickButton prepCoralLevel2Button() {
         return new JoystickButton(m_joystick1, 2);
     }
 
-    private JoystickButton prepAmpButton() {
+    private JoystickButton prepCoralLevel3Button() {
         return new JoystickButton(m_joystick1, 3);
     }
 
-    private JoystickButton shootButton() {
+    private JoystickButton prepCoralLevel4Button() {
         return new JoystickButton(m_joystick1, 4);
     }
-
-    private JoystickButton raiseBenderButton() {
+    // vague buttons after this?
+    private JoystickButton prepButton() {
         return new JoystickButton(m_joystick1, 6);
     }
 
@@ -129,164 +130,77 @@ public class ButtonBoard  {
 
     public void configureButtonBindings() {
 
-        driveCameraSwitch().onTrue(
-                new InstantCommand(() -> setOperationMode()));
-
-        driveCameraSwitch().onFalse(
-                new InstantCommand(() -> setOperationMode()));
-
         raiseElevatorButton().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("raiseElevatorButton Press");
-                    ShooterSubsystem.getInstance().raiseElevator();
+                    System.out.println("raiseElevatorButton Pressed");
+                    // do something
                 }));
-
-        raiseElevatorButton().onFalse(
-                new InstantCommand(() -> {
-                    System.out.println("raiseElevatorButton Release");
-                    ShooterSubsystem.getInstance().stopElevator();
-                }));
-
+        
         lowerElevatorButton().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("lowerElevatorButton Press");
-                    ShooterSubsystem.getInstance().lowerElevator();
+                    System.out.println("lowerElevatorButton Pressed");
+                    // do something
                 }));
 
-        lowerElevatorButton().onFalse(
+        climbButton().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("lowerElevatorButton Release");
-                    ShooterSubsystem.getInstance().stopElevator();
+                    System.out.println("climbButton Pressed");
+                    // do something
                 }));
 
-        raiseClimberButton().onTrue(
+        descendButton().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("raiseClimberButton Press");
-                    ClimberSubsystem.getInstance().raiseMotors();
-                }));
-
-        raiseClimberButton().onFalse(
+                    System.out.println("descendButton Pressed");
+                    // do something
+            }));
+        
+        prepCoralLevel1Button().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("raiseClimberButton Release");
-                    ClimberSubsystem.getInstance().stopMotors();
+                    System.out.println("prepCoralLevel1Button Pressed"); 
+                    // do something
                 }));
 
-        lowerClimberButton().onTrue(
+        prepCoralLevel2Button().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("lowerClimberButton Press");
-                    ClimberSubsystem.getInstance().lowerMotors();
+                    System.out.println("prepCoralLevel2Button Pressed");
+                    // do something
                 }));
-
-        lowerClimberButton().onFalse(
-                new InstantCommand(() -> {
-                    ClimberSubsystem.getInstance().stopMotors();
-                    System.out.println("lowerClimberButton Release");
-                }));
-
-        raiseLinearActuatorButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("raiseLinearActuatorButton Press");
-                    ShooterSubsystem.getInstance().raiseLinearActuator();
-                }));
-
-        raiseLinearActuatorButton().onFalse(
-                new InstantCommand(() -> {
-                    System.out.println("raiseLinearActuatorButton Release");
-                    ShooterSubsystem.getInstance().stopLinearActuator();
-                }));
-
-        lowerLinearActuatorButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("lowerLinearActuatorButton Press");
-                    ShooterSubsystem.getInstance().lowerLinearActuator();
-                }));
-
-        lowerLinearActuatorButton().onFalse(
-                new InstantCommand(() -> {
-                    System.out.println("lowerLinearActuatorButton Release");
-                    ShooterSubsystem.getInstance().stopLinearActuator();
-                }));
-
-        spitButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("Spit Button Pressed");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.SPIT);
-                }));
-
-        spitButton().onFalse(
-                new InstantCommand(() -> {
-                    System.out.println("Spit Button Released");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.SPIT_STOP);
-                }));
-
-        prepSpeakerFrontButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("Prep Speaker Front Button Pressed");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.PREP_SPEAKER_FRONT);
-                }));
-
-        test1Button().onTrue(
+        
+        prepCoralLevel3Button().onTrue(
             new InstantCommand(() -> {
-                System.out.println("Test 1 Pressed");
-                ShooterSubsystem.getInstance().setLinearActuatorPosition(ShooterPosition.SHOOT_PID);
-            })
-        );
-        test2Button().onTrue(
+                System.out.println("prepCoralLevel3Button Pressed");
+                // do something
+            }));
+
+        prepCoralLevel4Button().onTrue(
             new InstantCommand(() -> {
-                System.out.println("Test 2 Pressed");
-                ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.PREP_SOURCE);
-                
-            })
-        );
+                System.out.println("prepCoralLevel4Button Pressed");
+                // do something
+            }));
 
-        shootButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("Shoot Button Pressed");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.FIRE);
-                }));
-
-        prepAmpButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("Prep Amp Button Pressed");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.PREP_AMP);
-                }));
-
-        prepSpeakerSideButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("Shoot Amp Button Pressed");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.PREP_SPEAKER_SIDE);
-                }));
-
-        prepSpeakerSideButton().onFalse(
-                new InstantCommand(() -> {
-                    System.out.println("Shoot Amp Button Released");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.NONE);
-                }));
-
-        spitButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("Spit Button Pressed");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.SPIT);
-                }));
-
-        spitButton().onFalse(
-                new InstantCommand(() -> {
-                    System.out.println("Spit Button Released!");
-                    ShooterSubsystem.getInstance().operatorEvent(OperatorEvent.NONE);
-        }));
-
-        raiseBenderButton().onTrue(
+        acquireAlgaeButton().onTrue(
             new InstantCommand(() -> {
-                System.out.println("Raise Bender Button Pressed");
-                ShooterSubsystem.getInstance().raiseBender();
-            })
-        );
+                System.out.println("acquireAlgaeButton Pressed");
+                // do something
+            }));
 
-        lowerBenderButton().onTrue(
+        shootAlgaeButton().onTrue(
             new InstantCommand(() -> {
-                System.out.println("Lower Bender Button Pressed");
-                ShooterSubsystem.getInstance().lowerBender();
-            })
-        );
-    }
+                System.out.println("shootAlgaeButton Pressed");
+                // do something
+            }));
+
+        acquireCoralButton().onTrue(
+            new InstantCommand(() -> {
+                System.out.println("acquireCoralButton Pressed");
+                // do something
+            }));
+
+        shootCoralButton().onTrue(
+            new InstantCommand(() -> {
+                System.out.println("shootCoralButton Pressed");
+                // do something
+            }))
+    }    
+
 }
