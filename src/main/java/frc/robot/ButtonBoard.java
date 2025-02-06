@@ -3,11 +3,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.algaeAcquirer;
-import frc.robot.subsystems.coralClaw;
-import frc.robot.subsystems.elevator;
-import frc.robot.subsystems.vision;
-import frc.robot.subsystems.shooterAngle.ShooterAngleSubsystem.ShooterPosition;
+import frc.robot.subsystems.algaeAcquirer.*;
+import frc.robot.subsystems.coralClaw.*;
+import frc.robot.subsystems.elevator.*;
+import frc.robot.subsystems.vision.*;
+
 
 public class ButtonBoard  {
     public static final double FINE_STRAFE_DISTANCE_CM = 3.0;

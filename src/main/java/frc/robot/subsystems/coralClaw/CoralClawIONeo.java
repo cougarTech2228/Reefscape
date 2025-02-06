@@ -29,8 +29,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * X60.
  */
 public class CoralClawIONeo implements CoralClawIO {
-  private final SparkMax wheelMotor = new SparkMax(CoralClawConstants.wheelMotorCanId, MotorType.kBrushless);
-  private final SparkMax angleMotor = new SparkMax(CoralClawConstants.angleMotorCanId, MotorType.kBrushless);
+  private final SparkMax wheelMotor = new SparkMax(CoralClawConstants.coralFlywheelCanID, MotorType.kBrushless);
+  private final SparkMax angleMotor = new SparkMax(CoralClawConstants.coralRotateCanID, MotorType.kBrushless);
   private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
   // private final StatusSignal<Angle> positionRot = angleEncoder.getPosition();
   // private final StatusSignal<AngularVelocity> velocityRotPerSec = angleEncoder.getVelocity();

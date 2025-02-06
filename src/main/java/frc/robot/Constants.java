@@ -37,20 +37,25 @@ public final class Constants {
   
   }
 
-  public static final int frontLeftDriveCanID1 = 3
-  public static final int frontLeftDriveCanID2 = 4
-  public static final int frontRightDriveCanID1 = 5
-  public static final int frontRightDriveCanID2 = 6
-  public static final int backRightDriveCanID1 = 7
-  public static final int backRightDriveCanID2 = 8
-  public static final int backLeftDriveCanID1 = 9
-  public static final int backLeftDriveCanID2 = 10
-  public static final int elevatorMasterCanID = 11
-  public static final int elevatorFollowerCanID = 12
-  public static final int climberCanID = 13
-  public static final int algaeAcquirerAngleCanID = 14
-  public static final int algaeAcquirerLeftWheelCanID = 15
-  public static final int algaeAcquirerRightWheelCanID = 16
-  public static final int coralClawAngleCanID = 17
-  public static final int coralClawFlyWheelCanID = 18
+ 
+  
+
+  public static final int algaeFlywheelLeftNeoCanID = 4;
+  public static final int algaeFlywheelRightNeoCanID = 5;
+  public static final int coralFlywheelCanID = 6;
+  public static final int coralRotateCanID = 7;
+  public static final int algaeRotateCanID = 8;
+  public static final int climberFalconCanID = 9;
+  public static final int frontLeftDriveFalconCanID = 10;
+  public static final int frontLeftSteerCanID = 11;
+  public static final int rearLeftDriveCanID = 12;
+  public static final int rearLeftSteerCanID = 13;
+  public static final int frontRightDriveCanID = 14;
+  public static final int frontRightSteerCanID = 15;
+  public static final int rearRightDriveCanID = 16;
+  public static final int rearRightSteerCanID = 17;
+  public static final int elevatorLeaderCanID = 18;
+  public static final int elevatorFollowerCanID = 19;
+
 }
+

@@ -17,8 +17,8 @@ import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO.AngleEncoderIOInputs;
 
 public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
-  private final SparkMax leftFlyWheel = new SparkMax(AlgaeAcquirerConstants.leftFlyWheelCanId, MotorType.kBrushless);
-  private final SparkMax rightFlyWheel = new SparkMax(AlgaeAcquirerConstants.rightFlyWheelCanId, MotorType.kBrushless);
+  private final SparkMax leftFlyWheel = new SparkMax(AlgaeAcquirerConstants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
+  private final SparkMax rightFlyWheel = new SparkMax(AlgaeAcquirerConstants.algaeFlywheelRightNeoCanID, MotorType.kBrushless);
   private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
   // private final StatusSignal<Angle> positionRot = angleEncoder.getPosition();
   // private final StatusSignal<AngularVelocity> velocityRotPerSec = angleEncoder.getVelocity();

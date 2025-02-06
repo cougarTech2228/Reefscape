@@ -2,9 +2,8 @@ package frc.robot.subsystems.coralClaw;
 
 public class CoralClawConstants {
   
-
-  public static final int coralClawAngleCanID = 17 // might be changed
-  public static final int coralClawFlyWheelCanID = 18 // might be changed
+  public static final int coralFlywheelCanID = 6;
+  public static final int coralRotateCanID = 7;  
 
   public static final double motorReduction = 1.0;
   public static final int currentLimit = 40;

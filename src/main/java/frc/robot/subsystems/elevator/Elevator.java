@@ -3,15 +3,27 @@ package frc.robot.subsystems.elevator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.subsystems.elevator.ElevatorIOInputsAutoLogged;
 
+import java.util.concurrent.Flow.Processor;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
   private final ElevatorIO io;
   private final ElevatorIOInputsAutoLogged inputs = new ElevatorIOInputsAutoLogged();
+  public enum height {
+    LEVEL1,
+    LEVEL2,
+    LEVEL3,
+    LEVEL4,
+    PROCESSOR,
+    NET
+  };
 
   public Elevator(ElevatorIO io) {
     this.io = io;
   }
+
+
 
   @Override
   // Runs on a schedule, after some amount of milliseconds
@@ -30,4 +42,6 @@ public class Elevator extends SubsystemBase {
   public void setPosition(double position) {
     io.setPosition(position);
   }
+
+  
 }

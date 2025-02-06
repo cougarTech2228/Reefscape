@@ -20,11 +20,16 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -36,11 +41,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * This Elevator implementation is for a Talon FX driving a motor like the Falon 500 or Kraken X60.
  */
 public class ElevatorIOTalonFX implements ElevatorIO {
-  private final TalonFX elevator = new TalonFX(ElevatorCanId);
-  private final StatusSignal<Angle> positionRot = elevator.getPosition();
-  private final StatusSignal<AngularVelocity> velocityRotPerSec = elevator.getVelocity();
-  private final StatusSignal<Voltage> appliedVolts = elevator.getMotorVoltage();
-  private final StatusSignal<Current> currentAmps = elevator.getSupplyCurrent();
+  private final TalonFX elevatorA = new TalonFX(elevatorLeaderCanID);
+  private final TalonFX elevatorB = new TalonFX(elevatorFollowerCanID);
+  private final StatusSignal<Angle> positionRot = elevatorA.getPosition();
+  private final StatusSignal<AngularVelocity> velocityRotPerSec = elevatorA.getVelocity();
+  private final StatusSignal<Voltage> appliedVolts = elevatorA.getMotorVoltage();
+  private final StatusSignal<Current> currentAmps = elevatorA.getSupplyCurrent();
 
   // private final VoltageOut voltageRequest = new VoltageOut(0.0);
   private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
@@ -48,10 +54,29 @@ public class ElevatorIOTalonFX implements ElevatorIO {
   DigitalInput topLimitSwitch = new DigitalInput(topLimitSwitchDI);
   DigitalInput bottomLimitSwitch = new DigitalInput(bottomLimitSwitchDIO);
 
-  public ElevatorIOTalonFX() {
+  
 
-    // in init function
+  public ElevatorIOTalonFX() { 
+
+    var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();
+    
+    hardwareLimitSwitchConfig.ReverseLimitAutosetPositionEnable = true;
+    hardwareLimitSwitchConfig.ReverseLimitAutosetPositionValue = ElevatorConstants.bottomPosition;
+    hardwareLimitSwitchConfig.ForwardLimitEnable = false;
+    hardwareLimitSwitchConfig.ReverseLimitEnable = true;
+
+    
+
+
+    // in init function   
     var talonFXConfigs = new TalonFXConfiguration();
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimit = currentLimit;
+
+    elevatorA.getConfigurator().apply(talonFXConfigs);
+    elevatorA.getConfigurator().apply(hardwareLimitSwitchConfig);
+    elevatorB.setControl(new Follower(elevatorLeaderCanID, false));
 
     // set slot 0 gains
     var slot0Configs = talonFXConfigs.Slot0;
@@ -77,13 +102,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
           ElevatorConstants.accelerationFast; // Use a slower kA of 0.1 V/(rps/s)
     }
 
-    var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();
-    hardwareLimitSwitchConfig.ForwardLimitAutosetPositionEnable = true;
-    hardwareLimitSwitchConfig.ForwardLimitAutosetPositionValue = ElevatorConstants.topPosition;
-    hardwareLimitSwitchConfig.ReverseLimitAutosetPositionEnable = true;
-    hardwareLimitSwitchConfig.ReverseLimitAutosetPositionValue = ElevatorConstants.bottomPosition;
-    hardwareLimitSwitchConfig.ForwardLimitEnable = true;
-    hardwareLimitSwitchConfig.ReverseLimitEnable = true;
+    
 
     // -------------
     // ---------------
@@ -92,14 +111,14 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-    elevator.getConfigurator().apply(talonFXConfigs);
-    elevator.getConfigurator().apply(hardwareLimitSwitchConfig);
+    elevatorA.getConfigurator().apply(talonFXConfigs);
+    elevatorA.getConfigurator().apply(hardwareLimitSwitchConfig);
 
     // tryUntilOk(5, () -> elevator.getConfigurator().apply(config, 0.25));
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, positionRot, velocityRotPerSec, appliedVolts, currentAmps);
-    elevator.optimizeBusUtilization();
+    elevatorA.optimizeBusUtilization();
   }
 
   @Override
@@ -122,21 +141,21 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
   @Override
   public void setPosition(double position) {
-    elevator.setControl(motionMagic.withPosition(position));
+    elevatorA.setControl(motionMagic.withPosition(position));
   }
 
   @Override
   public double getPosition() {
-    return elevator.getPosition().getValueAsDouble();
+    return elevatorA.getPosition().getValueAsDouble();
   }
 
   @Override
   public boolean isAtBottomLimit() {
-    return elevator.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
+    return elevatorA.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
   }
 
   @Override
   public boolean isAtTopLimit() {
-    return elevator.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
+    return elevatorA.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
   }
 }
