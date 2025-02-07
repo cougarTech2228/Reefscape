@@ -1,11 +1,13 @@
 package frc.robot.subsystems.algaeAcquirer;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.generated.subsystems.angleEncoder.CoralClawIOInputsAutoLogged;
+import frc.robot.subsystems.coralCone.CoralCone.WheelState;
 
 public class AlgaeAcquirer extends SubsystemBase {
     private final AlgaeAcquirerIO io;
-    private CoralClawIOInputsAutoLogged inputs = new CoralClawIOInputsAutoLogged();
+    private AlgaeAcquirerIOInputsAutoLogged inputs = new AlgaeAcquirerIOInputsAutoLogged();
 
     public enum acquirerState {
         SHOOT,
@@ -13,7 +15,7 @@ public class AlgaeAcquirer extends SubsystemBase {
         STOP
     }
 
-    public enum algaeAngle {
+    public enum Position {
         STOWED,
         REEF_ACQUIRE,
         FLOOR_ACQUIRE,
@@ -29,7 +31,17 @@ public class AlgaeAcquirer extends SubsystemBase {
         io.setAlgaeAcquirer(state);
     }
 
-    public void setAlgaeAngle(algaeAngle angle) {
-        io.setAlgaeAngle(angle);
+    public void setPosition(Position position) {
+        io.setPosition(position);
+    }
+
+    public boolean isAtSetPosition() {
+        return io.isAtSetPosition();
+    }
+
+    @Override
+    public void periodic() {
+        io.updateInputs(inputs);
+        Logger.processInputs("AlgaeAcquirer", inputs);
     }
 }

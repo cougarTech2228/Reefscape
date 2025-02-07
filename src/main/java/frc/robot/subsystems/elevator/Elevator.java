@@ -1,13 +1,8 @@
 package frc.robot.subsystems.elevator;
 
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
-import edu.wpi.first.units.UnitBuilder;
-import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.generated.subsystems.elevator.ElevatorIOInputsAutoLogged;
 
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
@@ -60,7 +55,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean isAtSetPosition() {
-        return io.isAtSetPosition();
+        return inputs.isAtSetPosition;
     }
 
     /** Returns a command to run a quasistatic test in the specified direction. */
@@ -78,5 +73,10 @@ public class Elevator extends SubsystemBase {
     /** Runs the module with the specified output while controlling to zero degrees. */
     public void runCharacterization(double output) {
         io.setVoltage(output);
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        io.simulationPeriodic();
     }
 }

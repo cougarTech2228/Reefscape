@@ -28,6 +28,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIONeo;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIONeoSim;
+import frc.robot.subsystems.coralCone.CoralCone;
+import frc.robot.subsystems.coralCone.CoralConeIO;
+import frc.robot.subsystems.coralCone.CoralConeIONeo;
+import frc.robot.subsystems.coralCone.CoralConeIONeoSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -35,7 +43,9 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIO;
 import frc.robot.subsystems.elevator.ElevatorIOTalonFX;
+import frc.robot.subsystems.elevator.ElevatorIOTalonFXSim;
 import frc.robot.subsystems.operatorui.OperatorUI;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
@@ -52,6 +62,9 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Elevator elevator;
+  private final CoralCone coralCone;
+  private final AlgaeAcquirer algaeAcquirer;
 
   @SuppressWarnings("unused")
   private final Vision vision;
@@ -59,8 +72,7 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   private final OperatorUI operatorUI;
 
-  @SuppressWarnings("unused")
-  private final Elevator elevator;
+  
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -85,7 +97,9 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(camera0Name, robotToCamera0),
                 new VisionIOPhotonVision(camera1Name, robotToCamera1));
-        elevator = new Elevator(new ElevatorIOTalonFX(false));
+        elevator = new Elevator(new ElevatorIOTalonFX());
+        algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeo());
+        coralCone = new CoralCone(new CoralConeIONeo());
         break;
 
       case SIM:
@@ -102,7 +116,9 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
                 new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose));
-        elevator = new Elevator(new ElevatorIOTalonFX(true));
+        elevator = new Elevator(new ElevatorIOTalonFXSim());
+        algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeoSim());
+        coralCone = new CoralCone(new CoralConeIONeoSim());
         break;
 
       default:
@@ -116,11 +132,13 @@ public class RobotContainer {
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
-        elevator = new Elevator(new ElevatorIOTalonFX(true));
+        elevator = new Elevator(new ElevatorIO(){});
+        algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIO(){});
+        coralCone = new CoralCone(new CoralConeIO(){});
         break;
     }
 
-    operatorUI = new OperatorUI(elevator);
+    operatorUI = new OperatorUI(elevator, algaeAcquirer, coralCone);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices"/*, AutoBuilder.buildAutoChooser()*/);

@@ -21,7 +21,7 @@ public class AlgaeAcquirerConstants {
     public static final double bargeShootAngle = 75;
     public static final double processorShootAngle = 0;
 
-    
+    public static final double closedLoopAngleAllowedError = 0.01;
 
 
     

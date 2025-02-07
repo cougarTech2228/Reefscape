@@ -1,0 +1,102 @@
+package frc.robot.subsystems.coralCone;
+
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+
+import com.revrobotics.spark.config.SparkMaxConfig;
+import frc.robot.Constants;
+import frc.robot.subsystems.coralCone.CoralCone.Position;
+import frc.robot.subsystems.coralCone.CoralCone.WheelState;
+
+public class CoralConeIONeo implements CoralConeIO {
+    protected final SparkMax wheelMotor = new SparkMax(Constants.coralFlywheelCanID, MotorType.kBrushless);
+    protected final SparkMax angleMotor = new SparkMax(Constants.coralRotateCanID, MotorType.kBrushless);
+    private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
+    protected final DigitalInput beamBreakSensor = new DigitalInput(Constants.CoralBeamBreakSensorDIO);
+
+    protected double currentAngleSetPoint = 0;
+
+    public CoralConeIONeo() {
+
+        ClosedLoopConfig closedLoopConfig = new ClosedLoopConfig();
+        closedLoopConfig.maxMotion.maxAcceleration(2000);
+        closedLoopConfig.maxMotion.maxVelocity(600);
+        closedLoopConfig.maxMotion.positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal);
+        closedLoopConfig.maxMotion.allowedClosedLoopError(CoralConeConstants.closedLoopAngleAllowedError);
+        closedLoopConfig.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+        closedLoopConfig.pidf(0.2, 0, 0, 0);
+
+        sparkMaxConfig.absoluteEncoder.setSparkMaxDataPortConfig();
+        // sparkMaxConfig.alternateEncoder.setSparkMaxDataPortConfig();
+        // sparkMaxConfig.alternateEncoder.countsPerRevolution(8192);
+
+        sparkMaxConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).apply(closedLoopConfig);
+
+        // wheelMotor.configure(sparkMaxConfig, null, null);
+        angleMotor.configure(sparkMaxConfig, null, null);
+    }
+
+    @Override
+    public void updateInputs(CoralConeIOInputs inputs) {
+        inputs.angleMotorVoltage = angleMotor.getAppliedOutput();
+        inputs.angleMotorPosition = angleMotor.getEncoder().getPosition();
+        inputs.angleMotorVelocity = angleMotor.getEncoder().getVelocity();
+        inputs.angleMotorCurrent = angleMotor.getOutputCurrent();
+        inputs.angleMotorEncoderVelocity = angleMotor.getAbsoluteEncoder().getVelocity();
+        inputs.angleMotorEncoderPosition = angleMotor.getAbsoluteEncoder().getPosition();
+        inputs.angleMotorIsAtSetPosition = Math.abs(angleMotor.getAbsoluteEncoder().getPosition()
+            - currentAngleSetPoint) <= CoralConeConstants.closedLoopAngleAllowedError;
+
+        inputs.wheelVoltage = wheelMotor.getAppliedOutput();
+        inputs.isLoaded = !beamBreakSensor.get();
+    }
+
+    
+    public void setPosition(Position angle) {
+        switch (angle) {
+            case LOAD:
+                currentAngleSetPoint = CoralConeConstants.loadAngle;
+                break;
+            case L1_SHOOT:
+                currentAngleSetPoint = CoralConeConstants.L1Angle;
+                break;
+            case L2_SHOOT:
+                currentAngleSetPoint = CoralConeConstants.L2Angle;
+                break;
+            case L3_SHOOT:
+                currentAngleSetPoint = CoralConeConstants.L3Angle;
+                break;
+            case L4_SHOOT:
+                currentAngleSetPoint = CoralConeConstants.L4Angle;
+                break;
+        }
+        angleMotor.getClosedLoopController().setReference(currentAngleSetPoint, ControlType.kMAXMotionPositionControl);
+    }
+
+  
+
+    public void setWheel(WheelState state) {
+        double motorVoltage = 0;
+        switch (state) {
+            case LOAD:
+                motorVoltage = CoralConeConstants.forwardVoltage;
+                break;
+            case SHOOT:
+                motorVoltage = CoralConeConstants.reverseVoltage;
+                break;
+            case TRANSIT:
+                motorVoltage = CoralConeConstants.transitVoltage;
+                break;
+        }
+        wheelMotor.setVoltage(motorVoltage);
+    }
+
+   
+}

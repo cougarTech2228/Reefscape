@@ -23,10 +23,8 @@ import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.MotionMagicIsRunningValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -37,15 +35,14 @@ import frc.robot.subsystems.elevator.Elevator.Position;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Volts;
 
 /**
  * This Elevator implementation is for a Talon FX driving a motor like the Falon
  * 500 or Kraken X60.
  */
 public class ElevatorIOTalonFX implements ElevatorIO {
-    private final TalonFX elevatorA = new TalonFX(elevatorLeaderCanID);
-    private final TalonFX elevatorB = new TalonFX(elevatorFollowerCanID);
+    protected final TalonFX elevatorA = new TalonFX(elevatorLeaderCanID, "canivore");
+    protected final TalonFX elevatorB = new TalonFX(elevatorFollowerCanID, "canivore");
     private final StatusSignal<Angle> positionRot = elevatorA.getPosition();
     private final StatusSignal<AngularVelocity> velocityRotPerSec = elevatorA.getVelocity();
     private final StatusSignal<Voltage> appliedVolts = elevatorA.getMotorVoltage();
@@ -57,8 +54,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     DigitalInput topLimitSwitch = new DigitalInput(topLimitSwitchDI);
     DigitalInput bottomLimitSwitch = new DigitalInput(bottomLimitSwitchDIO);
 
-    public ElevatorIOTalonFX(boolean isSim) {
-
+    public ElevatorIOTalonFX() {
         var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();
 
         hardwareLimitSwitchConfig.ReverseLimitAutosetPositionEnable = true;
@@ -95,19 +91,12 @@ public class ElevatorIOTalonFX implements ElevatorIO {
             // Take approximately 0.1 seconds to reach max accel 
             .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(100));
 
-        if (true) {
-            talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocitySlow; // kV is around 0.12 V/rps
-            talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationSlow; // Use a slower kA of 0.1
+        talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocitySlow; // kV is around 0.12 V/rps
+        talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationSlow; // Use a slower kA of 0.1
                                                                                         // V/(rps/s)
-        } else {
-            talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocityFast; // kV is around 0.12 V/rps
-            talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationFast; // Use a slower kA of 0.1
-                                                                                        // V/(rps/s)
-        }
+        // talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocityFast; // kV is around 0.12 V/rps
+        // talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationFast; // Use a slower kA of 0.1
 
-        // -------------
-        // ---------------
-        // var config = new TalonFXConfiguration();
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = currentLimit;
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
         talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -115,28 +104,23 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         elevatorA.getConfigurator().apply(talonFXConfigs);
         elevatorA.getConfigurator().apply(hardwareLimitSwitchConfig);
 
-        // tryUntilOk(5, () -> elevator.getConfigurator().apply(config, 0.25));
-
         BaseStatusSignal.setUpdateFrequencyForAll(
                 50.0, positionRot, velocityRotPerSec, appliedVolts, currentAmps);
         elevatorA.optimizeBusUtilization();
-
-        if (isSim) {
-            elevatorA.getSimState().setSupplyVoltage(Voltage.ofBaseUnits(12, Volts));
-            elevatorB.getSimState().setSupplyVoltage(Voltage.ofBaseUnits(12, Volts));
-        }
     }
 
     @Override
     public void updateInputs(ElevatorIOInputs inputs) {
         BaseStatusSignal.refreshAll(positionRot, velocityRotPerSec, appliedVolts, currentAmps);
 
-        inputs.positionRad = Units.rotationsToRadians(positionRot.getValueAsDouble());
-        inputs.velocityRadPerSec = Units.rotationsToRadians(velocityRotPerSec.getValueAsDouble());
+        inputs.position = elevatorA.getPosition().getValueAsDouble();
+        inputs.velocity = elevatorA.getVelocity().getValueAsDouble();
+
         inputs.appliedVolts = appliedVolts.getValueAsDouble();
         inputs.currentAmps = currentAmps.getValueAsDouble();
 
-        inputs.bottomLimit = isAtBottomLimit();
+        inputs.bottomLimit = elevatorA.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
+        inputs.isAtSetPosition = elevatorA.getClosedLoopError().getValue() < ClosedLoopErrorThreshold;
     }
 
     @Override
@@ -179,27 +163,12 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         elevatorA.setControl(motionMagic.withPosition(motorPosition));
     }
 
-    @Override
-    public double getPosition() {
-        return elevatorA.getPosition().getValueAsDouble();
-    }
 
-    @Override
-    public boolean isAtBottomLimit() {
-        return elevatorA.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
-    }
-
-    @Override
-    public boolean isAtSetPosition() {
-        if (elevatorA.getMotionMagicIsRunning().getValue() != MotionMagicIsRunningValue.Enabled) {
-            return false;
-        }
-        return (elevatorA.getClosedLoopError().getValue() < ClosedLoopErrorThreshold);
-    }
 
     @Override
     public void setVoltage(double output) {
         elevatorA.setControl(new VoltageOut(output));
         System.out.println("Voltage: " + output);
     }
+
 }
