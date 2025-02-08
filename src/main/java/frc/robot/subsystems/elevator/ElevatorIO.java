@@ -24,4 +24,7 @@ public interface ElevatorIO {
   public boolean isAtBottomLimit();
 
   public boolean isAtSetPosition();
+
+  // Only used for sysid runCharacterization
+  public void setVoltage(double output);
 }

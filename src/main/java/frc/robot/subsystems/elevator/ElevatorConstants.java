@@ -19,16 +19,17 @@ public class ElevatorConstants {
   
   //Enum Stuff
 
-  public static final double HEIGHT_ALGAE_FLOOR = 10.0;
-  public static final double HEIGHT_ALGAE_PROCESSOR = 20.0;
-  public static final double HEIGHT_ALGAE_REEF_LOW = 30.0;
-  public static final double HEIGHT_ALGAE_REEF_HIGH = 40.0;
-  public static final double HEIGHT_ALGAE_BARGE = 50.0;
+  // Min extend == 0 Max extend == -38.41 
   public static final double HEIGHT_CORAL_LOAD = 60.0;
-  public static final double HEIGHT_CORAL_L1 = 70.0;
-  public static final double HEIGHT_CORAL_L2 = 80.0;
-  public static final double HEIGHT_CORAL_L3 = 90.0;
-  public static final double HEIGHT_CORAL_L4 = 100.0;
+  public static final double HEIGHT_CORAL_L1 = -10;
+  public static final double HEIGHT_CORAL_L2 = -15;
+  public static final double HEIGHT_CORAL_L3 = -20;
+  public static final double HEIGHT_CORAL_L4 = -25;
+  public static final double HEIGHT_ALGAE_FLOOR = -5;
+  public static final double HEIGHT_ALGAE_PROCESSOR = -10;
+  public static final double HEIGHT_ALGAE_REEF_LOW = HEIGHT_CORAL_L3;
+  public static final double HEIGHT_ALGAE_REEF_HIGH = -22;
+  public static final double HEIGHT_ALGAE_BARGE = -38;
 
   public static final double ClosedLoopErrorThreshold = 2;
 }

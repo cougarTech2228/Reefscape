@@ -123,7 +123,7 @@ public class RobotContainer {
     operatorUI = new OperatorUI(elevator);
 
     // Set up auto routines
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices"/*, AutoBuilder.buildAutoChooser()*/);
 
     // Set up SysId routines
     autoChooser.addOption(
@@ -140,6 +140,19 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    autoChooser.addOption(
+        "Elevator SysId (Quasistatic Forward)",
+        elevator.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Elevator SysId (Quasistatic Reverse)",
+        elevator.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Elevator SysId (Dynamic Forward)",
+        elevator.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Elevator SysId (Dynamic Reverse)",
+        elevator.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     SmartDashboard.putData(
         "Test Command",
