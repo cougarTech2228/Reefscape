@@ -6,7 +6,6 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 import frc.robot.subsystems.elevator.ElevatorIO;
-import frc.robot.subsystems.elevator.ElevatorIO.ElevatorIOInputs;
 
 public class ElevatorIOInputsAutoLogged extends ElevatorIO.ElevatorIOInputs implements LoggableInputs, Cloneable {
   @Override
@@ -16,7 +15,6 @@ public class ElevatorIOInputsAutoLogged extends ElevatorIO.ElevatorIOInputs impl
     table.put("AppliedVolts", appliedVolts);
     table.put("CurrentAmps", currentAmps);
     table.put("BottomLimit", bottomLimit);
-    table.put("TopLimit", topLimit);
   }
 
   @Override
@@ -26,7 +24,6 @@ public class ElevatorIOInputsAutoLogged extends ElevatorIO.ElevatorIOInputs impl
     appliedVolts = table.get("AppliedVolts", appliedVolts);
     currentAmps = table.get("CurrentAmps", currentAmps);
     bottomLimit = table.get("BottomLimit", bottomLimit);
-    topLimit = table.get("TopLimit", topLimit);
   }
 
   public ElevatorIOInputsAutoLogged clone() {
@@ -36,7 +33,6 @@ public class ElevatorIOInputsAutoLogged extends ElevatorIO.ElevatorIOInputs impl
     copy.appliedVolts = this.appliedVolts;
     copy.currentAmps = this.currentAmps;
     copy.bottomLimit = this.bottomLimit;
-    copy.topLimit = this.topLimit;
     return copy;
   }
 }

@@ -21,10 +21,12 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
+import com.ctre.phoenix6.signals.MotionMagicIsRunningValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -36,6 +38,9 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.subsystems.elevator.Elevator.Position;
+
+import static edu.wpi.first.units.Units.Volts;
 
 /**
  * This Elevator implementation is for a Talon FX driving a motor like the Falon 500 or Kraken X60.
@@ -54,9 +59,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
   DigitalInput topLimitSwitch = new DigitalInput(topLimitSwitchDI);
   DigitalInput bottomLimitSwitch = new DigitalInput(bottomLimitSwitchDIO);
 
-  
-
-  public ElevatorIOTalonFX() { 
+  public ElevatorIOTalonFX(boolean isSim) { 
 
     var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();
     
@@ -64,9 +67,6 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     hardwareLimitSwitchConfig.ReverseLimitAutosetPositionValue = ElevatorConstants.bottomPosition;
     hardwareLimitSwitchConfig.ForwardLimitEnable = false;
     hardwareLimitSwitchConfig.ReverseLimitEnable = true;
-
-    
-
 
     // in init function   
     var talonFXConfigs = new TalonFXConfiguration();
@@ -100,9 +100,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
           ElevatorConstants.velocityFast; // kV is around 0.12 V/rps
       motionMagicConfigs.MotionMagicExpo_kA =
           ElevatorConstants.accelerationFast; // Use a slower kA of 0.1 V/(rps/s)
-    }
-
-    
+    } 
 
     // -------------
     // ---------------
@@ -119,6 +117,11 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, positionRot, velocityRotPerSec, appliedVolts, currentAmps);
     elevatorA.optimizeBusUtilization();
+
+    if (isSim) {
+      elevatorA.getSimState().setSupplyVoltage(Voltage.ofBaseUnits(12, Volts));
+      elevatorB.getSimState().setSupplyVoltage(Voltage.ofBaseUnits(12, Volts));
+    }
   }
 
   @Override
@@ -130,18 +133,47 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     inputs.appliedVolts = appliedVolts.getValueAsDouble();
     inputs.currentAmps = currentAmps.getValueAsDouble();
 
-    inputs.topLimit = isAtTopLimit();
     inputs.bottomLimit = isAtBottomLimit();
-    if (inputs.topLimit) {
-      System.out.println("At top: " + inputs.topLimit);
-    } else if (inputs.bottomLimit) {
-      System.out.println("At bottom: " + inputs.bottomLimit);
-    }
   }
 
   @Override
-  public void setPosition(double position) {
-    elevatorA.setControl(motionMagic.withPosition(position));
+  public void setPosition(Position position) {
+    double motorPosition = 0;
+    switch (position) {
+      case ALGAE_BARGE:
+        motorPosition = HEIGHT_ALGAE_BARGE;
+        break;
+      case ALGAE_FLOOR:
+        motorPosition = HEIGHT_ALGAE_FLOOR;
+        break;
+      case ALGAE_PROCESSOR:
+        motorPosition = HEIGHT_ALGAE_PROCESSOR;
+        break;
+      case ALGAE_REEF_HIGH:
+        motorPosition = HEIGHT_ALGAE_REEF_HIGH;
+        break;
+      case ALGAE_REEF_LOW:
+        motorPosition = HEIGHT_ALGAE_REEF_LOW;
+        break;
+      case CORAL_L1:
+        motorPosition = HEIGHT_CORAL_L1;
+        break;
+      case CORAL_L2:
+        motorPosition = HEIGHT_CORAL_L2;
+        break;
+      case CORAL_L3:
+        motorPosition = HEIGHT_CORAL_L3;
+        break;
+      case CORAL_L4:
+        motorPosition = HEIGHT_CORAL_L4;
+        break;
+      case CORAL_LOAD:
+        motorPosition = HEIGHT_CORAL_LOAD;
+        break;
+      default:
+        break;
+    }
+    elevatorA.setControl(motionMagic.withPosition(motorPosition));
   }
 
   @Override
@@ -155,7 +187,11 @@ public class ElevatorIOTalonFX implements ElevatorIO {
   }
 
   @Override
-  public boolean isAtTopLimit() {
-    return elevatorA.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
+  public boolean isAtSetPosition() {
+    if (elevatorA.getMotionMagicIsRunning().getValue() != MotionMagicIsRunningValue.Enabled) {
+      return false;
+    }
+    return (elevatorA.getClosedLoopError().getValue() < ClosedLoopErrorThreshold);
   }
+
 }

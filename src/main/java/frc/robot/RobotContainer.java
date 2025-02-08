@@ -18,7 +18,6 @@ import static frc.robot.subsystems.vision.VisionConstants.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +34,9 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIOTalonFX;
+import frc.robot.subsystems.operatorui.OperatorUI;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
@@ -50,7 +52,15 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+
+  @SuppressWarnings("unused")
   private final Vision vision;
+
+  @SuppressWarnings("unused")
+  private final OperatorUI operatorUI;
+
+  @SuppressWarnings("unused")
+  private final Elevator elevator;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -75,6 +85,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(camera0Name, robotToCamera0),
                 new VisionIOPhotonVision(camera1Name, robotToCamera1));
+        elevator = new Elevator(new ElevatorIOTalonFX(false));
         break;
 
       case SIM:
@@ -91,6 +102,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
                 new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose));
+        elevator = new Elevator(new ElevatorIOTalonFX(true));
         break;
 
       default:
@@ -103,8 +115,12 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+
+        elevator = new Elevator(new ElevatorIOTalonFX(true));
         break;
     }
+
+    operatorUI = new OperatorUI(elevator);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -125,17 +141,6 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    var table = inst.getTable("ReefControl");
-    table.getEntry(".type").setString("ReefControl");
-    table.getEntry("coralLoaded").setBoolean(false);
-    table.getEntry("algaeLoaded").setBoolean(false);
-    table.getEntry("executeCommand").setBoolean(false);
-
-    // inst.top
-    // TopicInfo reefTopic = new TopicInfo(
-    //     NetworkTableInstance.getDefault(),
-    //      0, camera1Name, 0, camera0Name)
     SmartDashboard.putData(
         "Test Command",
         new InstantCommand(

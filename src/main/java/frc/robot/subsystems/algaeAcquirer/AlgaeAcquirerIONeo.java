@@ -1,9 +1,6 @@
 package frc.robot.subsystems.algaeAcquirer;
 
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
-import java.io.OutputStream;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
@@ -12,13 +9,11 @@ import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants;
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO;
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO.AngleEncoderIOInputs;
+import frc.robot.Constants;
 
 public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
-  private final SparkMax leftFlyWheel = new SparkMax(AlgaeAcquirerConstants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
-  private final SparkMax rightFlyWheel = new SparkMax(AlgaeAcquirerConstants.algaeFlywheelRightNeoCanID, MotorType.kBrushless);
+  private final SparkMax leftFlyWheel = new SparkMax(Constants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
+  private final SparkMax rightFlyWheel = new SparkMax(Constants.algaeFlywheelRightNeoCanID, MotorType.kBrushless);
   private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
   // private final StatusSignal<Angle> positionRot = angleEncoder.getPosition();
   // private final StatusSignal<AngularVelocity> velocityRotPerSec = angleEncoder.getVelocity();

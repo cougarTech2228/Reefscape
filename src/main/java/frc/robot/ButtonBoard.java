@@ -111,14 +111,14 @@ public class ButtonBoard  {
         return (m_operationMode == ButtonBoardOperationMode.Drive);
     }
 
-    private void setOperationMode() {
-        if (driveCameraSwitch().getAsBoolean()) {
-            m_operationMode = ButtonBoardOperationMode.Drive;
-        } else {
-            m_operationMode = ButtonBoardOperationMode.Camera;
-        }
-        System.out.println(m_operationMode);
-    }
+    // private void setOperationMode() {
+    //     if (driveCameraSwitch().getAsBoolean()) {
+    //         m_operationMode = ButtonBoardOperationMode.Drive;
+    //     } else {
+    //         m_operationMode = ButtonBoardOperationMode.Camera;
+    //     }
+    //     System.out.println(m_operationMode);
+    // }
 
     public double getJoystickX() {
         return m_joystick2.getX();
@@ -200,7 +200,7 @@ public class ButtonBoard  {
             new InstantCommand(() -> {
                 System.out.println("shootCoralButton Pressed");
                 // do something
-            }))
+            }));
     }    
 
 }

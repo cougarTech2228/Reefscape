@@ -2,6 +2,8 @@ package frc.robot.subsystems.elevator;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import frc.robot.subsystems.elevator.Elevator.Position;
+
 public interface ElevatorIO {
   @AutoLog
   public static class ElevatorIOInputs {
@@ -10,24 +12,16 @@ public interface ElevatorIO {
     public double appliedVolts = 0.0;
     public double currentAmps = 0.0;
     public boolean bottomLimit = false;
-    public boolean topLimit = false;
   }
 
   /** Update the set of loggable inputs. */
-  public default void updateInputs(ElevatorIOInputs inputs) {}
+  public void updateInputs(ElevatorIOInputs inputs);
 
-  /** Run open loop at the specified voltage. */
-  public default void setPosition(double position) {}
+  public void setPosition(Position position);
 
-  public default double getPosition() {
-    return 0;
-  }
+  public double getPosition();
 
-  public default boolean isAtBottomLimit() {
-    return false;
-  }
+  public boolean isAtBottomLimit();
 
-  public default boolean isAtTopLimit() {
-    return false;
-  }
+  public boolean isAtSetPosition();
 }

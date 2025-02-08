@@ -23,14 +23,15 @@ import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Constants;
 
 /**
  * This angleEncoder implementation is for a Talon FX driving a motor like the Falon 500 or Kraken
  * X60.
  */
 public class CoralClawIONeo implements CoralClawIO {
-  private final SparkMax wheelMotor = new SparkMax(CoralClawConstants.coralFlywheelCanID, MotorType.kBrushless);
-  private final SparkMax angleMotor = new SparkMax(CoralClawConstants.coralRotateCanID, MotorType.kBrushless);
+  private final SparkMax wheelMotor = new SparkMax(Constants.coralFlywheelCanID, MotorType.kBrushless);
+  private final SparkMax angleMotor = new SparkMax(Constants.coralRotateCanID, MotorType.kBrushless);
   private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
   // private final StatusSignal<Angle> positionRot = angleEncoder.getPosition();
   // private final StatusSignal<AngularVelocity> velocityRotPerSec = angleEncoder.getVelocity();
