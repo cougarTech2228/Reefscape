@@ -1,5 +1,7 @@
 package frc.robot.subsystems.algaeAcquirer;
 
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants;
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import com.revrobotics.spark.SparkMax;
@@ -10,10 +12,13 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.acquirerState;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.algaeAngle;
 
 public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
   private final SparkMax leftFlyWheel = new SparkMax(Constants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
   private final SparkMax rightFlyWheel = new SparkMax(Constants.algaeFlywheelRightNeoCanID, MotorType.kBrushless);
+  private final SparkMax algaeAngleMotor = new SparkMax(Constants.algaeAngleMotorNeoCanID, MotorType.kBrushless);
   private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
   // private final StatusSignal<Angle> positionRot = angleEncoder.getPosition();
   // private final StatusSignal<AngularVelocity> velocityRotPerSec = angleEncoder.getVelocity();
@@ -43,8 +48,9 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
 
     sparkMaxConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).apply(closedLoopConfig);
 
-    leftFlyWheel.configure(sparkMaxConfig, null, null);
-    rightFlyWheel.configure(sparkMaxConfig, null, null);
+    // leftFlyWheel.configure(sparkMaxConfig, null, null);
+    // rightFlyWheel.configure(sparkMaxConfig, null, null);
+    algaeAngleMotor.configure(sparkMaxConfig, null, null);
   }
 
   @Override
@@ -55,6 +61,10 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     // inputs.velocityRadPerSec = Units.rotationsToRadians(velocityRotPerSec.getValueAsDouble());
     // inputs.appliedVolts = appliedVolts.getValueAsDouble();
     // inputs.currentAmps = currentAmps.getValueAsDouble();
+  }
+
+  public double getAlgaeAngle() {
+    return algaeAngleMotor.getEncoder().getPosition();
   }
 
   public double getVoltageLeft() {
@@ -75,22 +85,44 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     rightFlyWheel.setVoltage(voltage);
   }
 
-  public void acquireAlgae() {
-    setVoltageLeft(AlgaeAcquirerConstants.acquireVoltageLeft);
-    setVoltageRight(AlgaeAcquirerConstants.acquireVoltageRight);
+  public void setAlgaeAcquirer(acquirerState state) {
+    double leftFlyWheelVoltage = 0;
+    double rightFlyWheelVoltage = 0;    
+    switch (state) {
+      case SHOOT:
+        leftFlyWheelVoltage = AlgaeAcquirerConstants.shootVoltageLeft;
+        rightFlyWheelVoltage = AlgaeAcquirerConstants.shootVoltageRight;
+        break;
+      case ACQUIRE:
+        leftFlyWheelVoltage = AlgaeAcquirerConstants.acquireVoltageLeft;
+        rightFlyWheelVoltage = AlgaeAcquirerConstants.acquireVoltageRight;
+        break;
+      case STOP:
+        break;
+    }
+    setVoltageLeft(leftFlyWheelVoltage);
+    setVoltageRight(rightFlyWheelVoltage);
   }
 
-  public void shootAlgae() {
-    setVoltageLeft(AlgaeAcquirerConstants.shootingVoltageLeft);
-    setVoltageRight(AlgaeAcquirerConstants.shootingVoltageRight);
+  public void setAlgaeAngle(algaeAngle angle) {
+    double anglePosition = 0;
+    switch (angle) {
+      case STOWED:
+        anglePosition = AlgaeAcquirerConstants.stowedAngle;
+        break;
+      case REEF_ACQUIRE:
+        anglePosition = AlgaeAcquirerConstants.reefAcquireAngle;
+        break;
+      case FLOOR_ACQUIRE:
+        anglePosition = AlgaeAcquirerConstants.floorAcquireAngle;
+        break;
+      case BARGE_SHOOT:
+        anglePosition = AlgaeAcquirerConstants.bargeShootAngle;
+        break;
+      case PROCESSOR_SHOOT:
+        anglePosition = AlgaeAcquirerConstants.processorShootAngle;
+        break;
+    }
+    algaeAngleMotor.getClosedLoopController().setReference(anglePosition, null);
   }
-
-  // @Override
-  // public double getPosition() {
-  //   return motor.getAlternateEncoder().getPosition();
-  // }
-
-  // @Override
-  // public double set
-
 }

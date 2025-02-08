@@ -13,8 +13,10 @@
 
 package frc.robot.subsystems.coralClaw;
 
+import frc.robot.subsystems.coralClaw.CoralClawConstants;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.signals.ControlModeValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
@@ -23,6 +25,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
+import frc.robot.subsystems.coralClaw.CoralClaw.Angle;
+import frc.robot.subsystems.coralClaw.CoralClaw.WheelState;
 
 /**
  * This angleEncoder implementation is for a Talon FX driving a motor like the Falon 500 or Kraken
@@ -60,7 +64,7 @@ public class CoralClawIONeo implements CoralClawIO {
 
     sparkMaxConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).apply(closedLoopConfig);
 
-    wheelMotor.configure(sparkMaxConfig, null, null);
+    // wheelMotor.configure(sparkMaxConfig, null, null);
     angleMotor.configure(sparkMaxConfig, null, null);
   }
 
@@ -80,25 +84,51 @@ public class CoralClawIONeo implements CoralClawIO {
   //   wheelMotor.getClosedLoopController().setReference(position, ControlType.kMAXMotionPositionControl);
   // }
 
-  public void setAnglePosition(double anglePosition) {
-    // elevator.setControl(motionMagic.withPosition(position));
-    angleMotor
-        .getClosedLoopController()
-        .setReference(anglePosition, ControlType.kMAXMotionPositionControl);
+  public void setAnglePosition(Angle angle) {
+    double anglePosition = 0;
+    switch (angle) {
+      case LOAD_ANGLE:
+        anglePosition = CoralClawConstants.loadAngle;
+        break;
+      case L1_SHOOT_ANGLE:
+        anglePosition = CoralClawConstants.L1Angle;
+        break;
+      case L2_SHOOT_ANGLE:
+        anglePosition = CoralClawConstants.L2Angle;
+        break;
+      case L3_SHOOT_ANGLE:
+        anglePosition = CoralClawConstants.L3Angle;
+        break;
+      case L4_SHOOT_ANGLE:
+        anglePosition = CoralClawConstants.L4Angle;
+        break;
+    }
+    angleMotor.getClosedLoopController().setReference(anglePosition, ControlType.kMAXMotionPositionControl);
   }
+
   @Override
   public double getAngle() {
     return angleMotor.getEncoder().getPosition();
   }
-
-  @Override
-  public void setPosition(double position) {
-    wheelMotor.getClosedLoopController().setReference(position, ControlType.kMAXMotionPositionControl);
+  
+  public void setWheel(WheelState state) {
+    double motorVoltage = 0;
+    switch (state) {
+      case FORWARD:
+        motorVoltage = CoralClawConstants.forwardVoltage;
+        break;
+      case REVERSE:
+        motorVoltage = CoralClawConstants.reverseVoltage;
+        break;
+      case TRANSIT:
+        motorVoltage = CoralClawConstants.transitVoltage;
+        break;
+    }
+    wheelMotor.setVoltage(motorVoltage);
   }
   
-  @Override
-  public double getPosition() {
-    return wheelMotor.getEncoder().getPosition();
+  public double getWheelVoltage() {
+    return wheelMotor.getAppliedOutput();
   }
 
 

@@ -2,6 +2,9 @@ package frc.robot.subsystems.algaeAcquirer;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.acquirerState;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.algaeAngle;
+
 public interface AlgaeAcquirerIO {
     @AutoLog
     public static class AngleEncoderIOInputs {
@@ -15,18 +18,43 @@ public interface AlgaeAcquirerIO {
         /** Update the set of loggable inputs. */
         public default void updateInputs(AngleEncoderIOInputs inputs) {}
 
-        public default void setPosition(double position) {}
-
-        public default double getPosition() {
+        public default double getAlgaeAngle() {
             return 0;
         }
 
-        /** Run open loop at the specified voltage. */
-        public default void setAngle(double angle) {}
-
-        public default double getAngle() {
+        public default double getVoltageLeft() {
             return 0;
         }
+
+        public default double getVoltageRight() {
+            return 0;
+        }
+
+        public default void setVoltageLeft(double voltage) {}
+
+        public default void setVoltageRight(double voltage) {}
+
+        public default void setAlgaeAcquirer(acquirerState state) {}
+
+        public default void setAlgaeAngle(algaeAngle angle) {}
+
+
+
+
+
+
+
+
+        // public default double getPosition() {
+        //     return 0;
+        // }
+
+        // /** Run open loop at the specified voltage. */
+        // public default void setAngle(double angle) {}
+
+        // public default double getAngle() {
+        //     return 0;
+        // }
 
         public default boolean isAtBottomLimit() {
             return false;

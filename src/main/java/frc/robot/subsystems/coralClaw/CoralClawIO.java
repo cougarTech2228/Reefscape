@@ -2,6 +2,9 @@ package frc.robot.subsystems.coralClaw;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import frc.robot.subsystems.coralClaw.CoralClaw.WheelState;
+import frc.robot.subsystems.coralClaw.CoralClaw.Angle;
+
 public interface CoralClawIO {
   @AutoLog
   public static class AngleEncoderIOInputs {
@@ -16,16 +19,16 @@ public interface CoralClawIO {
   /** Update the set of loggable inputs. */
   public default void updateInputs(AngleEncoderIOInputs inputs) {}
 
-  public default void setPosition(double position) {}
+  /** Run open loop at the specified voltage. */
+  public default void setAnglePosition(Angle angle) {}
 
-  public default double getPosition() {
+  public default double getAngle() {
     return 0;
   }
 
-  /** Run open loop at the specified voltage. */
-  public default void setAngle(double angle) {}
+  public default void setWheel(WheelState state) {}
 
-  public default double getAngle() {
+  public default double getWheelVoltage() {
     return 0;
   }
 

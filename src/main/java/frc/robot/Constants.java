@@ -35,10 +35,13 @@ public final class Constants {
   
   public static final int algaeFlywheelLeftNeoCanID = 4;
   public static final int algaeFlywheelRightNeoCanID = 5;
+  public static final int algaeAngleMotorNeoCanID = 8;
+
   public static final int coralFlywheelCanID = 6;
   public static final int coralRotateCanID = 7;
-  public static final int algaeRotateCanID = 8;
+
   public static final int climberFalconCanID = 9;
+
   public static final int frontLeftDriveFalconCanID = 10;
   public static final int frontLeftSteerCanID = 11;
   public static final int rearLeftDriveCanID = 12;
@@ -47,6 +50,7 @@ public final class Constants {
   public static final int frontRightSteerCanID = 15;
   public static final int rearRightDriveCanID = 16;
   public static final int rearRightSteerCanID = 17;
+
   public static final int elevatorLeaderCanID = 18;
   public static final int elevatorFollowerCanID = 19;
 

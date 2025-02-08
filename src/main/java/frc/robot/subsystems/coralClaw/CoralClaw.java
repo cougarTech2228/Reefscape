@@ -7,11 +7,32 @@ public class CoralClaw extends SubsystemBase {
   private final CoralClawIO io;
   private CoralClawIOInputsAutoLogged inputs = new CoralClawIOInputsAutoLogged();
 
+  public enum Angle {
+    LOAD_ANGLE,
+    L1_SHOOT_ANGLE,
+    L2_SHOOT_ANGLE,
+    L3_SHOOT_ANGLE,
+    L4_SHOOT_ANGLE
+  };
+
+  public enum WheelState {
+    // LOAD,
+    // TRANSIT,
+    // SHOOT
+    FORWARD,
+    REVERSE,
+    TRANSIT
+  }
+
   public CoralClaw(CoralClawIO io) {
     this.io = io;
   }
 
-  public void setPosition(double position) {
-    io.setPosition(position);
+  public void setAnglePosition(Angle angle) {
+    io.setAnglePosition(angle);
+  }
+
+  public void setWheel(WheelState state) {
+    io.setWheel(state);
   }
 }
