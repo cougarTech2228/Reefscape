@@ -3,11 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.algaeAcquirer.*;
-import frc.robot.subsystems.coralCone.*;
-import frc.robot.subsystems.elevator.*;
-import frc.robot.subsystems.vision.*;
-
 
 public class ButtonBoard  {
     public static final double FINE_STRAFE_DISTANCE_CM = 3.0;
@@ -42,70 +37,98 @@ public class ButtonBoard  {
     // Joystick #1 Buttons
 
     private JoystickButton lowerElevatorButton() {
-        return new JoystickButton(m_joystick2, 5);
+        return new JoystickButton(m_joystick2, 11);
     }
 
     private JoystickButton raiseElevatorButton() {
-        return new JoystickButton(m_joystick2, 3);
+        return new JoystickButton(m_joystick2, 10);
     }
 
     private JoystickButton climbButton() {
-        return new JoystickButton(m_joystick2, 4);
+        return new JoystickButton(m_joystick2, 9);
     }
 
     private JoystickButton descendButton() {
-        return new JoystickButton(m_joystick2, 6);
+        return new JoystickButton(m_joystick2, 12);
     }
 
     private JoystickButton acquireAlgaeButton() {
-        return new JoystickButton(m_joystick2, 2);
-    }
-
-    private JoystickButton shootAlgaeButton() {
-        return new JoystickButton(m_joystick2, 1);
-    }
-
-    private JoystickButton acquireCoralButton() {
         return new JoystickButton(m_joystick2, 8);
     }
 
-    private JoystickButton shootCoralButton() {
+    private JoystickButton shootAlgaeButton() {
         return new JoystickButton(m_joystick2, 7);
     }
 
+    private JoystickButton prepAlgaeNetButton() {
+        return new JoystickButton(m_joystick2, 3);
+    }
+
+    private JoystickButton test6Button() {
+        return new JoystickButton(m_joystick2, 6);
+    }    
+
+    private JoystickButton test5Button() {
+        return new JoystickButton(m_joystick2, 5);
+    }    
+
+    private JoystickButton test4Button() {
+        return new JoystickButton(m_joystick2, 4);
+    }    
+
+    
+
+
     // Joystick #2 Buttons
 
-    private JoystickButton prepCoralLevel1Button() {
+    private JoystickButton acquireCoralButton() {
         return new JoystickButton(m_joystick1, 1);
     }
 
-    private JoystickButton prepCoralLevel2Button() {
-        return new JoystickButton(m_joystick1, 2);
+    private JoystickButton shootCoralButton() {
+        return new JoystickButton(m_joystick1, 5);
     }
 
+    private JoystickButton prepCoralLevel1Button() {
+        return new JoystickButton(m_joystick1, 8);
+    }
+
+    private JoystickButton prepCoralLevel2Button() {
+        return new JoystickButton(m_joystick1, 7);
+    }   
+
     private JoystickButton prepCoralLevel3Button() {
-        return new JoystickButton(m_joystick1, 3);
+        return new JoystickButton(m_joystick1, 6);
     }
 
     private JoystickButton prepCoralLevel4Button() {
         return new JoystickButton(m_joystick1, 4);
-    }
-    // vague buttons after this?
-    private JoystickButton prepButton() {
-        return new JoystickButton(m_joystick1, 6);
-    }
-
-    private JoystickButton lowerBenderButton() {
-        return new JoystickButton(m_joystick1, 5);
-    }
-
-    private JoystickButton test1Button() {
-        return new JoystickButton(m_joystick1, 7);
-    }
+    }    
 
     private JoystickButton test2Button() {
-        return new JoystickButton(m_joystick1, 8);
-    }
+        return new JoystickButton(m_joystick1, 2);
+    }    
+
+    private JoystickButton test3Button() {
+        return new JoystickButton(m_joystick1, 3);
+    }    
+
+    private JoystickButton test9Button() {
+        return new JoystickButton(m_joystick1, 4);
+    }   
+    
+    private JoystickButton test10Button() {
+        return new JoystickButton(m_joystick1, 4);
+    }        
+
+    private JoystickButton test11Button() {
+        return new JoystickButton(m_joystick1, 4);
+    }    
+
+    private JoystickButton test12Button() {
+        return new JoystickButton(m_joystick1, 4);
+    }    
+
 
     public boolean isDriveOperationMode() {
         return (m_operationMode == ButtonBoardOperationMode.Drive);
@@ -201,6 +224,66 @@ public class ButtonBoard  {
                 System.out.println("shootCoralButton Pressed");
                 // do something
             }));
+
+        prepAlgaeNetButton().onTrue(
+            new InstantCommand(() -> {
+                System.out.println("prepAlgaeNetButton Pressed");
+                // do something
+            }));
+
+        test2Button().onTrue(
+            new InstantCommand(() -> {
+                System.out.println("test2Button Pressed");
+                // do something
+            }));
+        
+        test3Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test3Button Pressed");
+                    // do something
+                }));
+
+        test4Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test4Button Pressed");
+                    // do something
+                }));
+
+        test5Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test5Button Pressed");
+                    // do something
+                }));
+
+        test6Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test6Button Pressed");
+                    // do something
+                }));
+
+        test9Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test9Button Pressed");
+                    // do something
+                }));
+
+        test10Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test10Button Pressed");
+                    // do something
+                }));
+
+        test11Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test11Button Pressed");
+                    // do something
+                }));
+
+        test12Button().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("test12Button Pressed");
+                    // do something
+                }));
     }    
 
 }
