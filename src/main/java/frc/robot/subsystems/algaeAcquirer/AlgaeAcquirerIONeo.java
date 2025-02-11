@@ -13,10 +13,11 @@ import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.acquirerState;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.Position;
 
 public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
-    private final SparkMax leftFlyWheel = new SparkMax(Constants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
-    private final SparkMax rightFlyWheel = new SparkMax(Constants.algaeFlywheelRightNeoCanID, MotorType.kBrushless);
+    protected final SparkMax leftFlyWheel = new SparkMax(Constants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
+    protected final SparkMax rightFlyWheel = new SparkMax(Constants.algaeFlywheelRightNeoCanID, MotorType.kBrushless);
     protected final SparkMax algaeAngleMotor = new SparkMax(Constants.algaeAngleMotorNeoCanID, MotorType.kBrushless);
-    private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
+    private final SparkMaxConfig angleSparkMaxConfig = new SparkMaxConfig();
+    private final SparkMaxConfig flySparkMaxConfig = new SparkMaxConfig();
 
     protected double currentAngleSetPoint = 0;
 
@@ -29,69 +30,55 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         closedLoopConfig.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
         closedLoopConfig.pidf(0.2, 0, 0, 0);
 
-        sparkMaxConfig.absoluteEncoder.setSparkMaxDataPortConfig();
+        angleSparkMaxConfig.absoluteEncoder.setSparkMaxDataPortConfig();
+        angleSparkMaxConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(20).apply(closedLoopConfig);
+        algaeAngleMotor.configure(angleSparkMaxConfig, null, null);
 
-        sparkMaxConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).apply(closedLoopConfig);
-
-        algaeAngleMotor.configure(sparkMaxConfig, null, null);
+        flySparkMaxConfig.smartCurrentLimit(20);
+        rightFlyWheel.configure(flySparkMaxConfig, null, null);
+        leftFlyWheel.configure(flySparkMaxConfig.follow(rightFlyWheel, true), null, null);
     }
 
     @Override
     public void updateInputs(AlgaeAcquirerIOInputs inputs) {
-        // BaseStatusSignal.refreshAll(positionRot, velocityRotPerSec, appliedVolts,
-        // currentAmps);
+        inputs.anglePosition = algaeAngleMotor.getEncoder().getPosition();
+        inputs.angleVelocity = algaeAngleMotor.getEncoder().getVelocity();
+        inputs.angleAppliedVolts = algaeAngleMotor.getAppliedOutput();
+        inputs.angleCurrentAmps = algaeAngleMotor.getOutputCurrent();
+        inputs.angleIsAtSetPosition = Math.abs(algaeAngleMotor.getAbsoluteEncoder().getPosition()
+                    - currentAngleSetPoint) <= AlgaeAcquirerConstants.closedLoopAngleAllowedError;
 
-        // inputs.positionRad =
-        // Units.rotationsToRadians(positionRot.getValueAsDouble());
-        // inputs.velocityRadPerSec =
-        // Units.rotationsToRadians(velocityRotPerSec.getValueAsDouble());
-        // inputs.appliedVolts = appliedVolts.getValueAsDouble();
-        // inputs.currentAmps = currentAmps.getValueAsDouble();
+        inputs.flyAppliedVoltsLeft = leftFlyWheel.getAppliedOutput();
+        inputs.flyVelocityLeft = leftFlyWheel.getEncoder().getVelocity();
+        inputs.flyCurrentAmpsLeft = leftFlyWheel.getOutputCurrent();
+
+        inputs.flyAppliedVoltsRight = rightFlyWheel.getAppliedOutput();
+        inputs.flyVelocityRight = rightFlyWheel.getEncoder().getVelocity();
+        inputs.flyCurrentAmpsRight = rightFlyWheel.getOutputCurrent();
     }
 
-    public double getAlgaeAngle() {
-        return algaeAngleMotor.getEncoder().getPosition();
-    }
-
-    public double getVoltageLeft() {
-        return leftFlyWheel.getAppliedOutput();
-    }
-
-    public double getVoltageRight() {
-        return rightFlyWheel.getAppliedOutput();
-    }
-
-    public void setVoltageLeft(double voltage) {
-        // angleEncoder.setControl(motionMagic.withPosition(position));
-        leftFlyWheel.setVoltage(voltage);
-    }
-
-    public void setVoltageRight(double voltage) {
-        // angleEncoder.setControl(motionMagic.withPosition(position));
+    @Override
+    public void setFlyVoltage(double voltage) {
         rightFlyWheel.setVoltage(voltage);
     }
 
+    @Override
     public void setAlgaeAcquirer(acquirerState state) {
-        double leftFlyWheelVoltage = 0;
-        double rightFlyWheelVoltage = 0;
         switch (state) {
             case SHOOT:
-                leftFlyWheelVoltage = AlgaeAcquirerConstants.shootVoltageLeft;
-                rightFlyWheelVoltage = AlgaeAcquirerConstants.shootVoltageRight;
+                setFlyVoltage(AlgaeAcquirerConstants.shootVoltage);
                 break;
             case ACQUIRE:
-                leftFlyWheelVoltage = AlgaeAcquirerConstants.acquireVoltageLeft;
-                rightFlyWheelVoltage = AlgaeAcquirerConstants.acquireVoltageRight;
+                setFlyVoltage(AlgaeAcquirerConstants.acquireVoltage);
                 break;
             case STOP:
+                setFlyVoltage(0);
                 break;
         }
-        setVoltageLeft(leftFlyWheelVoltage);
-        setVoltageRight(rightFlyWheelVoltage);
     }
 
+    @Override
     public void setPosition(Position position) {
-
         switch (position) {
             case STOWED:
                 currentAngleSetPoint = AlgaeAcquirerConstants.stowedAngle;
@@ -113,8 +100,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     }
 
     @Override
-    public boolean isAtSetPosition() {
-        return Math.abs(algaeAngleMotor.getAbsoluteEncoder().getPosition()
-                - currentAngleSetPoint) <= AlgaeAcquirerConstants.closedLoopAngleAllowedError;
+    public void setAngleVoltage(double voltage) {
+        algaeAngleMotor.setVoltage(voltage);
     }
 }

@@ -19,6 +19,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -75,7 +76,10 @@ public class RobotContainer {
   
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final Joystick buttonBox1 = new Joystick(1);
+  private final Joystick buttonBox2 = new Joystick(2);
+  private final ButtonBoard buttonBoard;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -180,6 +184,9 @@ public class RobotContainer {
             }));
     // Configure the button bindings
     configureButtonBindings();
+    buttonBoard = new ButtonBoard(buttonBox1, buttonBox2, elevator, coralCone, algaeAcquirer);
+    buttonBoard.configureButtonBindings();
+
   }
 
   /**
@@ -193,25 +200,25 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            () -> -driverController.getLeftY(),
+            () -> -driverController.getLeftX(),
+            () -> -driverController.getRightX()));
 
     // Lock to 0° when A button is held
-    controller
+    driverController
         .a()
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
                 drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
+                () -> -driverController.getLeftY(),
+                () -> -driverController.getLeftX(),
                 () -> new Rotation2d()));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
-    controller
+    driverController
         .b()
         .onTrue(
             Commands.runOnce(

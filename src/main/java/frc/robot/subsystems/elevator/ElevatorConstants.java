@@ -1,12 +1,17 @@
 package frc.robot.subsystems.elevator;
 
 public class ElevatorConstants {
-  public static final int elevatorLeaderCanID = 18;
-  public static final int elevatorFollowerCanID = 19;
+  public static final int elevatorACanID = 18;
+  public static final int elevatorBCanID = 19;
   public static final double motorReduction = 1.0;
-  public static final int currentLimit = 40;
-  public static final int topLimitSwitchDI = 1;
-  public static final int bottomLimitSwitchDIO = 2;
+  public static final int currentLimit = 80;
+  
+  /**
+   * The maximum amount of stator current the drive motors can apply without
+   * slippage.
+   */
+  public static final double slipCurrent = 120;
+
   
   public static final double topPosition = 50;
   public static final double bottomPosition = 0;
@@ -17,6 +22,9 @@ public class ElevatorConstants {
   public static final double accelerationSlow = 0.15;
   public static final double accelerationFast = 0.05; // Results in hard jerks, caution when using
   
+  public static final double kManualUpVoltage = -2;
+  public static final double kManualDownVoltage = 2;
+
   //Enum Stuff
 
   // Min extend == 0 Max extend == -38.41 

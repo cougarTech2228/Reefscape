@@ -1,67 +1,56 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
+import frc.robot.subsystems.coralCone.CoralCone;
+import frc.robot.subsystems.elevator.Elevator;
 
 public class ButtonBoard  {
-    public static final double FINE_STRAFE_DISTANCE_CM = 3.0;
 
-    private enum ButtonBoardOperationMode {
-        Drive,
-        Camera
-    }
-
-    private final int kJoystickChannel1 = 1;
-    private final int kJoystickChannel2 = 2;
-
-    private Joystick m_joystick1;
-    private Joystick m_joystick2;
-
-    private ButtonBoardOperationMode m_operationMode;
-
-    private static ButtonBoard mInstance = null;
-
-    public static ButtonBoard getInstance() {
-        if (mInstance == null) {
-            mInstance = new ButtonBoard();
-        }
-        return mInstance;
-    }
-
-    private ButtonBoard() {
-        m_joystick1 = new Joystick(kJoystickChannel1);
-        m_joystick2 = new Joystick(kJoystickChannel2);
+    private final Joystick m_joystick1;
+    private final Joystick m_joystick2;
+    private final Elevator elevator;
+    private final CoralCone coralCone;
+    private final AlgaeAcquirer algaeAcquirer;
+    
+    public ButtonBoard(Joystick channel1, Joystick channel2, Elevator elevator, CoralCone coralCone, AlgaeAcquirer algaeAcquirer) {
+        m_joystick1 = channel1;
+        m_joystick2 = channel2;
+        this.elevator = elevator;
+        this.algaeAcquirer = algaeAcquirer;
+        this.coralCone = coralCone;
     }
     
     // Joystick #1 Buttons
-
     private JoystickButton lowerElevatorButton() {
-        return new JoystickButton(m_joystick2, 11);
+        return new JoystickButton(m_joystick1, 11);
     }
 
     private JoystickButton raiseElevatorButton() {
-        return new JoystickButton(m_joystick2, 10);
+        return new JoystickButton(m_joystick1, 10);
     }
 
     private JoystickButton climbButton() {
-        return new JoystickButton(m_joystick2, 9);
+        return new JoystickButton(m_joystick1, 9);
     }
 
     private JoystickButton descendButton() {
-        return new JoystickButton(m_joystick2, 12);
+        return new JoystickButton(m_joystick1, 12);
     }
 
     private JoystickButton acquireAlgaeButton() {
-        return new JoystickButton(m_joystick2, 8);
+        return new JoystickButton(m_joystick1, 8);
     }
 
     private JoystickButton shootAlgaeButton() {
-        return new JoystickButton(m_joystick2, 7);
+        return new JoystickButton(m_joystick1, 7);
     }
 
     private JoystickButton prepAlgaeNetButton() {
-        return new JoystickButton(m_joystick2, 3);
+        return new JoystickButton(m_joystick1, 3);
     }
 
     private JoystickButton test6Button() {
@@ -129,20 +118,6 @@ public class ButtonBoard  {
         return new JoystickButton(m_joystick1, 4);
     }    
 
-
-    public boolean isDriveOperationMode() {
-        return (m_operationMode == ButtonBoardOperationMode.Drive);
-    }
-
-    // private void setOperationMode() {
-    //     if (driveCameraSwitch().getAsBoolean()) {
-    //         m_operationMode = ButtonBoardOperationMode.Drive;
-    //     } else {
-    //         m_operationMode = ButtonBoardOperationMode.Camera;
-    //     }
-    //     System.out.println(m_operationMode);
-    // }
-
     public double getJoystickX() {
         return m_joystick2.getX();
     }
@@ -153,17 +128,31 @@ public class ButtonBoard  {
 
     public void configureButtonBindings() {
 
-        raiseElevatorButton().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("raiseElevatorButton Pressed");
-                    // do something
-                }));
-        
-        lowerElevatorButton().onTrue(
+        raiseElevatorButton()
+            .onTrue(
                 new InstantCommand(() -> {
                     System.out.println("lowerElevatorButton Pressed");
+                    elevator.manualUp();
                     // do something
-                }));
+                }))
+            .onFalse(new InstantCommand(() -> {
+                System.out.println("lowerElevatorButton Pressed");
+                elevator.stop();
+                // do something
+            }));
+        
+        lowerElevatorButton()
+            .onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("lowerElevatorButton Pressed");
+                    elevator.manualDown();
+                    // do something
+                }))
+            .onFalse(new InstantCommand(() -> {
+                System.out.println("lowerElevatorButton Pressed");
+                elevator.stop();
+                // do something
+            }));
 
         climbButton().onTrue(
                 new InstantCommand(() -> {

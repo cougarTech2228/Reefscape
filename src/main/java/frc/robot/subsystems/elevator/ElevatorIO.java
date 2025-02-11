@@ -9,10 +9,16 @@ public interface ElevatorIO {
 
   @AutoLog
   public static class ElevatorIOInputs {
-    public double position = 0.0;
-    public double velocity = 0.0;
-    public double appliedVolts = 0.0;
-    public double currentAmps = 0.0;
+    public double position_A = 0.0;
+    public double velocity_A = 0.0;
+    public double appliedVolts_A = 0.0;
+    public double currentAmps_A = 0.0;
+
+    public double position_B = 0.0;
+    public double velocity_B = 0.0;
+    public double appliedVolts_B = 0.0;
+    public double currentAmps_B = 0.0;
+
     public boolean bottomLimit = false;
     public boolean isAtSetPosition = false;
   }

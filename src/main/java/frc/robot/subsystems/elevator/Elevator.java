@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
+import static frc.robot.subsystems.elevator.ElevatorConstants.*;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -78,5 +79,17 @@ public class Elevator extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
         io.simulationPeriodic();
+    }
+
+    public void manualUp() {
+        io.setVoltage(kManualUpVoltage);
+    }
+    
+    public void manualDown() {
+        io.setVoltage(kManualDownVoltage);
+    }
+
+    public void stop() {
+        io.setVoltage(0);
     }
 }

@@ -3,7 +3,7 @@ package frc.robot.subsystems.algaeAcquirer;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.coralCone.CoralCone.WheelState;
+import static frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.*;
 
 public class AlgaeAcquirer extends SubsystemBase {
     private final AlgaeAcquirerIO io;
@@ -36,12 +36,24 @@ public class AlgaeAcquirer extends SubsystemBase {
     }
 
     public boolean isAtSetPosition() {
-        return io.isAtSetPosition();
+        return inputs.angleIsAtSetPosition;
     }
 
     @Override
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("AlgaeAcquirer", inputs);
+    }
+
+    public void manualUp() {
+        io.setAngleVoltage(kManualUpVoltage);
+    }
+    
+    public void manualDown() {
+        io.setAngleVoltage(kManualDownVoltage);
+    }
+
+    public void stop() {
+        io.setAngleVoltage(0);
     }
 }

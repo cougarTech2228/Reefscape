@@ -53,4 +53,16 @@ public class CoralCone extends SubsystemBase {
             setWheel(WheelState.TRANSIT);
         }
     }
+
+    public void manualUp() {
+        // io.setVoltage(kManualUpVoltage);
+    }
+    
+    public void manualDown() {
+        // io.setVoltage(kManualDownVoltage);
+    }
+
+    public void stop() {
+        // io.setVoltage(0);
+    }
 }
