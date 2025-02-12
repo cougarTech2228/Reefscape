@@ -24,5 +24,5 @@ public class ZoneWatcherCommand extends Command {
             return true;
         }
         return false;
-    } 
+    }
 }
