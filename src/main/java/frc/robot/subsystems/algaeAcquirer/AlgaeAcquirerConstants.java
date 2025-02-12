@@ -13,7 +13,7 @@ public class AlgaeAcquirerConstants {
 
     public static final double closedLoopAngleAllowedError = 0.01;
 
-    public static final double kManualUpVoltage = 0.1;
-    public static final double kManualDownVoltage = -0.1;
+    public static final double kManualUpVoltage = 0.5;
+    public static final double kManualDownVoltage = -0.5;
     
 }

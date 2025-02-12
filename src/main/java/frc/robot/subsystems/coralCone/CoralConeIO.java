@@ -2,6 +2,7 @@ package frc.robot.subsystems.coralCone;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import edu.wpi.first.units.measure.Voltage;
 import frc.robot.subsystems.coralCone.CoralCone.Position;
 import frc.robot.subsystems.coralCone.CoralCone.WheelState;
 
@@ -28,5 +29,8 @@ public interface CoralConeIO {
     }
 
     public default void setWheel(WheelState state) {
+    }
+
+    public default void setAngleVoltage(double kManualUpVvoltage) {        
     }
 }

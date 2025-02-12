@@ -26,4 +26,7 @@ public class CoralConeConstants {
     public static final double accelerationFast = 0.05; // Results in hard jerks, caution when using
 
     public static final double closedLoopAngleAllowedError = 0.01;
+
+    public static final double kManualUpVoltage = 0.5;
+    public static final double kManualDownVoltage = -0.5;
 }

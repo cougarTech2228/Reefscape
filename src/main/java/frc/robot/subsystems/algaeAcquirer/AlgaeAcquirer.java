@@ -48,10 +48,10 @@ public class AlgaeAcquirer extends SubsystemBase {
     public void manualUp() {
         io.setAngleVoltage(kManualUpVoltage);
     }
-    
+
     public void manualDown() {
         io.setAngleVoltage(kManualDownVoltage);
-    }
+    }    
 
     public void stop() {
         io.setAngleVoltage(0);

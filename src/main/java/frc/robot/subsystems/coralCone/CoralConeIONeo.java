@@ -98,5 +98,11 @@ public class CoralConeIONeo implements CoralConeIO {
         wheelMotor.setVoltage(motorVoltage);
     }
 
-   
+    
+    public void setAngleVoltage(double voltage) {
+        wheelMotor.setVoltage(voltage);
+    }
 }
+
+   
+

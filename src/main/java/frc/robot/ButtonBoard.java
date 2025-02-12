@@ -53,69 +53,66 @@ public class ButtonBoard  {
         return new JoystickButton(m_joystick1, 3);
     }
 
-    private JoystickButton test6Button() {
-        return new JoystickButton(m_joystick2, 6);
+    private JoystickButton manualAlgaeUpButton() {
+        return new JoystickButton(m_joystick1, 6);
     }    
 
     private JoystickButton test5Button() {
-        return new JoystickButton(m_joystick2, 5);
+        return new JoystickButton(m_joystick1, 5);
     }    
 
-    private JoystickButton test4Button() {
-        return new JoystickButton(m_joystick2, 4);
+    private JoystickButton manualAlgaeDownButton() {
+        return new JoystickButton(m_joystick1, 4);
     }    
-
-    
-
 
     // Joystick #2 Buttons
 
     private JoystickButton acquireCoralButton() {
-        return new JoystickButton(m_joystick1, 1);
+        return new JoystickButton(m_joystick2, 1);
     }
 
     private JoystickButton shootCoralButton() {
-        return new JoystickButton(m_joystick1, 5);
+        return new JoystickButton(m_joystick2, 5);
     }
 
     private JoystickButton prepCoralLevel1Button() {
-        return new JoystickButton(m_joystick1, 8);
+        return new JoystickButton(m_joystick2, 8);
     }
 
     private JoystickButton prepCoralLevel2Button() {
-        return new JoystickButton(m_joystick1, 7);
+        return new JoystickButton(m_joystick2, 7);
     }   
 
     private JoystickButton prepCoralLevel3Button() {
-        return new JoystickButton(m_joystick1, 6);
+        return new JoystickButton(m_joystick2, 6);
     }
 
     private JoystickButton prepCoralLevel4Button() {
-        return new JoystickButton(m_joystick1, 4);
+        return new JoystickButton(m_joystick2, 4);
     }    
 
-    private JoystickButton test2Button() {
-        return new JoystickButton(m_joystick1, 2);
+    private JoystickButton manualUpCoralButton() {
+        return new JoystickButton(m_joystick2, 2);
     }    
 
-    private JoystickButton test3Button() {
-        return new JoystickButton(m_joystick1, 3);
+    private JoystickButton manualDownCoralButton() {
+        return new JoystickButton(m_joystick2, 3);
     }    
 
     private JoystickButton test9Button() {
-        return new JoystickButton(m_joystick1, 4);
+        return new JoystickButton(m_joystick2, 4);
     }   
     
     private JoystickButton test10Button() {
-        return new JoystickButton(m_joystick1, 4);
+        return new JoystickButton(m_joystick2, 4);
     }        
 
     private JoystickButton test11Button() {
-        return new JoystickButton(m_joystick1, 4);
+        return new JoystickButton(m_joystick2, 4);
     }    
 
     private JoystickButton test12Button() {
-        return new JoystickButton(m_joystick1, 4);
+        return new JoystickButton(m_joystick2, 4);
     }    
 
     public double getJoystickX() {
@@ -136,7 +133,7 @@ public class ButtonBoard  {
                     // do something
                 }))
             .onFalse(new InstantCommand(() -> {
-                System.out.println("lowerElevatorButton Pressed");
+                System.out.println("lowerElevatorButton Unpressed");
                 elevator.stop();
                 // do something
             }));
@@ -149,7 +146,7 @@ public class ButtonBoard  {
                     // do something
                 }))
             .onFalse(new InstantCommand(() -> {
-                System.out.println("lowerElevatorButton Pressed");
+                System.out.println("lowerElevatorButton Unpressed");
                 elevator.stop();
                 // do something
             }));
@@ -220,22 +217,48 @@ public class ButtonBoard  {
                 // do something
             }));
 
-        test2Button().onTrue(
+        manualUpCoralButton().onTrue(
             new InstantCommand(() -> {
-                System.out.println("test2Button Pressed");
-                // do something
+                System.out.println("manualUpCoralButton Pressed");
+                coralCone.manualUp();
+            }));
+
+        manualUpCoralButton().onFalse(
+            new InstantCommand(() -> {
+                System.out.println("manualUpCoralButton Unpressed");
+                coralCone.stop();
             }));
         
-        test3Button().onTrue(
+        manualDownCoralButton().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("test3Button Pressed");
-                    // do something
+                    System.out.println("manualDownCoralButton Pressed");
+                    coralCone.manualDown();
                 }));
 
-        test4Button().onTrue(
+        manualDownCoralButton().onFalse(
                 new InstantCommand(() -> {
-                    System.out.println("test4Button Pressed");
-                    // do something
+                    System.out.println("manualDownCoralButton Unpressed");
+                    coralCone.stop();
+                }));
+
+        manualAlgaeDownButton().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("manualAlgaeDownButton Pressed");
+                    algaeAcquirer.manualDown();
+                }));
+        
+        manualAlgaeDownButton().onFalse(
+                new InstantCommand(() -> {
+                    System.out.println("manualAlgaeDownButton Unpressed");
+                    algaeAcquirer.stop();
+                    
+                }));
+
+        manualAlgaeUpButton()
+            .onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("manualAlgaeUpButton Pressed");
+                    algaeAcquirer.manualUp();
                 }));
 
         test5Button().onTrue(
@@ -244,10 +267,12 @@ public class ButtonBoard  {
                     // do something
                 }));
 
-        test6Button().onTrue(
+        
+        manualAlgaeUpButton()
+            .onFalse(
                 new InstantCommand(() -> {
-                    System.out.println("test6Button Pressed");
-                    // do something
+                    System.out.println("manualAlgaeUpButton Unpressed");
+                    algaeAcquirer.stop();
                 }));
 
         test9Button().onTrue(

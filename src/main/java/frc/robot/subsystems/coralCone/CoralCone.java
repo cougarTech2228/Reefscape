@@ -1,8 +1,14 @@
 package frc.robot.subsystems.coralCone;
 
+import static frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.*;
 import org.littletonrobotics.junction.Logger;
-
+import frc.robot.subsystems.coralCone.CoralConeConstants;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Volts;
 
 
 public class CoralCone extends SubsystemBase {
@@ -37,6 +43,8 @@ public class CoralCone extends SubsystemBase {
         currentWheelState = state;
     }
 
+    
+
     public boolean isAtSetPosition() {
         return inputs.angleMotorIsAtSetPosition;
     }
@@ -44,6 +52,7 @@ public class CoralCone extends SubsystemBase {
     public boolean isLoaded() {
         return inputs.isLoaded;
     }
+
 
     @Override
     public void periodic() {
@@ -55,14 +64,14 @@ public class CoralCone extends SubsystemBase {
     }
 
     public void manualUp() {
-        // io.setVoltage(kManualUpVoltage);
+        io.setAngleVoltage(kManualUpVoltage);
     }
     
     public void manualDown() {
-        // io.setVoltage(kManualDownVoltage);
+        io.setAngleVoltage(kManualDownVoltage);
     }
 
     public void stop() {
-        // io.setVoltage(0);
+        io.setAngleVoltage(0);
     }
 }
