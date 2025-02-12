@@ -7,11 +7,12 @@ public class CoralConeConstants {
     public static final int bottomLimitSwitchDIO = 2;
 
     // CHANGE, angle motor values
-    public static final double loadAngle = 180;
-    public static final double L1Angle = 0;
-    public static final double L2Angle = 0;
-    public static final double L3Angle = 0;
-    public static final double L4Angle = 0;
+    public static final double stowedAngle = 0.1;
+    public static final double loadAngle = 0.0;
+    public static final double L1Angle = 0.0;
+    public static final double L2Angle = 0.0;
+    public static final double L3Angle = 0.0;
+    public static final double L4Angle = 0.0;
 
     // wheel motor values
     public static final double forwardVoltage = 2;

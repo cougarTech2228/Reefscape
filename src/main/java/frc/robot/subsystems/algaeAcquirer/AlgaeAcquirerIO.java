@@ -2,7 +2,7 @@ package frc.robot.subsystems.algaeAcquirer;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.acquirerState;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.Position;
 
 public interface AlgaeAcquirerIO {
@@ -21,13 +21,15 @@ public interface AlgaeAcquirerIO {
         public double flyAppliedVoltsRight = 0.0;
         public double flyVelocityRight = 0.0;
         public double flyCurrentAmpsRight = 0.0;
+
+        public boolean isLoaded = false;
     }
     /** Update the set of loggable inputs. */
     public default void updateInputs(AlgaeAcquirerIOInputs inputs) {}
 
     public default void setFlyVoltage(double voltage) {}
 
-    public default void setAlgaeAcquirer(acquirerState state) {}
+    public default void setAlgaeAcquirer(FlywheelState state) {}
 
     public default void setPosition(Position position) {}
 

@@ -22,8 +22,8 @@ public class ElevatorConstants {
   public static final double accelerationSlow = 0.15;
   public static final double accelerationFast = 0.05; // Results in hard jerks, caution when using
   
-  public static final double kManualUpVoltage = -2;
-  public static final double kManualDownVoltage = 2;
+  public static final double kManualUpVoltage = -1.5;
+  public static final double kManualDownVoltage = 1.5;
 
   //Enum Stuff
 

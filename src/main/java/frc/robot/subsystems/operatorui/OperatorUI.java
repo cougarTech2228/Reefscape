@@ -1,14 +1,20 @@
 package frc.robot.subsystems.operatorui;
 
-import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ReefLocation;
+import frc.robot.Constants.ReefSegment;
+import frc.robot.commands.BargeCommand;
+import frc.robot.commands.CoralAndAlgaeCommand;
+import frc.robot.commands.LoadAlgaeCommand;
 import frc.robot.commands.LoadCoralCommand;
+import frc.robot.commands.PlaceCoralCommand;
+import frc.robot.commands.ProcessorCommand;
+import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
@@ -16,11 +22,11 @@ import java.util.EnumSet;
 
 public class OperatorUI extends SubsystemBase {
     private NetworkTable table;
-    private BooleanSubscriber executeSubscriber;
-    private boolean lastExecuteState = false;
 
     private final Elevator elevator;
-    private final LoadCoralCommand loadCoralCommand;
+    private final AlgaeAcquirer algaeAcquirer;
+    private final CoralCone coralCone;
+
     private Command activeCommand = null;
 
     // outgoing status topics
@@ -43,6 +49,7 @@ public class OperatorUI extends SubsystemBase {
     private static final String DESTINATION_PROCESSOR = "processor";
     private static final String DESTINATION_BARGE = "barge";
     private static final String DESTINATION_FLOOR_ALGAE = "floorAlgae";
+    private static final String DESTINATION_ALGAE_ON_CORAL = "algaeOnCoral";
 
     private String getMode() {
         return table.getEntry(modeTopic).getString("");
@@ -50,16 +57,17 @@ public class OperatorUI extends SubsystemBase {
     private String getDestination() {
         return table.getEntry(destinationTopic).getString("");
     }
-    private long getReefSegment() {
-        return table.getEntry(reefSegmentTopic).getInteger(0);
+    private int getReefSegment() {
+        return (int)table.getEntry(reefSegmentTopic).getInteger(0);
     }
     private String getReefPost() {
         return table.getEntry(reefPostTopic).getString("");
     }
 
-    public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralClaw) {
+    public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.elevator = elevator;
-        this.loadCoralCommand = new LoadCoralCommand(elevator, algaeAcquirer, coralClaw);
+        this.algaeAcquirer = algaeAcquirer;
+        this.coralCone = coralCone;
 
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         table = inst.getTable("ReefControl");
@@ -90,7 +98,6 @@ public class OperatorUI extends SubsystemBase {
                 }
             }
         );
-        executeSubscriber = table.getBooleanTopic(executeCommandTopic).subscribe(false);
     }
 
     public void periodic() {
@@ -118,10 +125,35 @@ public class OperatorUI extends SubsystemBase {
                 handleBarge();
             break;
             case DESTINATION_REEF:
-                handleReef();
+                ReefSegment segment = ReefSegment.Segment_1;
+                switch(getReefSegment()) {
+                    case 1:
+                        segment = ReefSegment.Segment_1;
+                    break;
+                    case 2:
+                        segment = ReefSegment.Segment_2;
+                        break;
+                    case 3:
+                        segment = ReefSegment.Segment_3;
+                        break;
+                    case 4:
+                        segment = ReefSegment.Segment_4;
+                        break;
+                    case 5:
+                        segment = ReefSegment.Segment_5;
+                        break;
+                    case 6:
+                        segment = ReefSegment.Segment_6;
+                        break;
+                }
+                handleReef(segment);
             break;
             case DESTINATION_FLOOR_ALGAE:
                 handleFloorAlgae();
+                break;
+            case DESTINATION_ALGAE_ON_CORAL:
+                handleAlgaeOnCoral();
+                break;
         }
     }
     
@@ -132,34 +164,74 @@ public class OperatorUI extends SubsystemBase {
 
     private void handleCoralStation() {
         System.out.println("handleCoralStation()");
-        startCommand(loadCoralCommand);
+        startCommand( new LoadCoralCommand(elevator, algaeAcquirer, coralCone));
     }
 
     private void handleProcessor() {
         System.out.println("handleProcessor()");
+        startCommand( new ProcessorCommand(elevator, algaeAcquirer, coralCone));
     }
 
     private void handleBarge() {
         System.out.println("handleBarge()");
+        startCommand( new BargeCommand(elevator, algaeAcquirer, coralCone));
     }
 
     private void handleFloorAlgae() {
         System.out.println("handleFloorAlgae()");
+        startCommand(new LoadAlgaeCommand(AlgaeHeight.Floor, elevator, algaeAcquirer, coralCone));
+    }
+    private void handleAlgaeOnCoral() {
+        System.out.println("handleAlgaeOnCoral()");
+        startCommand(new LoadAlgaeCommand(AlgaeHeight.FloorOnCoral, elevator, algaeAcquirer, coralCone));
     }
 
-    private void handleReef() {
+    private void handleReef(ReefSegment segment) {
         switch (getMode()){
             case MODE_ALGAE:
                 // pickup an algae from the reef
                 System.out.println("handleReef - Algae");
+                if (segment == ReefSegment.Segment_1 || segment == ReefSegment.Segment_3 || segment == ReefSegment.Segment_5) {
+                    startCommand(new LoadAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone));
+                } else if (segment == ReefSegment.Segment_2 || segment == ReefSegment.Segment_4 || segment == ReefSegment.Segment_6) {
+                    startCommand(new LoadAlgaeCommand(AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone));
+                }
             break;
             case MODE_CORAL:
                 // place a coral on the reef
                 System.out.println("handleReef - Coral");
+                String post = getReefPost();
+                switch(post) {
+                    case "L1":
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L1, elevator, algaeAcquirer, coralCone));
+                        break;
+                    case "L2_L":
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone));
+                        break;
+                    case "L2_R":
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone));
+                        break;
+                    case "L3_L":
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone));
+                        break;
+                    case "L3_R":
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_R, elevator, algaeAcquirer, coralCone));
+                        break;
+                    case "L4_L":
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone));
+                        break;
+                    case "L4_R":
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_R, elevator, algaeAcquirer, coralCone));
+                        break;
+                    default:
+                        System.out.println("Error - Invalid reef post: " + post);
+                        break;
+                }
             break;
             case MODE_CORAL_AND_ALGAE:
                 // place a coral and pickup an algae from the reef
                 System.out.println("handleReef - Coral and Algae");
+                startCommand(new CoralAndAlgaeCommand(segment, elevator, algaeAcquirer, coralCone));
             break;
         }
     }

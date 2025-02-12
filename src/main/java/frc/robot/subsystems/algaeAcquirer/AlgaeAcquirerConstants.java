@@ -16,4 +16,7 @@ public class AlgaeAcquirerConstants {
     public static final double kManualUpVoltage = 0.5;
     public static final double kManualDownVoltage = -0.5;
     
+    // below this velocity and above this current will be concidered loaded
+    public static final double kLoadedVelocityThreshold = 5;
+    public static final double kLoadedCurrentDrawThreshold = 5;
 }

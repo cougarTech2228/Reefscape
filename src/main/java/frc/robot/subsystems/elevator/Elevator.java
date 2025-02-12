@@ -17,6 +17,7 @@ public class Elevator extends SubsystemBase {
 
     public enum Position {
         ALGAE_FLOOR,
+        ALGAE_FLOOR_ON_CORAL,
         ALGAE_PROCESSOR,
         ALGAE_REEF_LOW,
         ALGAE_REEF_HIGH,

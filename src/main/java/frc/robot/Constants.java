@@ -35,6 +35,25 @@ public final class Constants {
         REPLAY
     }
 
+    public enum ReefLocation {
+        L1,
+        L2_R,
+        L2_L,
+        L3_R,
+        L3_L,
+        L4_R,
+        L4_L
+    }
+
+    public enum ReefSegment {
+        Segment_1,
+        Segment_2,
+        Segment_3,
+        Segment_4,
+        Segment_5,
+        Segment_6
+    }
+
     // CAN IDs
     public static final int algaeFlywheelLeftNeoCanID = 4;
     public static final int algaeFlywheelRightNeoCanID = 5;

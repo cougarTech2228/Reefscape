@@ -61,6 +61,9 @@ public class CoralConeIONeo implements CoralConeIO {
     
     public void setPosition(Position angle) {
         switch (angle) {
+            case STOWED:
+                currentAngleSetPoint = CoralConeConstants.stowedAngle;
+                break;
             case LOAD:
                 currentAngleSetPoint = CoralConeConstants.loadAngle;
                 break;

@@ -17,6 +17,7 @@ public class CoralCone extends SubsystemBase {
     private WheelState currentWheelState = WheelState.TRANSIT;
 
     public enum Position {
+        STOWED,
         LOAD,
         L1_SHOOT,
         L2_SHOOT,

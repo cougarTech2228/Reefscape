@@ -19,8 +19,8 @@ public class ZoneWatcherCommand extends Command {
 
     public boolean isFinished() {
         if (dest.inZone(drive.getPose())) {
-            Command path = DriveCommands.shortAutoPath(drive, dest);
-            CommandScheduler.getInstance().schedule(path);
+            // Command path = DriveCommands.shortAutoPath(drive, dest);
+            // CommandScheduler.getInstance().schedule(path);
             return true;
         }
         return false;

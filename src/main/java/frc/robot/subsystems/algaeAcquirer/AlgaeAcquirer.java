@@ -9,7 +9,7 @@ public class AlgaeAcquirer extends SubsystemBase {
     private final AlgaeAcquirerIO io;
     private AlgaeAcquirerIOInputsAutoLogged inputs = new AlgaeAcquirerIOInputsAutoLogged();
 
-    public enum acquirerState {
+    public enum FlywheelState {
         SHOOT,
         ACQUIRE,
         STOP
@@ -27,7 +27,7 @@ public class AlgaeAcquirer extends SubsystemBase {
         this.io = io;
     }
 
-    public void setAlgaeAcquirer(acquirerState state) {
+    public void setFlywheelState(FlywheelState state) {
         io.setAlgaeAcquirer(state);
     }
 
@@ -55,5 +55,9 @@ public class AlgaeAcquirer extends SubsystemBase {
 
     public void stop() {
         io.setAngleVoltage(0);
+    }
+
+    public boolean isLoaded() {
+        return inputs.isLoaded;
     }
 }

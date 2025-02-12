@@ -9,8 +9,10 @@ import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants;
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.acquirerState;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.Position;
+
+import static frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.*;
 
 public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     protected final SparkMax leftFlyWheel = new SparkMax(Constants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
@@ -55,6 +57,10 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         inputs.flyAppliedVoltsRight = rightFlyWheel.getAppliedOutput();
         inputs.flyVelocityRight = rightFlyWheel.getEncoder().getVelocity();
         inputs.flyCurrentAmpsRight = rightFlyWheel.getOutputCurrent();
+
+        // determine loaded state based on high current draw, and low velocity
+        inputs.isLoaded = (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
+            Math.abs(inputs.flyCurrentAmpsRight) > kLoadedCurrentDrawThreshold);
     }
 
     @Override
@@ -63,7 +69,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     }
 
     @Override
-    public void setAlgaeAcquirer(acquirerState state) {
+    public void setAlgaeAcquirer(FlywheelState state) {
         switch (state) {
             case SHOOT:
                 setFlyVoltage(AlgaeAcquirerConstants.shootVoltage);
