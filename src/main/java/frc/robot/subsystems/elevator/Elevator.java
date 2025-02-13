@@ -37,11 +37,11 @@ public class Elevator extends SubsystemBase {
             new SysIdRoutine(
                 new SysIdRoutine.Config(
                     Volts.of(0.5).per(Second),
-                    Volts.of(2),
+                    Volts.of(3),
                     null,
-                    (state) -> Logger.recordOutput("Drive/SysIdState", state.toString())),
+                    (state) -> Logger.recordOutput("Elevator/SysIdState", state.toString())),
                 new SysIdRoutine.Mechanism(
-                    (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
+                    (voltage) -> runCharacterization(-voltage.in(Volts)), null, this));
     }
 
     @Override
@@ -91,6 +91,6 @@ public class Elevator extends SubsystemBase {
     }
 
     public void stop() {
-        io.setVoltage(0);
+        io.setVoltage(0);//-0.5);
     }
 }

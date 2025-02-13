@@ -23,20 +23,20 @@ public class ElevatorConstants {
   public static final double accelerationFast = 0.05; // Results in hard jerks, caution when using
   
   public static final double kManualUpVoltage = -1.5;
-  public static final double kManualDownVoltage = 1.5;
+  public static final double kManualDownVoltage = 0;
 
   //Enum Stuff
 
   // Min extend == 0 Max extend == -38.41 
-  public static final double HEIGHT_CORAL_LOAD = 60.0;
-  public static final double HEIGHT_CORAL_L1 = -10;
-  public static final double HEIGHT_CORAL_L2 = -15;
-  public static final double HEIGHT_CORAL_L3 = -20;
-  public static final double HEIGHT_CORAL_L4 = -25;
-  public static final double HEIGHT_ALGAE_FLOOR = -5;
-  public static final double HEIGHT_ALGAE_PROCESSOR = -10;
+  public static final double HEIGHT_CORAL_LOAD = -7.86;
+  public static final double HEIGHT_CORAL_L1 = -2.96;
+  public static final double HEIGHT_CORAL_L2 = -7.72;
+  public static final double HEIGHT_CORAL_L3 = -15.72;
+  public static final double HEIGHT_CORAL_L4 = -29.59;
+  public static final double HEIGHT_ALGAE_FLOOR = -1.86;
+  public static final double HEIGHT_ALGAE_PROCESSOR = -5.45;
   public static final double HEIGHT_ALGAE_REEF_LOW = HEIGHT_CORAL_L3;
-  public static final double HEIGHT_ALGAE_REEF_HIGH = -22;
+  public static final double HEIGHT_ALGAE_REEF_HIGH = -22.86;
   public static final double HEIGHT_ALGAE_BARGE = -38;
 
   public static final double ClosedLoopErrorThreshold = 2;

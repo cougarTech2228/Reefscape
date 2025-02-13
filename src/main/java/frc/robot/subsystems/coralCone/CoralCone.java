@@ -2,8 +2,7 @@ package frc.robot.subsystems.coralCone;
 
 import static frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.*;
 import org.littletonrobotics.junction.Logger;
-import frc.robot.subsystems.coralCone.CoralConeConstants;
-import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
@@ -15,6 +14,7 @@ public class CoralCone extends SubsystemBase {
     private final CoralConeIO io;
     private CoralConeIOInputsAutoLogged inputs = new CoralConeIOInputsAutoLogged();
     private WheelState currentWheelState = WheelState.TRANSIT;
+    private final SysIdRoutine sysId;
 
     public enum Position {
         STOWED,
@@ -33,6 +33,17 @@ public class CoralCone extends SubsystemBase {
 
     public CoralCone(CoralConeIO io) {
         this.io = io;
+
+        // Configure SysId
+        sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                Volts.of(0.5).per(Second),
+                Volts.of(3),
+                null,
+                (state) -> Logger.recordOutput("Elevator/SysIdState", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
     }
 
     public void setPosition(Position position) {
@@ -44,7 +55,22 @@ public class CoralCone extends SubsystemBase {
         currentWheelState = state;
     }
 
-    
+    /** Returns a command to run a quasistatic test in the specified direction. */
+    public Command sysIdAngleQuasistatic(SysIdRoutine.Direction direction) {
+        return run(() -> runCharacterization(0.0))
+            .withTimeout(1.0)
+            .andThen(sysId.quasistatic(direction));
+    }
+
+    /** Returns a command to run a dynamic test in the specified direction. */
+    public Command sysIdAngleDynamic(SysIdRoutine.Direction direction) {
+        return run(() -> runCharacterization(0.0)).withTimeout(1.0).andThen(sysId.dynamic(direction));
+    }
+
+    /** Runs the module with the specified output while controlling to zero degrees. */
+    public void runCharacterization(double output) {
+        io.setAngleVoltage(output);
+    }
 
     public boolean isAtSetPosition() {
         return inputs.angleMotorIsAtSetPosition;

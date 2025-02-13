@@ -18,7 +18,8 @@ import frc.robot.subsystems.coralCone.CoralCone.WheelState;
 public class CoralConeIONeo implements CoralConeIO {
     protected final SparkMax wheelMotor = new SparkMax(Constants.coralFlywheelCanID, MotorType.kBrushless);
     protected final SparkMax angleMotor = new SparkMax(Constants.coralRotateCanID, MotorType.kBrushless);
-    private final SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
+    private final SparkMaxConfig angleMotorConfig = new SparkMaxConfig();
+    private final SparkMaxConfig wheelMotorConfig = new SparkMaxConfig();
     protected final DigitalInput beamBreakSensor = new DigitalInput(Constants.CoralBeamBreakSensorDIO);
 
     protected double currentAngleSetPoint = 0;
@@ -33,14 +34,19 @@ public class CoralConeIONeo implements CoralConeIO {
         closedLoopConfig.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
         closedLoopConfig.pidf(0.2, 0, 0, 0);
 
-        sparkMaxConfig.absoluteEncoder.setSparkMaxDataPortConfig();
-        // sparkMaxConfig.alternateEncoder.setSparkMaxDataPortConfig();
-        // sparkMaxConfig.alternateEncoder.countsPerRevolution(8192);
+        angleMotorConfig.absoluteEncoder.setSparkMaxDataPortConfig();
+        angleMotorConfig
+            .idleMode(IdleMode.kBrake)
+            .smartCurrentLimit(20)
+            .apply(closedLoopConfig);
 
-        sparkMaxConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).apply(closedLoopConfig);
+        angleMotor.configure(angleMotorConfig, null, null);
 
-        // wheelMotor.configure(sparkMaxConfig, null, null);
-        angleMotor.configure(sparkMaxConfig, null, null);
+        wheelMotorConfig
+            .idleMode(IdleMode.kBrake)
+            .smartCurrentLimit(20);
+        wheelMotor.configure(wheelMotorConfig, null, null);
+        
     }
 
     @Override

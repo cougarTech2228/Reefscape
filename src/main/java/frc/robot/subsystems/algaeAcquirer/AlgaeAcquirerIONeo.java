@@ -1,5 +1,6 @@
 package frc.robot.subsystems.algaeAcquirer;
 
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import com.revrobotics.spark.SparkMax;
@@ -18,8 +19,8 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     protected final SparkMax leftFlyWheel = new SparkMax(Constants.algaeFlywheelLeftNeoCanID, MotorType.kBrushless);
     protected final SparkMax rightFlyWheel = new SparkMax(Constants.algaeFlywheelRightNeoCanID, MotorType.kBrushless);
     protected final SparkMax algaeAngleMotor = new SparkMax(Constants.algaeAngleMotorNeoCanID, MotorType.kBrushless);
-    private final SparkMaxConfig angleSparkMaxConfig = new SparkMaxConfig();
-    private final SparkMaxConfig flySparkMaxConfig = new SparkMaxConfig();
+    private final SparkMaxConfig angleMotorConfig = new SparkMaxConfig();
+    private final SparkMaxConfig flywheelConfig = new SparkMaxConfig();
 
     protected double currentAngleSetPoint = 0;
 
@@ -32,13 +33,19 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         closedLoopConfig.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
         closedLoopConfig.pidf(0.2, 0, 0, 0);
 
-        angleSparkMaxConfig.absoluteEncoder.setSparkMaxDataPortConfig();
-        angleSparkMaxConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(20).apply(closedLoopConfig);
-        algaeAngleMotor.configure(angleSparkMaxConfig, null, null);
+        angleMotorConfig.absoluteEncoder.setSparkMaxDataPortConfig();
+        angleMotorConfig
+            .idleMode(IdleMode.kCoast)
+            .smartCurrentLimit(20)
+            .apply(closedLoopConfig);
+        algaeAngleMotor.configure(angleMotorConfig, null, null);
 
-        flySparkMaxConfig.smartCurrentLimit(20);
-        rightFlyWheel.configure(flySparkMaxConfig, null, null);
-        leftFlyWheel.configure(flySparkMaxConfig.follow(rightFlyWheel, true), null, null);
+        flywheelConfig
+            .idleMode(IdleMode.kCoast)
+            .smartCurrentLimit(20);
+
+        rightFlyWheel.configure(flywheelConfig, null, null);
+        leftFlyWheel.configure(flywheelConfig.follow(rightFlyWheel, true), null, null);
     }
 
     @Override
@@ -102,7 +109,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
                 currentAngleSetPoint = AlgaeAcquirerConstants.processorShootAngle;
                 break;
         }
-        algaeAngleMotor.getClosedLoopController().setReference(currentAngleSetPoint, null);
+        algaeAngleMotor.getClosedLoopController().setReference(currentAngleSetPoint, ControlType.kMAXMotionPositionControl);
     }
 
     @Override
