@@ -13,6 +13,7 @@
 
 package frc.robot.subsystems.elevator;
 
+import frc.robot.Constants;
 import static frc.robot.subsystems.elevator.ElevatorConstants.*;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -41,8 +42,8 @@ import static edu.wpi.first.units.Units.Second;
  * 500 or Kraken X60.
  */
 public class ElevatorIOTalonFX implements ElevatorIO {
-    protected final TalonFX elevatorA = new TalonFX(elevatorACanID, "canivore");
-    protected final TalonFX elevatorB = new TalonFX(elevatorBCanID, "canivore");
+    protected final TalonFX elevatorA = new TalonFX(Constants.elevatorLeaderCanID, "canivore");
+    protected final TalonFX elevatorB = new TalonFX(Constants.elevatorFollowerCanID, "canivore");
 
     private final StatusSignal<Angle> positionRotA = elevatorA.getPosition();
     private final StatusSignal<AngularVelocity> velocityRotPerSecA = elevatorA.getVelocity();
@@ -58,11 +59,10 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
     private final TorqueCurrentFOC torqueCurrentRequest = new TorqueCurrentFOC(0);
 
-
     public ElevatorIOTalonFX() {
         var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();
 
-        //Note: Forward is actually down!
+        // Note: Forward is actually down!
         hardwareLimitSwitchConfig.ForwardLimitAutosetPositionEnable = true;
         hardwareLimitSwitchConfig.ForwardLimitAutosetPositionValue = ElevatorConstants.bottomPosition;
         hardwareLimitSwitchConfig.ForwardLimitEnable = true;
@@ -83,7 +83,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         elevatorA.getConfigurator().apply(hardwareLimitSwitchConfig);
 
         elevatorB.getConfigurator().apply(talonFXConfigs);
-        elevatorB.setControl(new Follower(elevatorACanID, false));
+        elevatorB.setControl(new Follower(Constants.elevatorFollowerCanID, false));
 
         // set slot 0 gains
         var slot0Configs = talonFXConfigs.Slot0;
@@ -97,16 +97,19 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         // set Motion Magic Expo settings
         talonFXConfigs.MotionMagic
-            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(5)) // 5 (mechanism) rotations per second cruise
-            .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(10)) // Take approximately 0.5 seconds to reach max vel
-            // Take approximately 0.1 seconds to reach max accel 
-            .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(100));
+                .withMotionMagicCruiseVelocity(RotationsPerSecond.of(5)) // 5 (mechanism) rotations per second cruise
+                .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(10)) // Take approximately 0.5 seconds to
+                                                                                 // reach max vel
+                // Take approximately 0.1 seconds to reach max accel
+                .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(100));
 
         talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocitySlow; // kV is around 0.12 V/rps
         talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationSlow; // Use a slower kA of 0.1
-                                                                                        // V/(rps/s)
-        // talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocityFast; // kV is around 0.12 V/rps
-        // talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationFast; // Use a slower kA of 0.1
+        // V/(rps/s)
+        // talonFXConfigs.MotionMagic.MotionMagicExpo_kV =
+        // ElevatorConstants.velocityFast; // kV is around 0.12 V/rps
+        // talonFXConfigs.MotionMagic.MotionMagicExpo_kA =
+        // ElevatorConstants.accelerationFast; // Use a slower kA of 0.1
 
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = currentLimit;
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -116,18 +119,18 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         elevatorA.getConfigurator().apply(hardwareLimitSwitchConfig);
 
         BaseStatusSignal.setUpdateFrequencyForAll(50.0,
-            positionRotA, velocityRotPerSecA, appliedVoltsA, currentAmpsA,
-            positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
-            forwardLimitA);
+                positionRotA, velocityRotPerSecA, appliedVoltsA, currentAmpsA,
+                positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
+                forwardLimitA);
         elevatorA.optimizeBusUtilization();
     }
 
     @Override
     public void updateInputs(ElevatorIOInputs inputs) {
         BaseStatusSignal.refreshAll(
-            positionRotA, velocityRotPerSecA, appliedVoltsA, currentAmpsA,
-            positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
-            forwardLimitA);
+                positionRotA, velocityRotPerSecA, appliedVoltsA, currentAmpsA,
+                positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
+                forwardLimitA);
 
         inputs.position_A = positionRotA.getValueAsDouble();
         inputs.velocity_A = velocityRotPerSecA.getValueAsDouble();
