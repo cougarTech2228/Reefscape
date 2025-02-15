@@ -2,8 +2,6 @@ package frc.robot.subsystems.climber;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import frc.robot.subsystems.elevator.Elevator.Position;
-import frc.robot.subsystems.elevator.ElevatorIO.ElevatorIOInputs;
 import frc.robot.subsystems.climber.Climber.ClimberPosition;
 
 public interface ClimberIO {
@@ -37,4 +35,6 @@ public interface ClimberIO {
     public default void simulationPeriodic() {
     };
 
+    public default void setBrakeMode() {};
 }
+    
