@@ -110,6 +110,9 @@ public class OperatorUI extends SubsystemBase {
                 System.out.println("Command running");
             }
         }
+
+        table.getEntry(algaeLoadedTopic).setBoolean(algaeAcquirer.isLoaded());
+        table.getEntry(coralLoadedTopic).setBoolean(coralCone.isLoaded());
     }
 
     // The driver made their selections, and pressed "GO" figure out what we should be doing now

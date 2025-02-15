@@ -1,8 +1,8 @@
 package frc.robot.subsystems.algaeAcquirer;
 
 public class AlgaeAcquirerConstants {
-    public static final int acquireVoltage = 2; // to be changed
-    public static final int shootVoltage = -4; // to be changed
+    public static final int acquireVoltage = -8; // to be changed
+    public static final int shootVoltage = 12; // to be changed
 
     
     public static final double stowedAngle = 0.726;

@@ -2,7 +2,6 @@ package frc.robot.subsystems.coralCone;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import edu.wpi.first.units.measure.Voltage;
 import frc.robot.subsystems.coralCone.CoralCone.Position;
 import frc.robot.subsystems.coralCone.CoralCone.WheelState;
 
@@ -15,6 +14,7 @@ public interface CoralConeIO {
         public double angleMotorCurrent = 0.0;
         public double angleMotorEncoderVelocity = 0.0;
         public double angleMotorEncoderPosition = 0.0;
+        public double angleSetPoition = 0.0;
         public boolean angleMotorIsAtSetPosition = false;
         public double wheelVoltage = 0.0;
         public boolean isLoaded = false;

@@ -62,6 +62,7 @@ public class CoralConeIONeo implements CoralConeIO {
 
         inputs.wheelVoltage = wheelMotor.getAppliedOutput();
         inputs.isLoaded = !beamBreakSensor.get();
+        inputs.angleSetPoition = currentAngleSetPoint;
     }
 
     
@@ -95,10 +96,10 @@ public class CoralConeIONeo implements CoralConeIO {
         double motorVoltage = 0;
         switch (state) {
             case LOAD:
-                motorVoltage = CoralConeConstants.forwardVoltage;
+                motorVoltage = CoralConeConstants.loadVoltage;
                 break;
             case SHOOT:
-                motorVoltage = CoralConeConstants.reverseVoltage;
+                motorVoltage = CoralConeConstants.shootVoltage;
                 break;
             case TRANSIT:
                 motorVoltage = CoralConeConstants.transitVoltage;

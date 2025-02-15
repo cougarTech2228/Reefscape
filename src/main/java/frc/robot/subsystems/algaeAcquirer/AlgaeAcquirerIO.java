@@ -9,6 +9,9 @@ public interface AlgaeAcquirerIO {
     @AutoLog
     public static class AlgaeAcquirerIOInputs {
         public double anglePosition = 0.0;
+        public double angleEncoderPosition = 0.0;
+        public double angleEncoderVelocity = 0.0;
+        public double angleSetPoition = 0.0;
         public double angleVelocity = 0.0;
         public double angleAppliedVolts = 0.0;
         public double angleCurrentAmps = 0.0;

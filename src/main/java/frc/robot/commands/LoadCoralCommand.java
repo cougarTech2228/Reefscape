@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
+import frc.robot.subsystems.coralCone.CoralCone.WheelState;
 import frc.robot.subsystems.elevator.Elevator;
 
 public class LoadCoralCommand extends Command {
@@ -45,5 +46,10 @@ public class LoadCoralCommand extends Command {
             commandInitialized = false;
         }
         return finished;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        coralCone.setWheel(WheelState.TRANSIT);
     }
 }

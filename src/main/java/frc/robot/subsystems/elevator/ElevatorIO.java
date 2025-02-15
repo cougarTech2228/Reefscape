@@ -13,6 +13,7 @@ public interface ElevatorIO {
     public double velocity_A = 0.0;
     public double appliedVolts_A = 0.0;
     public double currentAmps_A = 0.0;
+    public double pidOutput = 0.0;
 
     public double position_B = 0.0;
     public double velocity_B = 0.0;
@@ -21,6 +22,7 @@ public interface ElevatorIO {
 
     public boolean bottomLimit = false;
     public boolean isAtSetPosition = false;
+    public double setPosition = 0.0;
   }
 
   /** Update the set of loggable inputs. */

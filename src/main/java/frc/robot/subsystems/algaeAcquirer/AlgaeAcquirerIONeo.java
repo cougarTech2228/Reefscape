@@ -35,14 +35,14 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
 
         angleMotorConfig.absoluteEncoder.setSparkMaxDataPortConfig();
         angleMotorConfig
-            .idleMode(IdleMode.kCoast)
+            .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(20)
             .apply(closedLoopConfig);
         algaeAngleMotor.configure(angleMotorConfig, null, null);
 
         flywheelConfig
             .idleMode(IdleMode.kCoast)
-            .smartCurrentLimit(20);
+            .smartCurrentLimit(10);
 
         rightFlyWheel.configure(flywheelConfig, null, null);
         leftFlyWheel.configure(flywheelConfig.follow(rightFlyWheel, true), null, null);
@@ -50,8 +50,11 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
 
     @Override
     public void updateInputs(AlgaeAcquirerIOInputs inputs) {
+        inputs.angleSetPoition = currentAngleSetPoint;
         inputs.anglePosition = algaeAngleMotor.getEncoder().getPosition();
         inputs.angleVelocity = algaeAngleMotor.getEncoder().getVelocity();
+        inputs.angleEncoderPosition = algaeAngleMotor.getAbsoluteEncoder().getPosition();
+        inputs.angleEncoderVelocity =algaeAngleMotor.getAbsoluteEncoder().getVelocity();
         inputs.angleAppliedVolts = algaeAngleMotor.getAppliedOutput();
         inputs.angleCurrentAmps = algaeAngleMotor.getOutputCurrent();
         inputs.angleIsAtSetPosition = Math.abs(algaeAngleMotor.getAbsoluteEncoder().getPosition()
@@ -67,7 +70,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
 
         // determine loaded state based on high current draw, and low velocity
         inputs.isLoaded = (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
-            Math.abs(inputs.flyCurrentAmpsRight) > kLoadedCurrentDrawThreshold);
+            (Math.abs(inputs.flyCurrentAmpsRight) > 0));
     }
 
     @Override

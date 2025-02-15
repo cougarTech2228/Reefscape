@@ -99,10 +99,13 @@ public class RobotContainer {
                         new ModuleIOTalonFX(TunerConstants.FrontRight),
                         new ModuleIOTalonFX(TunerConstants.BackLeft),
                         new ModuleIOTalonFX(TunerConstants.BackRight));
-                vision = new Vision(
+                vision =
+                new Vision(
                         drive::addVisionMeasurement,
-                        new VisionIOPhotonVision(camera0Name, robotToCamera0),
-                        new VisionIOPhotonVision(camera1Name, robotToCamera1));
+                        new VisionIOPhotonVision(camera1Name, robotToCamera1),
+                        new VisionIOPhotonVision(camera2Name, robotToCamera2),
+                        new VisionIOPhotonVision(camera3Name, robotToCamera3),
+                        new VisionIOPhotonVision(camera4Name, robotToCamera4));
                 elevator = new Elevator(new ElevatorIOTalonFX());
                 algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeo());
                 coralCone = new CoralCone(new CoralConeIONeo());
@@ -119,8 +122,10 @@ public class RobotContainer {
                         new ModuleIOSim(TunerConstants.BackRight));
                 vision = new Vision(
                         drive::addVisionMeasurement,
-                        new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
-                        new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose));
+                        new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose),
+                        new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose),
+                        new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose),
+                        new VisionIOPhotonVisionSim(camera4Name, robotToCamera4, drive::getPose));
                 elevator = new Elevator(new ElevatorIOTalonFXSim());
                 algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeoSim());
                 coralCone = new CoralCone(new CoralConeIONeoSim());
