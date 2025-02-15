@@ -1,8 +1,7 @@
 package frc.robot.subsystems.climber;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 import frc.robot.Constants;
+
 import static frc.robot.subsystems.climber.ClimberConstants.*;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -35,12 +34,4 @@ public class ClimberIOTalonFX implements ClimberIO {
     public ClimberIOTalonFX() {
 
     }
-=======
-public class ClimberIOTalonFX {
-    
->>>>>>> Stashed changes
-=======
-public class ClimberIOTalonFX {
-    
->>>>>>> Stashed changes
 }

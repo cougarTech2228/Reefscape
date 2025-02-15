@@ -2,33 +2,39 @@ package frc.robot.subsystems.climber;
 
 import org.littletonrobotics.junction.AutoLog;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+import frc.robot.subsystems.elevator.Elevator.Position;
+import frc.robot.subsystems.elevator.ElevatorIO.ElevatorIOInputs;
+import frc.robot.subsystems.climber.Climber.ClimberPosition;
+
 public interface ClimberIO {
-    
-}
-=======
-=======
->>>>>>> Stashed changes
-public interface climberIO {
-    
+
     @AutoLog
     public static class ClimberIOInputs {
-        public double climberPosition = 0.0;
-        public double climberVelocity = 0.0;
-        public double climberAppliedVolts = 0.0;
-        public double[] climberCurrentAmps = new double[] {};
+        public double climberMotorVoltage = 0.0;
+        public double climberMotorPosition = 0.0;
+        public double climberMotorVelocity = 0.0;
+        public double climberMotorCurrent = 0.0;
+        public double climberMotorEncoderVelocity = 0.0;
+        public double climberMotorEncoderPosition = 0.0;
+
+        public boolean bottomLimit = false;
+        public boolean upperLimit = false;
+        public boolean climberMotorIsAtSetPosition = false;
+
     }
-    // Updates set of loggable inputs
-    public default void updateInputs(ClimberIOInputs inputs) {}
 
-    // Runs climber motor at specified voltage
-    public default void setClimberVoltage(double volts) {}
+    /** Update the set of loggable inputs. */
+    public default void updateInputs(ClimberIOInputs inputs) {
+    };
 
-    // Sets to neutral mode
-    public default void setNeutralMode(NeutralModeValue neutralMode) {}
+    public default void setClimberPosition(ClimberPosition climberPosition) {
+    };
+
+    // Only used for sysid runCharacterization
+    public default void setVoltage(double output) {
+    };
+
+    public default void simulationPeriodic() {
+    };
+
 }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes

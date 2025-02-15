@@ -1,55 +1,28 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 package frc.robot.subsystems.climber;
 
-import static frc.robot.subsystems.climber.climberConstants.*;
-=======
-=======
->>>>>>> Stashed changes
-package frc.robot.subsystems.Climber;
-import org.littletonrobotics.junction.AutoLogOutput;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Volts;
+import static frc.robot.subsystems.climber.ClimberConstants.*;
+
 import org.littletonrobotics.junction.Logger;
 
-import com.ctre.phoenix6.signals.NeutralModeValue;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
 public class Climber extends SubsystemBase {
-
-    enum State {
-        STOPPED,
-        RAISING
-        LOWERING
-    }
-
-
-    @AutoLogOutput
-    private State currentState = State.STOPPED;
-
-    private final ClimberIO mIO;
+    // private final ClimberIO io;
     private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
+    // private final SysIdRoutine sysId;
 
-    private static Climber mInstance = null;
+    public enum ClimberPosition {
+        UP,
+        DOWN
+    };
 
-    public static Climber getInstance() {
-        if (mInstance == null) {
-            switch (ClimberConstants.currentMode) {
-                case REAL:
-                    mInstance = new Climber(new ClimberIOTalonFX());
-                    break;
-                case SIM:
-                    mInstance = new Climber(new ClimberIOTalonFXSim());
-                    break;
-                default:
-                    mInstance = new Climber(new ClimberIO() {});
-                    break;
-            }
-        }
-    }
-<<<<<<< Updated upstream
+    // public Climber(ClimberIO io) {
+    // this.io = io;
+
+    // // Configure SysId
+    // }
 }
->>>>>>> Stashed changes
-=======
-}
->>>>>>> Stashed changes
