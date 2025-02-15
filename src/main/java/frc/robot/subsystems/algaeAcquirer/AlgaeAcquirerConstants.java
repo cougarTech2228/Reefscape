@@ -4,7 +4,7 @@ public class AlgaeAcquirerConstants {
     public static final int acquireVoltage = 2; // to be changed
     public static final int shootVoltage = -4; // to be changed
 
-    // values need to be changed
+    
     public static final double stowedAngle = 0.726;
     public static final double reefAcquireAngle = 0.464;
     public static final double floorAcquireAngle = 0.5;

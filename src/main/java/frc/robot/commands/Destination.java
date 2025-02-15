@@ -20,7 +20,26 @@ public enum Destination {
     BLUE_5_LEFT(5.4, 5.1, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
     BLUE_5_RIGHT(5.2, 5.2, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
     BLUE_6_LEFT(4, 5.3, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
-    BLUE_6_RIGHT(3.8, 5.2, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8);
+    BLUE_6_RIGHT(3.8, 5.2, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
+
+    // TODO: give these their own trapezoids
+    // RED_1_LEFT(14.4, 3.67, 180),
+    // RED_1_RIGHT(14.4, 4.33, 180),
+    // RED_2_LEFT(14.0, 5.1, -120),
+    // RED_2_RIGHT(13.8, 5.2, -120),
+    // RED_3_LEFT(12.5, 5.3, -60),
+    // RED_3_RIGHT(12.4, 5.2, -60),
+    // RED_4_LEFT(11.7, 4.33, 0),
+    // RED_4_RIGHT(11.7, 4.0, 0),
+    // RED_5_LEFT(12.0, 3.0, 60),
+    // RED_5_RIGHT(12.4, 2.9, 60),
+    // RED_6_LEFT(13.5, 2.75, 120),
+    // RED_6_RIGHT(13.7, 2.85, 120)
+    ;
+
+
+    
+    
 
     // x, y, angle of the destination
     private final Pose2d pose;
