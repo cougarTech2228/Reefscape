@@ -1,8 +1,11 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 package frc.robot.subsystems.climber;
 
 import static frc.robot.subsystems.climber.climberConstants.*;
 =======
+=======
+>>>>>>> Stashed changes
 package frc.robot.subsystems.Climber;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -44,5 +47,9 @@ public class Climber extends SubsystemBase {
             }
         }
     }
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes

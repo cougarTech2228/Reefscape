@@ -3,10 +3,13 @@ package frc.robot.subsystems.climber;
 import org.littletonrobotics.junction.AutoLog;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 public interface ClimberIO {
     
 }
 =======
+=======
+>>>>>>> Stashed changes
 public interface climberIO {
     
     @AutoLog
@@ -25,4 +28,7 @@ public interface climberIO {
     // Sets to neutral mode
     public default void setNeutralMode(NeutralModeValue neutralMode) {}
 }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
