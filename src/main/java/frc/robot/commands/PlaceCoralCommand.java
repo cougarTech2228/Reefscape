@@ -8,17 +8,18 @@ import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
 
 public class PlaceCoralCommand extends Command {
- 
+
     private final ReefLocation location;
     private final ReefSegment segment;
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
 
+    private boolean commandInitialized = false;
+
     public PlaceCoralCommand(
-        ReefSegment segment, ReefLocation location, Elevator elevator,
-        AlgaeAcquirer algaeAcquirer, CoralCone coralCone)
-    {
+            ReefSegment segment, ReefLocation location, Elevator elevator,
+            AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.segment = segment;
         this.location = location;
         this.elevator = elevator;
@@ -28,16 +29,56 @@ public class PlaceCoralCommand extends Command {
 
     @Override
     public void initialize() {
-        
+        System.out.println("Starting PlaceCoralCommand segment: " + segment
+                + ", location: " + location);
+        switch (location) {
+            case L1:
+                elevator.setPosition(Elevator.Position.CORAL_L1);
+                coralCone.setPosition(CoralCone.Position.L1_SHOOT);
+                break;
+            case L2_L:
+                elevator.setPosition(Elevator.Position.CORAL_L2);
+                coralCone.setPosition(CoralCone.Position.L2_SHOOT);
+            case L2_R:
+                elevator.setPosition(Elevator.Position.CORAL_L2);
+                coralCone.setPosition(CoralCone.Position.L2_SHOOT);
+                break;
+            case L3_L:
+                elevator.setPosition(Elevator.Position.CORAL_L3);
+                coralCone.setPosition(CoralCone.Position.L3_SHOOT);
+            case L3_R:
+                elevator.setPosition(Elevator.Position.CORAL_L3);
+                coralCone.setPosition(CoralCone.Position.L3_SHOOT);
+                break;
+            case L4_L:
+                elevator.setPosition(Elevator.Position.CORAL_L4);
+                coralCone.setPosition(CoralCone.Position.L4_SHOOT);
+            case L4_R:
+                elevator.setPosition(Elevator.Position.CORAL_L4);
+                coralCone.setPosition(CoralCone.Position.L4_SHOOT);
+                break;
+        }
+        algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
+        commandInitialized = true;
     }
 
     @Override
     public void execute() {
-        
+        if (!commandInitialized) {
+            return;
+        }
+
+        if (coralCone.isAtSetPosition()) {
+            // coralCone.setWheel(CoralCone.WheelState.SHOOT);
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        boolean finished = elevator.isAtSetPosition() && coralCone.isAtSetPosition() && algaeAcquirer.isAtSetPosition();
+        if (finished) {
+            commandInitialized = false;
+        }
+        return finished;
     }
 }
