@@ -73,4 +73,15 @@ public class LoadAlgaeCommand extends Command{
         }
         return finished;
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        if (interrupted){
+            if (interrupted) {
+                coralCone.stop();
+                algaeAcquirer.stop();
+                elevator.stop();
+            }
+        }
+    }
 }

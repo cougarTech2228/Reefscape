@@ -28,6 +28,7 @@ public class ElevatorConstants {
   //Enum Stuff
 
   // Min extend == 0 Max extend == -38.41 
+  public static final double HEIGHT_TRANSIT = 0;
   public static final double HEIGHT_CORAL_LOAD = -7.86;
   public static final double HEIGHT_CORAL_L1 = -2.96;
   public static final double HEIGHT_CORAL_L2 = -7.72;

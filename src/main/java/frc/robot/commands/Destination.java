@@ -3,6 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Constants.ReefLocation;
+import frc.robot.Constants.ReefSegment;
+
 import java.util.ArrayList;
 
 /**
@@ -23,23 +27,104 @@ public enum Destination {
     BLUE_6_RIGHT(3.8, 5.2, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
 
     // TODO: give these their own trapezoids
-    // RED_1_LEFT(14.4, 3.67, 180),
-    // RED_1_RIGHT(14.4, 4.33, 180),
-    // RED_2_LEFT(14.0, 5.1, -120),
-    // RED_2_RIGHT(13.8, 5.2, -120),
-    // RED_3_LEFT(12.5, 5.3, -60),
-    // RED_3_RIGHT(12.4, 5.2, -60),
-    // RED_4_LEFT(11.7, 4.33, 0),
-    // RED_4_RIGHT(11.7, 4.0, 0),
-    // RED_5_LEFT(12.0, 3.0, 60),
-    // RED_5_RIGHT(12.4, 2.9, 60),
-    // RED_6_LEFT(13.5, 2.75, 120),
-    // RED_6_RIGHT(13.7, 2.85, 120)
+    RED_1_LEFT(14.4, 3.67, 180, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_1_RIGHT(14.4, 4.33, 180, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_2_LEFT(14.0, 5.1, -120, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_2_RIGHT(13.8, 5.2, -120, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_3_LEFT(12.5, 5.3, -60, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_3_RIGHT(12.4, 5.2, -60, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_4_LEFT(11.7, 4.33, 0, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_4_RIGHT(11.7, 4.0, 0, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_5_LEFT(12.0, 3.0, 60, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_5_RIGHT(12.4, 2.9, 60, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_6_LEFT(13.5, 2.75, 120, 0, 0, 0, 0 ,0, 0, 0, 0),
+    RED_6_RIGHT(13.7, 2.85, 120, 0, 0, 0, 0 ,0, 0, 0, 0)
     ;
 
-
-    
-    
+    public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location, DriverStation.Alliance alliance) {
+        Destination destination = null;
+        switch (segment) {
+            case Segment_1:
+                switch(location) {
+                    case L2_L:
+                    case L3_L:
+                    case L4_L:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_1_LEFT : RED_1_LEFT;
+                    case L1:
+                    case L2_R:
+                    case L3_R:
+                    case L4_R:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_1_RIGHT : RED_1_RIGHT;
+                }
+                break;
+            case Segment_2:
+                switch(location) {
+                    case L2_L:
+                    case L3_L:
+                    case L4_L:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_2_LEFT : RED_2_LEFT;
+                    case L1:
+                    case L2_R:
+                    case L3_R:
+                    case L4_R:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_2_RIGHT : RED_2_RIGHT;
+                }
+                break;
+            case Segment_3:
+                switch(location) {
+                    case L2_L:
+                    case L3_L:
+                    case L4_L:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_3_LEFT : RED_3_LEFT;
+                    case L1:
+                    case L2_R:
+                    case L3_R:
+                    case L4_R:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_3_RIGHT : RED_3_RIGHT;
+                }
+                break;
+            case Segment_4:
+                switch(location) {
+                    case L2_L:
+                    case L3_L:
+                    case L4_L:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_4_LEFT : RED_4_LEFT;
+                    case L1:
+                    case L2_R:
+                    case L3_R:
+                    case L4_R:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_4_RIGHT : RED_4_RIGHT;
+                }
+                break;
+            case Segment_5:
+                switch(location) {
+                    case L2_L:
+                    case L3_L:
+                    case L4_L:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_5_LEFT : RED_5_LEFT;
+                    case L1:
+                    case L2_R:
+                    case L3_R:
+                    case L4_R:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_5_RIGHT : RED_5_RIGHT;
+                }
+                break;
+            case Segment_6:
+                switch(location) {
+                    case L2_L:
+                    case L3_L:
+                    case L4_L:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_6_LEFT : RED_6_LEFT;
+                    case L1:
+                    case L2_R:
+                    case L3_R:
+                    case L4_R:
+                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_6_RIGHT : RED_6_RIGHT;
+                }
+                break;            
+        }
+        return destination;
+    }
 
     // x, y, angle of the destination
     private final Pose2d pose;

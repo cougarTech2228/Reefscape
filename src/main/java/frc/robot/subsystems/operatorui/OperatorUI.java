@@ -13,10 +13,12 @@ import frc.robot.commands.CoralAndAlgaeCommand;
 import frc.robot.commands.LoadAlgaeCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
+import frc.robot.commands.PrepPlaceCoralCommand;
 import frc.robot.commands.ProcessorCommand;
 import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import java.util.EnumSet;
 
@@ -26,6 +28,7 @@ public class OperatorUI extends SubsystemBase {
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
+    private final Drive drive;
 
     private Command activeCommand = null;
 
@@ -64,10 +67,11 @@ public class OperatorUI extends SubsystemBase {
         return table.getEntry(reefPostTopic).getString("");
     }
 
-    public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
+    public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive) {
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
+        this.drive = drive;
 
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         table = inst.getTable("ReefControl");
@@ -206,25 +210,25 @@ public class OperatorUI extends SubsystemBase {
                 String post = getReefPost();
                 switch(post) {
                     case "L1":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L1, elevator, algaeAcquirer, coralCone));
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L1, elevator, algaeAcquirer, coralCone, drive));
                         break;
                     case "L2_L":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone));
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone, drive));
                         break;
                     case "L2_R":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone));
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone, drive));
                         break;
                     case "L3_L":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone));
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone, drive));
                         break;
                     case "L3_R":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_R, elevator, algaeAcquirer, coralCone));
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_R, elevator, algaeAcquirer, coralCone, drive));
                         break;
                     case "L4_L":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone));
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone, drive));
                         break;
                     case "L4_R":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_R, elevator, algaeAcquirer, coralCone));
+                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_R, elevator, algaeAcquirer, coralCone, drive));
                         break;
                     default:
                         System.out.println("Error - Invalid reef post: " + post);

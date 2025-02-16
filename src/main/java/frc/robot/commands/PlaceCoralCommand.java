@@ -1,84 +1,32 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ReefLocation;
 import frc.robot.Constants.ReefSegment;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 
-public class PlaceCoralCommand extends Command {
+public class PlaceCoralCommand extends SequentialCommandGroup{
+    public PlaceCoralCommand(ReefSegment segment, ReefLocation location, Elevator elevator, AlgaeAcquirer algaeAquirer, CoralCone coralCone, Drive drive) {
+        Destination dest =Destination.fromSegmentAndPosition(segment, location, DriverStation.getAlliance().get());
+        this.addCommands(
+            // Wait until we're in the destination zone
+            new ZoneWatcherCommand(dest, drive),
 
-    private final ReefLocation location;
-    private final ReefSegment segment;
-    private final Elevator elevator;
-    private final AlgaeAcquirer algaeAcquirer;
-    private final CoralCone coralCone;
+            // Take over driving, and move all components to the right places
+            new ParallelCommandGroup(
+                new PrepPlaceCoralCommand(segment, location, elevator, algaeAquirer, coralCone),
+                new AutoAlignCommand(drive, dest)
+            ),
+            // once we're in the right place, shoot the coral
+            new FireCoralCommand(coralCone),
 
-    private boolean commandInitialized = false;
-
-    public PlaceCoralCommand(
-            ReefSegment segment, ReefLocation location, Elevator elevator,
-            AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
-        this.segment = segment;
-        this.location = location;
-        this.elevator = elevator;
-        this.algaeAcquirer = algaeAcquirer;
-        this.coralCone = coralCone;
-    }
-
-    @Override
-    public void initialize() {
-        System.out.println("Starting PlaceCoralCommand segment: " + segment
-                + ", location: " + location);
-        switch (location) {
-            case L1:
-                elevator.setPosition(Elevator.Position.CORAL_L1);
-                coralCone.setPosition(CoralCone.Position.L1_SHOOT);
-                break;
-            case L2_L:
-                elevator.setPosition(Elevator.Position.CORAL_L2);
-                coralCone.setPosition(CoralCone.Position.L2_SHOOT);
-            case L2_R:
-                elevator.setPosition(Elevator.Position.CORAL_L2);
-                coralCone.setPosition(CoralCone.Position.L2_SHOOT);
-                break;
-            case L3_L:
-                elevator.setPosition(Elevator.Position.CORAL_L3);
-                coralCone.setPosition(CoralCone.Position.L3_SHOOT);
-            case L3_R:
-                elevator.setPosition(Elevator.Position.CORAL_L3);
-                coralCone.setPosition(CoralCone.Position.L3_SHOOT);
-                break;
-            case L4_L:
-                elevator.setPosition(Elevator.Position.CORAL_L4);
-                coralCone.setPosition(CoralCone.Position.L4_SHOOT);
-            case L4_R:
-                elevator.setPosition(Elevator.Position.CORAL_L4);
-                coralCone.setPosition(CoralCone.Position.L4_SHOOT);
-                break;
-        }
-        algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
-        commandInitialized = true;
-    }
-
-    @Override
-    public void execute() {
-        if (!commandInitialized) {
-            return;
-        }
-
-        if (coralCone.isAtSetPosition()) {
-            // coralCone.setWheel(CoralCone.WheelState.SHOOT);
-        }
-    }
-
-    @Override
-    public boolean isFinished() {
-        boolean finished = elevator.isAtSetPosition() && coralCone.isAtSetPosition() && algaeAcquirer.isAtSetPosition();
-        if (finished) {
-            commandInitialized = false;
-        }
-        return finished;
+            // Once we've shot, go back to a safe state to transit
+            new PrepEmptyTransitCommand( elevator, coralCone, algaeAquirer)
+        );
     }
 }

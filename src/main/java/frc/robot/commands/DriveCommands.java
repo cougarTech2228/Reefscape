@@ -56,26 +56,28 @@ public class DriveCommands {
   private DriveCommands() {
   }
 
-  public static Command shortAutoPath(Drive drive, Destination dest) {
-    Pose2d currentPose = drive.getPose();
+  // public static Command shortAutoPath(Drive drive, Destination dest) {
+    
+  //   Pose2d currentPose = drive.getPose();
 
-    if (!dest.inZone(currentPose))
-      return Commands.none();
+  //   if (!dest.inZone(currentPose))
+  //     return Commands.none();
 
-    // turn in place first, then go to destination
-    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-        new Pose2d(currentPose.getX(), currentPose.getY(), dest.getAngle()),
-        dest.getPose());
+  //   // turn in place first, then go to destination
+  //   List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
+  //       new Pose2d(currentPose.getX(), currentPose.getY(), dest.getAngle()),
+  //       dest.getPose());
 
-    // constraints are max-v, max-a, max-angv, max-anga
-    PathConstraints constraints = new PathConstraints(2.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-    PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null,
-        new GoalEndState(0.0, dest.getAngle()));
+  //   // constraints are max-v, max-a, max-angv, max-anga
+  //   PathConstraints constraints = new PathConstraints(2.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+  //   PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null,
+  //       new GoalEndState(0.0, dest.getAngle()));
 
-    path.preventFlipping = true;
-    return AutoBuilder.followPath(path);
-
-  }
+  //   path.preventFlipping = true;
+  //   Command command = AutoBuilder.followPath(path);
+  //   command.addRequirements(drive);
+  //   return command;
+  // }
 
   private static Translation2d getLinearVelocityFromJoysticks(double x, double y) {
     // Apply deadband

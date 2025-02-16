@@ -149,6 +149,8 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     public void setPosition(Position position) {
         double motorPosition = 0;
         switch (position) {
+            case TRANSIT:
+                motorPosition = HEIGHT_TRANSIT;
             case ALGAE_BARGE:
                 motorPosition = HEIGHT_ALGAE_BARGE;
                 break;

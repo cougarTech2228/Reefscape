@@ -51,5 +51,10 @@ public class LoadCoralCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         coralCone.setWheel(WheelState.TRANSIT);
+        if (interrupted) {
+            coralCone.stop();
+            algaeAcquirer.stop();
+            elevator.stop();
+        }
     }
 }

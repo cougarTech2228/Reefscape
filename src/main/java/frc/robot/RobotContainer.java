@@ -122,10 +122,8 @@ public class RobotContainer {
                         new ModuleIOSim(TunerConstants.BackRight));
                 vision = new Vision(
                         drive::addVisionMeasurement,
-                        new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose),
-                        new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose),
-                        new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose),
-                        new VisionIOPhotonVisionSim(camera4Name, robotToCamera4, drive::getPose));
+                        new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose)
+                        );
                 elevator = new Elevator(new ElevatorIOTalonFXSim());
                 algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeoSim());
                 coralCone = new CoralCone(new CoralConeIONeoSim());
@@ -157,7 +155,7 @@ public class RobotContainer {
                 break;
         }
 
-        operatorUI = new OperatorUI(elevator, algaeAcquirer, coralCone);
+        operatorUI = new OperatorUI(elevator, algaeAcquirer, coralCone, drive);
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices"/* , AutoBuilder.buildAutoChooser() */);
@@ -251,8 +249,8 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return DriveCommands.shortAutoPath(drive, Destination.BLUE_6_RIGHT);
-        // return autoChooser.get();
+        // return DriveCommands.shortAutoPath(drive, Destination.BLUE_6_RIGHT);
+        return autoChooser.get();
     }
 
 }

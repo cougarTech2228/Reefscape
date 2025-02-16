@@ -16,6 +16,7 @@ public class Elevator extends SubsystemBase {
     private final SysIdRoutine sysId;
 
     public enum Position {
+        TRANSIT,
         ALGAE_FLOOR,
         ALGAE_FLOOR_ON_CORAL,
         ALGAE_PROCESSOR,
