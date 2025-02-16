@@ -37,8 +37,8 @@ public class ClimberIOTalonFX implements ClimberIO {
     protected final Servo servoLockMotor = new Servo(0);
     protected final DutyCycleEncoder mClimberMotorEncoder = new DutyCycleEncoder(
             ClimberConstants.kClimberAngleEncoderDIO);
-    
-    private final StatusSignal<Angle> climberMotorVoltage = elevatorA.getPosition();
+
+    private final StatusSignal<Angle> climberMotorVoltage = climberMotor.getPosition();
     private final StatusSignal<AngularVelocity> velocityRotPerSecA = elevatorA.getVelocity();
     private final StatusSignal<Voltage> appliedVoltsA = elevatorA.getMotorVoltage();
     private final StatusSignal<Current> currentAmpsA = elevatorA.getSupplyCurrent();
@@ -49,29 +49,31 @@ public class ClimberIOTalonFX implements ClimberIO {
     private final StatusSignal<Voltage> appliedVoltsB = elevatorB.getMotorVoltage();
     private final StatusSignal<Current> currentAmpsB = elevatorB.getSupplyCurrent();
 
-    public ClimberIOTalonFX() {
+    ClimberIOTalonFX() {
         // var talonFXConfigs = new TalonFXConfiguration();
         // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    }
 
-    @Override
-    public void updateInputs(ClimberIOInputs inputs) {
-        BaseStatusSignal.refreshAll(
-                climberMotorVoltage, climberMotorPosition, climberMotorVelocity, climberMotorCurrent,
-                climberMotorEncoderVelocity, climberMotorEncoderPosition);
+        // @Override
+        // public void updateInputs(ClimberIOInputs inputs) {
+        // BaseStatusSignal.refreshAll(
+        // climberMotorVoltage, climberMotorPosition, climberMotorVelocity,
+        // climberMotorCurrent,
+        // climberMotorEncoderVelocity, climberMotorEncoderPosition);
 
-        inputs.position_A = positionRotA.getValueAsDouble();
-        inputs.velocity_A = velocityRotPerSecA.getValueAsDouble();
-        inputs.appliedVolts_A = appliedVoltsA.getValueAsDouble();
-        inputs.currentAmps_A = currentAmpsA.getValueAsDouble();
+        // inputs.position_A = positionRotA.getValueAsDouble();
+        // inputs.velocity_A = velocityRotPerSecA.getValueAsDouble();
+        // inputs.appliedVolts_A = appliedVoltsA.getValueAsDouble();
+        // inputs.currentAmps_A = currentAmpsA.getValueAsDouble();
 
-        inputs.position_B = positionRotB.getValueAsDouble()
-        inputs.velocity_B = velocityRotPerSecB.getValueAsDouble();
-        inputs.appliedVolts_B = appliedVoltsB.getValueAsDouble();
-        inputs.currentAmps_B = currentAmpsB.getValueAsDouble();
+        // inputs.position_B = positionRotB.getValueAsDouble()
+        // inputs.velocity_B = velocityRotPerSecB.getValueAsDouble();
+        // inputs.appliedVolts_B = appliedVoltsB.getValueAsDouble();
+        // inputs.currentAmps_B = currentAmpsB.getValueAsDouble();
 
-        inputs.bottomLimit = forwardLimitA.getValue() == ForwardLimitValue.ClosedToGround;
-        inputs.isAtSetPosition = elevatorA.getClosedLoopError().getValue() < ClosedLoopErrorThreshold;
+        // inputs.bottomLimit = forwardLimitA.getValue() ==
+        // ForwardLimitValue.ClosedToGround;
+        // inputs.isAtSetPosition = elevatorA.getClosedLoopError().getValue() <
+        // ClosedLoopErrorThreshold;
     }
 
     public void setClimberPosition(ClimberPosition climberPosition) {
@@ -84,6 +86,11 @@ public class ClimberIOTalonFX implements ClimberIO {
                 climberMotorVoltage = ClimberConstants.downPosition;
                 break;
         }
-        climberMotor.setVoltage(climberMotorVoltage);
+
+    }
+
+    public void setVoltage(double output) {
+        climberMotor.setVoltage(output);
+        System.out.println("Voltage " + output);
     }
 }

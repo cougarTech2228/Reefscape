@@ -52,7 +52,7 @@ public class Climber extends PIDSubsystem {
         pidController.setTolerance(ClimberConstants.climberAngleThreshold);
         pidController.setIZone(ClimberConstants.kIZone);
 
-        mIO.setBrakeMode();
+        io.setBrakeMode();
     }
 
     @Override
@@ -60,22 +60,44 @@ public class Climber extends PIDSubsystem {
         return inputs.currentAngle;
     }
 
+    public void setPosition(ClimberPosition climberPosition) {
+        io.setClimberPosition(climberPosition);
+    }
+
+    public void manualUp() {
+        io.setVoltage(RAISE_VOLTAGE);
+    }
+
+    public void manualDown() {
+        io.setVoltage(LOWER_VOLTAGE);
+    }
+
+    public void stop() {
+        io.setVoltage(0);
+    }
+
     @Override
     protected void useOutput(double output, double setpoint) {
-        // clamp the output to a sane range
-        Logger.recordOutput("ShooterAngleSubsystem/PID/output", output);
-        double val;
-        if (output < 0) {
-            val = Math.max(-kMotorVoltageLimit, output);
-        } else {
-            val = Math.min(kMotorVoltageLimit, output);
-        }
-        if (inputs.isShooterAtTop && val < 0) {
-            mIO.setOutputPercentage(0);
-        } else {
-            mIO.setOutputPercentage(val);
-        }
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
     }
+
+    // @Override
+    // protected void useOutput(double output, double setpoint) {
+    // // clamp the output to a sane range
+    // Logger.recordOutput("ShooterAngleSubsystem/PID/output", output);
+    // double val;
+    // if (output < 0) {
+    // val = Math.max(-kMotorVoltageLimit, output);
+    // } else {
+    // val = Math.min(kMotorVoltageLimit, output);
+    // }
+    // if (inputs.isShooterAtTop && val < 0) {
+    // mIO.setOutputPercentage(0);
+    // } else {
+    // mIO.setOutputPercentage(val);
+    // }
+    // }
 
     // @AutoLogOutput
     // public ClimberPosition mCurrentPosition = ClimberPosition.DOWN;
