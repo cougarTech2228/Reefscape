@@ -36,12 +36,6 @@ import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.Waypoint;
-
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
   private static final double ANGLE_KP = 5.0;
@@ -55,29 +49,6 @@ public class DriveCommands {
 
   private DriveCommands() {
   }
-
-  // public static Command shortAutoPath(Drive drive, Destination dest) {
-    
-  //   Pose2d currentPose = drive.getPose();
-
-  //   if (!dest.inZone(currentPose))
-  //     return Commands.none();
-
-  //   // turn in place first, then go to destination
-  //   List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-  //       new Pose2d(currentPose.getX(), currentPose.getY(), dest.getAngle()),
-  //       dest.getPose());
-
-  //   // constraints are max-v, max-a, max-angv, max-anga
-  //   PathConstraints constraints = new PathConstraints(2.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-  //   PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null,
-  //       new GoalEndState(0.0, dest.getAngle()));
-
-  //   path.preventFlipping = true;
-  //   Command command = AutoBuilder.followPath(path);
-  //   command.addRequirements(drive);
-  //   return command;
-  // }
 
   private static Translation2d getLinearVelocityFromJoysticks(double x, double y) {
     // Apply deadband
