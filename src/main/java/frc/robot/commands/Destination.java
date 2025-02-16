@@ -37,10 +37,6 @@ public enum Destination {
     // RED_6_RIGHT(13.7, 2.85, 120)
     ;
 
-
-    
-    
-
     // x, y, angle of the destination
     private final Pose2d pose;
     // vertices of the trapezoid in which the destination is possible
