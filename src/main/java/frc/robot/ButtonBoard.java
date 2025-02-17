@@ -4,25 +4,31 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberConstants;
+import frc.robot.subsystems.climber.Climber.ServoLockPosition;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
 
-public class ButtonBoard  {
+public class ButtonBoard {
 
     private final Joystick m_joystick1;
     private final Joystick m_joystick2;
     private final Elevator elevator;
     private final CoralCone coralCone;
     private final AlgaeAcquirer algaeAcquirer;
-    
-    public ButtonBoard(Joystick channel1, Joystick channel2, Elevator elevator, CoralCone coralCone, AlgaeAcquirer algaeAcquirer) {
+    private final Climber climber;
+
+    public ButtonBoard(Joystick channel1, Joystick channel2, Elevator elevator, CoralCone coralCone,
+            AlgaeAcquirer algaeAcquirer, Climber climber) {
         m_joystick1 = channel1;
         m_joystick2 = channel2;
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
+        this.climber = climber;
     }
-    
+
     // Joystick #1 Buttons
     private JoystickButton lowerElevatorButton() {
         return new JoystickButton(m_joystick1, 11);
@@ -54,15 +60,15 @@ public class ButtonBoard  {
 
     private JoystickButton manualAlgaeUpButton() {
         return new JoystickButton(m_joystick1, 6);
-    }    
+    }
 
     private JoystickButton test5Button() {
         return new JoystickButton(m_joystick1, 5);
-    }    
+    }
 
     private JoystickButton manualAlgaeDownButton() {
         return new JoystickButton(m_joystick1, 4);
-    }    
+    }
 
     // Joystick #2 Buttons
 
@@ -80,7 +86,7 @@ public class ButtonBoard  {
 
     private JoystickButton prepCoralLevel2Button() {
         return new JoystickButton(m_joystick2, 7);
-    }   
+    }
 
     private JoystickButton prepCoralLevel3Button() {
         return new JoystickButton(m_joystick2, 6);
@@ -88,31 +94,31 @@ public class ButtonBoard  {
 
     private JoystickButton prepCoralLevel4Button() {
         return new JoystickButton(m_joystick2, 4);
-    }    
+    }
 
     private JoystickButton manualUpCoralButton() {
         return new JoystickButton(m_joystick2, 2);
-    }    
+    }
 
     private JoystickButton manualDownCoralButton() {
         return new JoystickButton(m_joystick2, 3);
-    }    
+    }
 
-    private JoystickButton test9Button() {
-        return new JoystickButton(m_joystick2, 4);
-    }   
-    
-    private JoystickButton test10Button() {
-        return new JoystickButton(m_joystick2, 4);
-    }        
+    private JoystickButton manualClimberUpButton() {
+        return new JoystickButton(m_joystick2, 10);
+    }
 
-    private JoystickButton test11Button() {
-        return new JoystickButton(m_joystick2, 4);
-    }    
+    private JoystickButton manualDownClimberButton() {
+        return new JoystickButton(m_joystick2, 11);
+    }
 
-    private JoystickButton test12Button() {
-        return new JoystickButton(m_joystick2, 4);
-    }    
+    private JoystickButton manualServoLockButton() {
+        return new JoystickButton(m_joystick2, 9);
+    }
+
+    private JoystickButton manualServoUnlockButton() {
+        return new JoystickButton(m_joystick2, 12);
+    }
 
     public double getJoystickX() {
         return m_joystick2.getX();
@@ -125,30 +131,30 @@ public class ButtonBoard  {
     public void configureButtonBindings() {
 
         raiseElevatorButton()
-            .onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("lowerElevatorButton Pressed");
-                    elevator.manualUp();
+                .onTrue(
+                        new InstantCommand(() -> {
+                            System.out.println("lowerElevatorButton Pressed");
+                            elevator.manualUp();
+                            // do something
+                        }))
+                .onFalse(new InstantCommand(() -> {
+                    System.out.println("lowerElevatorButton Unpressed");
+                    elevator.stop();
                     // do something
-                }))
-            .onFalse(new InstantCommand(() -> {
-                System.out.println("lowerElevatorButton Unpressed");
-                elevator.stop();
-                // do something
-            }));
-        
+                }));
+
         lowerElevatorButton()
-            .onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("lowerElevatorButton Pressed");
-                    elevator.manualDown();
+                .onTrue(
+                        new InstantCommand(() -> {
+                            System.out.println("lowerElevatorButton Pressed");
+                            elevator.manualDown();
+                            // do something
+                        }))
+                .onFalse(new InstantCommand(() -> {
+                    System.out.println("lowerElevatorButton Unpressed");
+                    elevator.stop();
                     // do something
-                }))
-            .onFalse(new InstantCommand(() -> {
-                System.out.println("lowerElevatorButton Unpressed");
-                elevator.stop();
-                // do something
-            }));
+                }));
 
         climbButton().onTrue(
                 new InstantCommand(() -> {
@@ -160,11 +166,11 @@ public class ButtonBoard  {
                 new InstantCommand(() -> {
                     System.out.println("descendButton Pressed");
                     // do something
-            }));
-        
+                }));
+
         prepCoralLevel1Button().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("prepCoralLevel1Button Pressed"); 
+                    System.out.println("prepCoralLevel1Button Pressed");
                     // do something
                 }));
 
@@ -173,61 +179,61 @@ public class ButtonBoard  {
                     System.out.println("prepCoralLevel2Button Pressed");
                     // do something
                 }));
-        
+
         prepCoralLevel3Button().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("prepCoralLevel3Button Pressed");
-                // do something
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("prepCoralLevel3Button Pressed");
+                    // do something
+                }));
 
         prepCoralLevel4Button().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("prepCoralLevel4Button Pressed");
-                // do something
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("prepCoralLevel4Button Pressed");
+                    // do something
+                }));
 
         acquireAlgaeButton().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("acquireAlgaeButton Pressed");
-                // do something
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("acquireAlgaeButton Pressed");
+                    // do something
+                }));
 
         shootAlgaeButton().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("shootAlgaeButton Pressed");
-                // do something
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("shootAlgaeButton Pressed");
+                    // do something
+                }));
 
         acquireCoralButton().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("acquireCoralButton Pressed");
-                // do something
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("acquireCoralButton Pressed");
+                    // do something
+                }));
 
         shootCoralButton().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("shootCoralButton Pressed");
-                // do something
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("shootCoralButton Pressed");
+                    // do something
+                }));
 
         prepAlgaeNetButton().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("prepAlgaeNetButton Pressed");
-                // do something
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("prepAlgaeNetButton Pressed");
+                    // do something
+                }));
 
         manualUpCoralButton().onTrue(
-            new InstantCommand(() -> {
-                System.out.println("manualUpCoralButton Pressed");
-                coralCone.manualUp();
-            }));
+                new InstantCommand(() -> {
+                    System.out.println("manualUpCoralButton Pressed");
+                    coralCone.manualUp();
+                }));
 
         manualUpCoralButton().onFalse(
-            new InstantCommand(() -> {
-                System.out.println("manualUpCoralButton Unpressed");
-                coralCone.stop();
-            }));
-        
+                new InstantCommand(() -> {
+                    System.out.println("manualUpCoralButton Unpressed");
+                    coralCone.stop();
+                }));
+
         manualDownCoralButton().onTrue(
                 new InstantCommand(() -> {
                     System.out.println("manualDownCoralButton Pressed");
@@ -245,20 +251,20 @@ public class ButtonBoard  {
                     System.out.println("manualAlgaeDownButton Pressed");
                     algaeAcquirer.manualDown();
                 }));
-        
+
         manualAlgaeDownButton().onFalse(
                 new InstantCommand(() -> {
                     System.out.println("manualAlgaeDownButton Unpressed");
                     algaeAcquirer.stop();
-                    
+
                 }));
 
         manualAlgaeUpButton()
-            .onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("manualAlgaeUpButton Pressed");
-                    algaeAcquirer.manualUp();
-                }));
+                .onTrue(
+                        new InstantCommand(() -> {
+                            System.out.println("manualAlgaeUpButton Pressed");
+                            algaeAcquirer.manualUp();
+                        }));
 
         test5Button().onTrue(
                 new InstantCommand(() -> {
@@ -266,37 +272,57 @@ public class ButtonBoard  {
                     // do something
                 }));
 
-        
         manualAlgaeUpButton()
-            .onFalse(
-                new InstantCommand(() -> {
-                    System.out.println("manualAlgaeUpButton Unpressed");
-                    algaeAcquirer.stop();
-                }));
+                .onFalse(
+                        new InstantCommand(() -> {
+                            System.out.println("manualAlgaeUpButton Unpressed");
+                            algaeAcquirer.stop();
+                        }));
 
-        test9Button().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("test9Button Pressed");
-                    // do something
-                }));
+        manualClimberUpButton()
+                .onTrue(
+                        new InstantCommand(() -> {
+                            System.out.println("manualClimberUpButton Pressed");
+                            climber.manualClimberUp();
+                        }))
+                .onFalse(
+                        new InstantCommand(() -> {
+                            System.out.println("manualClimberUpButton Pressed");
+                            climber.stop();
+                        }));
 
-        test10Button().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("test10Button Pressed");
-                    // do something
-                }));
+        manualDownClimberButton()
+                .onTrue(
+                        new InstantCommand(() -> {
+                            System.out.println("manualClimberDownButton Pressed");
+                            climber.manualClimberDown();
+                        }))
+                .onFalse(
+                        new InstantCommand(() -> {
+                            System.out.println("manualClimberDownButton Unpressed");
+                            climber.stop();
+                        }));
 
-        test11Button().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("test11Button Pressed");
-                    // do something
-                }));
-
-        test12Button().onTrue(
-                new InstantCommand(() -> {
-                    System.out.println("test12Button Pressed");
-                    // do something
-                }));
-    }    
+        manualServoLockButton()
+                .onTrue(
+                        new InstantCommand(() -> {
+                            System.out.println("manualServoLockButton Pressed");
+                            climber.setServoPosition(ServoLockPosition.LOCKED);
+                        }))
+                .onFalse(
+                        new InstantCommand(() -> {
+                            System.out.println("manualServoLockButton released");
+                        }));
+        manualServoUnlockButton()
+                .onTrue(
+                        new InstantCommand(() -> {
+                            System.out.println("manualServoUnlockButton Pressed");
+                            climber.setServoPosition(ServoLockPosition.UNLOCKED);
+                        }))
+                .onFalse(
+                        new InstantCommand(() -> {
+                            System.out.println("manualServoUnlockButton released");
+                        }));
+    }
 
 }
