@@ -87,26 +87,21 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         // set slot 0 gains
         var slot0Configs = talonFXConfigs.Slot0;
-        slot0Configs.kS = 2; // Add 0.25 V output to overcome static friction
-        slot0Configs.kV = 0; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        slot0Configs.kP = 20; // A position error of 2.5 rotations results in 12 V output
-        slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
+        slot0Configs.kS = 2.5;
+        slot0Configs.kV = 0;
+        slot0Configs.kA = 0;
+        slot0Configs.kP = 6;
+        slot0Configs.kI = 0;
+        slot0Configs.kD = 0.1;
+        slot0Configs.kG = -0.1;
         slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
 
         // set Motion Magic Expo settings
         talonFXConfigs.MotionMagic
-            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(20)) // 5 (mechanism) rotations per second cruise
-            .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(0.5)) // Take approximately 0.5 seconds to reach max vel
-            // Take approximately 0.1 seconds to reach max accel 
-            .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(3500));
+            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(40)) // 5 (mechanism) rotations per second cruise
 
-        talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocity; // kV is around 0.12 V/rps
-        talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.acceleration; // Use a slower kA of 0.1
-                                                                                        // V/(rps/s)
-        // talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocityFast; // kV is around 0.12 V/rps
-        // talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationFast; // Use a slower kA of 0.1
+            .withMotionMagicExpo_kA(0.18) // lower is faster
+            .withMotionMagicExpo_kV(0.001); // lower is faster
 
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = currentLimit;
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -151,6 +146,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         switch (position) {
             case TRANSIT:
                 motorPosition = HEIGHT_TRANSIT;
+                break;
             case ALGAE_BARGE:
                 motorPosition = HEIGHT_ALGAE_BARGE;
                 break;

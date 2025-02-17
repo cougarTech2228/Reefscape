@@ -241,6 +241,15 @@ public class RobotContainer {
                                         new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                                 drive)
                                 .ignoringDisable(true));
+
+        driverController.rightBumper()
+        .onTrue(new InstantCommand(() -> {
+                elevator.setPosition(Elevator.Position.CORAL_L3);
+        }))
+        .onFalse(new InstantCommand(() -> {
+                // elevator.setPosition(Elevator.Position.TRANSIT);
+                elevator.stop();
+        }));
     }
 
     /**
