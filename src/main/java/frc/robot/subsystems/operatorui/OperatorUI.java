@@ -42,6 +42,7 @@ public class OperatorUI extends SubsystemBase {
     private static final String destinationTopic = "dest";
     private static final String reefSegmentTopic = "reefSegment";
     private static final String reefPostTopic = "reefPost";
+    private static final String autoAlignTopic = "autoAlign";
 
     private static final String MODE_ALGAE = "algae";
     private static final String MODE_CORAL = "coral";
@@ -65,6 +66,9 @@ public class OperatorUI extends SubsystemBase {
     }
     private String getReefPost() {
         return table.getEntry(reefPostTopic).getString("");
+    }
+    private boolean getAutoAlign() {
+        return table.getEntry(autoAlignTopic).getBoolean(false);
     }
 
     public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive) {
@@ -208,27 +212,56 @@ public class OperatorUI extends SubsystemBase {
                 // place a coral on the reef
                 System.out.println("handleReef - Coral");
                 String post = getReefPost();
+                boolean autoAlign = getAutoAlign();
                 switch(post) {
                     case "L1":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L1, elevator, algaeAcquirer, coralCone, drive));
+                        if (autoAlign) {
+                            startCommand(new PlaceCoralCommand(segment, ReefLocation.L1, elevator, algaeAcquirer, coralCone, drive));
+                        } else {
+                            startCommand(new PrepPlaceCoralCommand(segment, ReefLocation.L1, elevator, algaeAcquirer, coralCone));
+                        }
                         break;
                     case "L2_L":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone, drive));
+                        if (autoAlign) {
+                            startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone, drive));
+                        } else {
+                            startCommand(new PrepPlaceCoralCommand(segment, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone));
+                        }
                         break;
                     case "L2_R":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone, drive));
+                        if (autoAlign) {
+                            startCommand(new PlaceCoralCommand(segment, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone, drive));
+                        } else {
+                            startCommand(new PrepPlaceCoralCommand(segment, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone));
+                        }
                         break;
                     case "L3_L":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone, drive));
+                        if (autoAlign) {
+                            startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone, drive));
+                        } else {
+                            startCommand(new PrepPlaceCoralCommand(segment, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone));
+                        }
                         break;
                     case "L3_R":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_R, elevator, algaeAcquirer, coralCone, drive));
+                        if (autoAlign) {
+                            startCommand(new PlaceCoralCommand(segment, ReefLocation.L3_R, elevator, algaeAcquirer, coralCone, drive));
+                        } else {
+                            startCommand(new PrepPlaceCoralCommand(segment, ReefLocation.L3_R, elevator, algaeAcquirer, coralCone));
+                        }
                         break;
                     case "L4_L":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone, drive));
+                        if (autoAlign) {
+                            startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone, drive));
+                        } else {
+                            startCommand(new PrepPlaceCoralCommand(segment, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone));
+                        }
                         break;
                     case "L4_R":
-                        startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_R, elevator, algaeAcquirer, coralCone, drive));
+                        if (autoAlign) {
+                            startCommand(new PlaceCoralCommand(segment, ReefLocation.L4_R, elevator, algaeAcquirer, coralCone, drive));
+                        } else {
+                            startCommand(new PrepPlaceCoralCommand(segment, ReefLocation.L4_R, elevator, algaeAcquirer, coralCone));
+                        }
                         break;
                     default:
                         System.out.println("Error - Invalid reef post: " + post);
