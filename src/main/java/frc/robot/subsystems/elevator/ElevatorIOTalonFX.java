@@ -20,8 +20,6 @@ import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
-import com.ctre.phoenix6.controls.TorqueCurrentFOC;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -33,8 +31,6 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.robot.subsystems.elevator.Elevator.Position;
 
 import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Second;
 
 /**
  * This Elevator implementation is for a Talon FX driving a motor like the Falon
@@ -56,7 +52,6 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     private final StatusSignal<Current> currentAmpsB = elevatorB.getSupplyCurrent();
 
     private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
-    private final TorqueCurrentFOC torqueCurrentRequest = new TorqueCurrentFOC(0);
 
 
     public ElevatorIOTalonFX() {

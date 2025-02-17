@@ -15,7 +15,6 @@ package frc.robot;
 
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -27,17 +26,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.Destination;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIONeo;
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIONeoSim;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.coralCone.CoralConeIO;
 import frc.robot.subsystems.coralCone.CoralConeIONeo;
-import frc.robot.subsystems.coralCone.CoralConeIONeoSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -47,7 +43,6 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIO;
 import frc.robot.subsystems.elevator.ElevatorIOTalonFX;
-import frc.robot.subsystems.elevator.ElevatorIOTalonFXSim;
 import frc.robot.subsystems.operatorui.OperatorUI;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
@@ -124,9 +119,9 @@ public class RobotContainer {
                         drive::addVisionMeasurement,
                         new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose)
                         );
-                elevator = new Elevator(new ElevatorIOTalonFXSim());
-                algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeoSim());
-                coralCone = new CoralCone(new CoralConeIONeoSim());
+                elevator = new Elevator(new ElevatorIOTalonFX());
+                algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeo());
+                coralCone = new CoralCone(new CoralConeIONeo());
                 break;
 
             default:
