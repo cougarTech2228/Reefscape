@@ -62,6 +62,7 @@ public final class Constants {
     public static final int coralFlywheelCanID = 6;
     public static final int coralRotateCanID = 7;
 
+    public static final int kClimberAngleEncoderDIO = 0;
     public static final int climberFalconCanID = 9;
     public static final int kClimberAngleEncoderId = 0;
 

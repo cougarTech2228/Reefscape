@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+// import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -42,7 +42,7 @@ public class Climber extends PIDSubsystem {
         UNLOCKED
     };
 
-    private Climber(ClimberIO io) {
+    public Climber(ClimberIO io) {
         super(pidController, 0);
 
         this.io = io;
@@ -57,19 +57,27 @@ public class Climber extends PIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        return inputs.currentAngle;
+        return inputs.climberMotorPosition;
     }
 
-    public void setPosition(ClimberPosition climberPosition) {
+    public void setClimberPosition(ClimberPosition climberPosition) {
         io.setClimberPosition(climberPosition);
     }
 
-    public void manualUp() {
-        io.setVoltage(RAISE_VOLTAGE);
+    public void setServoPosition(ServoLockPosition servoLockPosition) {
+        io.setServoPosition(servoLockPosition);
     }
 
-    public void manualDown() {
-        io.setVoltage(LOWER_VOLTAGE);
+    public void setVoltage(double output) {
+        io.setVoltage(output);
+    }
+
+    public void manualClimberUp() {
+        io.setVoltage(ClimberConstants.RAISE_VOLTAGE);
+    }
+
+    public void manualClimberDown() {
+        io.setVoltage(ClimberConstants.LOWER_VOLTAGE);
     }
 
     public void stop() {

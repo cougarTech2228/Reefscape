@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberConstants;
+import frc.robot.subsystems.climber.Climber.ServoLockPosition;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
 
@@ -15,14 +17,16 @@ public class ButtonBoard {
     private final Elevator elevator;
     private final CoralCone coralCone;
     private final AlgaeAcquirer algaeAcquirer;
+    private final Climber climber;
 
     public ButtonBoard(Joystick channel1, Joystick channel2, Elevator elevator, CoralCone coralCone,
-            AlgaeAcquirer algaeAcquirer) {
+            AlgaeAcquirer algaeAcquirer, Climber climber) {
         m_joystick1 = channel1;
         m_joystick2 = channel2;
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
+        this.climber = climber;
     }
 
     // Joystick #1 Buttons
@@ -100,19 +104,19 @@ public class ButtonBoard {
         return new JoystickButton(m_joystick2, 3);
     }
 
-    private JoystickButton manualUpClimberButton() {
+    private JoystickButton manualClimberUpButton() {
         return new JoystickButton(m_joystick2, 10);
     }
 
-    private JoystickButton manualDownClimberButton() {
+    private JoystickButton manualClimberDownButton() {
         return new JoystickButton(m_joystick2, 11);
     }
 
-    private JoystickButton test11Button() {
+    private JoystickButton manualServoLockButton() {
         return new JoystickButton(m_joystick2, 4);
     }
 
-    private JoystickButton test12Button() {
+    private JoystickButton manualServoUnlockButton() {
         return new JoystickButton(m_joystick2, 4);
     }
 
@@ -276,41 +280,48 @@ public class ButtonBoard {
                     // do something
                 }));
 
-        manualUpClimberButton()
-                .onTrue(
-                        new InstantCommand(() -> {
-                            System.out.println("manualUpClimberButton Pressed");
-                            climber.manualUp();
-                        }))
+        manualClimberUpButton().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("manualClimberUpButton Pressed");
+                    climber.manualClimberUp();
+                }))
                 .onFalse(
                         new InstantCommand(() -> {
-                            System.out.println("manualUpClimberButton Pressed");
+                            System.out.println("manualClimberUpButton Pressed");
                             climber.stop();
                         }));
 
-        manualDownClimberButton()
-                .onTrue(
-                        new InstantCommand(() -> {
-                            System.out.println("manualClimberDownButton Pressed");
-                            climber.manualUp();
-                        }))
+        manualClimberDownButton().onTrue(
+                new InstantCommand(() -> {
+                    System.out.println("manualClimberDownButton Pressed");
+                    climber.manualClimberDown();
+                }))
                 .onFalse(
                         new InstantCommand(() -> {
                             System.out.println("manualClimberDownButton Unpressed");
                             climber.stop();
                         }));
 
-        test11Button().onTrue(
+        manualServoLockButton().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("test11Button Pressed");
-                    // do something
-                }));
+                    System.out.println("manualServoLockButton Pressed");
+                    climber.setServoPosition(ServoLockPosition.LOCKED);
+                }))
+                .onFalse(
+                        new InstantCommand(() -> {
+                            System.out.println("manualServoLockButton released");
+                        }));
 
-        test12Button().onTrue(
+        manualServoUnlockButton().onTrue(
                 new InstantCommand(() -> {
-                    System.out.println("test12Button Pressed");
-                    // do something
-                }));
+                    System.out.println("manualServoUnlockButton Pressed");
+                    climber.setServoPosition(ServoLockPosition.UNLOCKED);
+                }))
+                .onFalse(
+                        new InstantCommand(() -> {
+                            System.out.println("manualServoUnlockButton released");
+                        }));
+
     }
 
 }

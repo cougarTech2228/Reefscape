@@ -97,19 +97,10 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         // set Motion Magic Expo settings
         talonFXConfigs.MotionMagic
-                .withMotionMagicCruiseVelocity(RotationsPerSecond.of(5)) // 5 (mechanism) rotations per second cruise
-                .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(10)) // Take approximately 0.5 seconds to
-                                                                                 // reach max vel
-                // Take approximately 0.1 seconds to reach max accel
-                .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(100));
+                .withMotionMagicCruiseVelocity(RotationsPerSecond.of(40)) // 5 (mechanism) rotations per second cruise
 
-        talonFXConfigs.MotionMagic.MotionMagicExpo_kV = ElevatorConstants.velocitySlow; // kV is around 0.12 V/rps
-        talonFXConfigs.MotionMagic.MotionMagicExpo_kA = ElevatorConstants.accelerationSlow; // Use a slower kA of 0.1
-        // V/(rps/s)
-        // talonFXConfigs.MotionMagic.MotionMagicExpo_kV =
-        // ElevatorConstants.velocityFast; // kV is around 0.12 V/rps
-        // talonFXConfigs.MotionMagic.MotionMagicExpo_kA =
-        // ElevatorConstants.accelerationFast; // Use a slower kA of 0.1
+                .withMotionMagicExpo_kA(0.25) // lower is faster
+                .withMotionMagicExpo_kV(0.001); // lower is faster
 
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = currentLimit;
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
