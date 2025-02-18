@@ -52,8 +52,8 @@ public class BargeCommand extends Command {
     public void end(boolean interrupted) {
         if (interrupted){
             if (interrupted) {
-                coralCone.stop();
-                algaeAcquirer.stop();
+                coralCone.setPosition(CoralCone.Position.STOWED);
+                algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
                 elevator.stop();
             }
         }

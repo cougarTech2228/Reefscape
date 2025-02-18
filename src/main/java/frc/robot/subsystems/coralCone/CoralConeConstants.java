@@ -7,7 +7,7 @@ public class CoralConeConstants {
     public static final int bottomLimitSwitchDIO = 2;
 
     // CHANGE, angle motor values
-    public static final double stowedAngle = 0.22;
+    public static final double stowedAngle = 0.269;
     public static final double loadAngle = 0.292;
     public static final double L1Angle = 0.435;
     public static final double L2Angle = 0.46;
@@ -15,9 +15,10 @@ public class CoralConeConstants {
     public static final double L4Angle = 0.562;
 
     // wheel motor values
-    public static final double loadVoltage = 2;
-    public static final double shootVoltage = -6;
+    public static final double loadVoltage = -2;
+    public static final double shootVoltage = 6;
     public static final double transitVoltage = 0; // lock wheel in place
+    public static final double extraLoadRotations = 5; // motor rotations to keep loading after the beam break
 
     // 1.2
     // 0.12

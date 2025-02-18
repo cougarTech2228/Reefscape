@@ -1,6 +1,7 @@
 package frc.robot.subsystems.coralCone;
 
 import static frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.*;
+import static frc.robot.subsystems.coralCone.CoralConeConstants.extraLoadRotations;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +16,8 @@ public class CoralCone extends SubsystemBase {
     private CoralConeIOInputsAutoLogged inputs = new CoralConeIOInputsAutoLogged();
     private WheelState currentWheelState = WheelState.TRANSIT;
     private final SysIdRoutine sysId;
+    private boolean extraRotationsDone = false;
+    private double extraRotationsStart = 0;
 
     public enum Position {
         STOWED,
@@ -77,7 +80,7 @@ public class CoralCone extends SubsystemBase {
     }
 
     public boolean isLoaded() {
-        return inputs.isLoaded;
+        return inputs.beamBreak && extraRotationsDone;
     }
 
 
@@ -85,8 +88,20 @@ public class CoralCone extends SubsystemBase {
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("CoralCone", inputs);
-        if (currentWheelState == WheelState.LOAD && isLoaded()){
-            setWheel(WheelState.TRANSIT);
+        if (currentWheelState == WheelState.LOAD && inputs.beamBreak){
+            if (extraRotationsStart == 0) {
+                extraRotationsStart = inputs.wheelPosition;
+            } else {
+                if (Math.abs(inputs.wheelPosition - extraRotationsStart) > extraLoadRotations){
+                    setWheel(WheelState.TRANSIT);
+                    extraRotationsStart = 0;
+                    extraRotationsDone = true;
+                }
+            }
+        }
+
+        if (!inputs.beamBreak){
+            extraRotationsDone = false;
         }
     }
 

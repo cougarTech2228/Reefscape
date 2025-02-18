@@ -17,7 +17,8 @@ public interface CoralConeIO {
         public double angleSetPoition = 0.0;
         public boolean angleMotorIsAtSetPosition = false;
         public double wheelVoltage = 0.0;
-        public boolean isLoaded = false;
+        public double wheelPosition = 0.0;
+        public boolean beamBreak = false;
     }
 
     /** Update the set of loggable inputs. */

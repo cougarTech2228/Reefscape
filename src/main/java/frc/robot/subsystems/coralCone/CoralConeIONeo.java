@@ -61,7 +61,8 @@ public class CoralConeIONeo implements CoralConeIO {
             - currentAngleSetPoint) <= CoralConeConstants.closedLoopAngleAllowedError;
 
         inputs.wheelVoltage = wheelMotor.getAppliedOutput();
-        inputs.isLoaded = !beamBreakSensor.get();
+        inputs.wheelPosition = wheelMotor.getEncoder().getPosition();
+        inputs.beamBreak = !beamBreakSensor.get();
         inputs.angleSetPoition = currentAngleSetPoint;
     }
 

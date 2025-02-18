@@ -72,6 +72,7 @@ public class AlgaeAcquirer extends SubsystemBase {
 
     public void stop() {
         io.setAngleVoltage(0);
+        io.setFlyVoltage(0);
     }
 
     public boolean isLoaded() {

@@ -10,7 +10,7 @@ import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 
-public class PlaceCoralCommand extends SequentialCommandGroup{
+public class PlaceCoralCommand extends SequentialCommandGroup {
     public PlaceCoralCommand(ReefSegment segment, ReefLocation location, Elevator elevator, AlgaeAcquirer algaeAquirer, CoralCone coralCone, Drive drive) {
         Destination dest =Destination.fromSegmentAndPosition(segment, location, DriverStation.getAlliance().get());
         this.addCommands(

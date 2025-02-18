@@ -24,6 +24,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -53,6 +54,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
     private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
 
+    private double currentSetPosition = 0;
 
     public ElevatorIOTalonFX() {
         var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();
@@ -82,10 +84,10 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         // set slot 0 gains
         var slot0Configs = talonFXConfigs.Slot0;
-        slot0Configs.kS = 2.5;
+        slot0Configs.kS = 2;
         slot0Configs.kV = 0;
         slot0Configs.kA = 0;
-        slot0Configs.kP = 6;
+        slot0Configs.kP = 30;
         slot0Configs.kI = 0;
         slot0Configs.kD = 0.1;
         slot0Configs.kG = -0.1;
@@ -93,12 +95,14 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         // set Motion Magic Expo settings
         talonFXConfigs.MotionMagic
-            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(40)) // 5 (mechanism) rotations per second cruise
+            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(20)) // 5 (mechanism) rotations per second cruise
+        
+            .withMotionMagicExpo_kA(0.28) // lower is faster
+            .withMotionMagicExpo_kV(0.2); // lower is faster
 
-            .withMotionMagicExpo_kA(0.18) // lower is faster
-            .withMotionMagicExpo_kV(0.001); // lower is faster
-
-        talonFXConfigs.CurrentLimits.SupplyCurrentLimit = currentLimit;
+        talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 80; // allow a spike of 80A
+        talonFXConfigs.CurrentLimits.SupplyCurrentLowerLimit = 40; // typical current limit
+        talonFXConfigs.CurrentLimits.SupplyCurrentLowerTime = 1; // max allowed spike durration (seconds)
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
         talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
@@ -130,52 +134,53 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         inputs.currentAmps_B = currentAmpsB.getValueAsDouble();
 
         inputs.bottomLimit = forwardLimitA.getValue() == ForwardLimitValue.ClosedToGround;
-        inputs.isAtSetPosition = elevatorA.getClosedLoopError().getValue() < ClosedLoopErrorThreshold;
+        inputs.closedLoopError = elevatorA.getClosedLoopError().getValueAsDouble();
         inputs.setPosition = elevatorA.getClosedLoopReference().getValueAsDouble();
+        inputs.isAtSetPosition = Math.abs(inputs.position_A - currentSetPosition) < ClosedLoopErrorThreshold;
         inputs.pidOutput = elevatorA.getClosedLoopOutput().getValueAsDouble();
     }
 
     @Override
     public void setPosition(Position position) {
-        double motorPosition = 0;
         switch (position) {
             case TRANSIT:
-                motorPosition = HEIGHT_TRANSIT;
+                currentSetPosition = HEIGHT_TRANSIT;
                 break;
             case ALGAE_BARGE:
-                motorPosition = HEIGHT_ALGAE_BARGE;
+                currentSetPosition = HEIGHT_ALGAE_BARGE;
                 break;
             case ALGAE_FLOOR:
-                motorPosition = HEIGHT_ALGAE_FLOOR;
+                currentSetPosition = HEIGHT_ALGAE_FLOOR;
+                break;
+            case ALGAE_FLOOR_ON_CORAL:
+                currentSetPosition = HEIGHT_ALGAE_ON_CORAL;
                 break;
             case ALGAE_PROCESSOR:
-                motorPosition = HEIGHT_ALGAE_PROCESSOR;
+                currentSetPosition = HEIGHT_ALGAE_PROCESSOR;
                 break;
             case ALGAE_REEF_HIGH:
-                motorPosition = HEIGHT_ALGAE_REEF_HIGH;
+                currentSetPosition = HEIGHT_ALGAE_REEF_HIGH;
                 break;
             case ALGAE_REEF_LOW:
-                motorPosition = HEIGHT_ALGAE_REEF_LOW;
+                currentSetPosition = HEIGHT_ALGAE_REEF_LOW;
                 break;
             case CORAL_L1:
-                motorPosition = HEIGHT_CORAL_L1;
+                currentSetPosition = HEIGHT_CORAL_L1;
                 break;
             case CORAL_L2:
-                motorPosition = HEIGHT_CORAL_L2;
+                currentSetPosition = HEIGHT_CORAL_L2;
                 break;
             case CORAL_L3:
-                motorPosition = HEIGHT_CORAL_L3;
+                currentSetPosition = HEIGHT_CORAL_L3;
                 break;
             case CORAL_L4:
-                motorPosition = HEIGHT_CORAL_L4;
+                currentSetPosition = HEIGHT_CORAL_L4;
                 break;
             case CORAL_LOAD:
-                motorPosition = HEIGHT_CORAL_LOAD;
-                break;
-            default:
+                currentSetPosition = HEIGHT_CORAL_LOAD;
                 break;
         }
-        elevatorA.setControl(motionMagic.withPosition(motorPosition));
+        elevatorA.setControl(motionMagic.withPosition(currentSetPosition));
     }
 
     @Override

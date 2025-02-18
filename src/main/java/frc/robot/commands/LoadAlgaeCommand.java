@@ -19,6 +19,8 @@ public class LoadAlgaeCommand extends Command{
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
+    private AlgaeAcquirer.Position anglePostition;
+    private boolean angleSet = false;
 
     private boolean commandInitialized = false;
 
@@ -34,19 +36,19 @@ public class LoadAlgaeCommand extends Command{
         System.out.println("Starting LoadAlgaeCommand height: " + height);
         switch (height){
             case Floor:
-                algaeAcquirer.setPosition(AlgaeAcquirer.Position.FLOOR_ACQUIRE);
+                anglePostition = AlgaeAcquirer.Position.FLOOR_ACQUIRE;
                 elevator.setPosition(Elevator.Position.ALGAE_FLOOR);
                 break;
             case FloorOnCoral:
-                algaeAcquirer.setPosition(AlgaeAcquirer.Position.FLOOR_ACQUIRE);
+                anglePostition = AlgaeAcquirer.Position.FLOOR_ACQUIRE;
                 elevator.setPosition(Elevator.Position.ALGAE_FLOOR_ON_CORAL);
                 break;
             case REEF_LOW:
-                algaeAcquirer.setPosition(AlgaeAcquirer.Position.REEF_ACQUIRE);
+                anglePostition = AlgaeAcquirer.Position.REEF_ACQUIRE;
                 elevator.setPosition(Elevator.Position.ALGAE_REEF_LOW);
                 break;
             case REEF_HIGH:
-                algaeAcquirer.setPosition(AlgaeAcquirer.Position.REEF_ACQUIRE);
+                anglePostition = AlgaeAcquirer.Position.REEF_ACQUIRE;
                 elevator.setPosition(Elevator.Position.ALGAE_REEF_LOW);
                 break;            
         }
@@ -58,6 +60,11 @@ public class LoadAlgaeCommand extends Command{
     public void execute() {
         if (!commandInitialized) {
             return;
+        }
+
+        if (!angleSet && elevator.isAtSetPosition()) {
+            angleSet = true;
+            algaeAcquirer.setPosition(anglePostition);
         }
 
         if (algaeAcquirer.isAtSetPosition()) {

@@ -31,7 +31,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         closedLoopConfig.maxMotion.positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal);
         closedLoopConfig.maxMotion.allowedClosedLoopError(AlgaeAcquirerConstants.closedLoopAngleAllowedError);
         closedLoopConfig.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
-        closedLoopConfig.pidf(0.2, 0, 0, 0);
+        closedLoopConfig.pidf(0.4, 0, 0, 0);
 
         angleMotorConfig.absoluteEncoder.setSparkMaxDataPortConfig();
         angleMotorConfig

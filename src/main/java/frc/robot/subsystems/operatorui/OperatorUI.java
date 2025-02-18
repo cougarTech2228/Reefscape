@@ -5,14 +5,19 @@ import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ReefLocation;
 import frc.robot.Constants.ReefSegment;
 import frc.robot.commands.BargeCommand;
 import frc.robot.commands.CoralAndAlgaeCommand;
+import frc.robot.commands.FireAlgaeCommand;
+import frc.robot.commands.FireCoralCommand;
 import frc.robot.commands.LoadAlgaeCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
+import frc.robot.commands.PrepEmptyTransitCommand;
 import frc.robot.commands.PrepPlaceCoralCommand;
 import frc.robot.commands.ProcessorCommand;
 import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
@@ -20,6 +25,8 @@ import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.util.CTSequentialCommandGroup;
+
 import java.util.EnumSet;
 
 public class OperatorUI extends SubsystemBase {
@@ -111,11 +118,9 @@ public class OperatorUI extends SubsystemBase {
     public void periodic() {
         if (activeCommand != null) {
             if (activeCommand.isFinished()) {
-                System.out.println("Command finished");
+                System.out.println("Command finished " + activeCommand);
                 table.getEntry(executeCommandTopic).setBoolean(false);
                 activeCommand = null;
-            } else {
-                System.out.println("Command running");
             }
         }
 
@@ -125,6 +130,24 @@ public class OperatorUI extends SubsystemBase {
 
     // The driver made their selections, and pressed "GO" figure out what we should be doing now
     private void processRequest() {
+        // "fire" mode is a special case where we just abort any command in progress, and fire whatever mechenism is loaded
+        if (getMode().equals("fire")){
+            // if we have both an algae and a coral, fire the algae first
+            if(algaeAcquirer.isLoaded()) {
+                Command cmd = new CTSequentialCommandGroup(
+                        new FireAlgaeCommand(algaeAcquirer),
+                        new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer)
+                    );
+                startCommand(cmd);
+            } else if (coralCone.isLoaded()) {
+                Command cmd = new CTSequentialCommandGroup(
+                        new FireCoralCommand(coralCone),
+                        new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer)
+                    );
+                startCommand(cmd);
+            }
+            return;
+        }
         switch (getDestination()) {
             case DESTINATION_CORAL_STATION:
                 handleCoralStation();

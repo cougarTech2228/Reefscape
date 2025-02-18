@@ -4,7 +4,6 @@ public class ElevatorConstants {
   public static final int elevatorACanID = 18;
   public static final int elevatorBCanID = 19;
   public static final double motorReduction = 1.0;
-  public static final int currentLimit = 80;
   
   /**
    * The maximum amount of stator current the drive motors can apply without
@@ -25,18 +24,19 @@ public class ElevatorConstants {
 
   //Enum Stuff
 
-  // Min extend == 0 Max extend == -38.41 
+  // Min extend == 0 Max extend == -24.96 
   public static final double HEIGHT_TRANSIT = 0;
-  public static final double HEIGHT_CORAL_LOAD = -7.86;
-  public static final double HEIGHT_CORAL_L1 = -2.96;
-  public static final double HEIGHT_CORAL_L2 = -7.72;
-  public static final double HEIGHT_CORAL_L3 = -15.72;
-  public static final double HEIGHT_CORAL_L4 = -29.59;
-  public static final double HEIGHT_ALGAE_FLOOR = -1.86;
-  public static final double HEIGHT_ALGAE_PROCESSOR = -5.45;
+  public static final double HEIGHT_CORAL_LOAD = -4.71;
+  public static final double HEIGHT_CORAL_L1 = -1.79;
+  public static final double HEIGHT_CORAL_L2 = -5.31;
+  public static final double HEIGHT_CORAL_L3 = -10.04;
+  public static final double HEIGHT_CORAL_L4 = -19.58;
+  public static final double HEIGHT_ALGAE_FLOOR = -1;
+  public static final double HEIGHT_ALGAE_ON_CORAL = -2.00;
+  public static final double HEIGHT_ALGAE_PROCESSOR = -4.66;
   public static final double HEIGHT_ALGAE_REEF_LOW = HEIGHT_CORAL_L3;
-  public static final double HEIGHT_ALGAE_REEF_HIGH = -22.86;
-  public static final double HEIGHT_ALGAE_BARGE = -38;
+  public static final double HEIGHT_ALGAE_REEF_HIGH = -18.86;
+  public static final double HEIGHT_ALGAE_BARGE = -24.94;
 
-  public static final double ClosedLoopErrorThreshold = 2;
+  public static final double ClosedLoopErrorThreshold = 0.05;
 }

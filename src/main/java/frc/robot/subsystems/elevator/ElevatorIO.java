@@ -23,6 +23,7 @@ public interface ElevatorIO {
     public boolean bottomLimit = false;
     public boolean isAtSetPosition = false;
     public double setPosition = 0.0;
+    public double closedLoopError = 0.0;
   }
 
   /** Update the set of loggable inputs. */
