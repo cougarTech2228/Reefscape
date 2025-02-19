@@ -19,33 +19,36 @@ public enum Destination {
     BLUE_2_RIGHT(3.8, 2.8, 60, 2.7, 2.9, -1, 1, 5.5, -2, 4.5, 2.2),
     BLUE_3_LEFT(5, 2.7, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
     BLUE_3_RIGHT(5.2, 2.8, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
-    BLUE_4_LEFT(5.8, 3.67, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
-    BLUE_4_RIGHT(5.8, 4.0, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
+
+    // Changed x coord from 5.8 to 5.9; bumper would hit reef if unchanged
+    BLUE_4_LEFT(5.9, 3.67, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
+    BLUE_4_RIGHT(5.9, 4.0, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
+
     BLUE_5_LEFT(5.4, 5.1, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
     BLUE_5_RIGHT(5.2, 5.2, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
     BLUE_6_LEFT(4, 5.3, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
     BLUE_6_RIGHT(3.8, 5.2, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
 
     // TODO: give these their own trapezoids
-    RED_1_LEFT(14.4, 3.67, 180, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_1_RIGHT(14.4, 4.33, 180, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_2_LEFT(14.0, 5.1, -120, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_2_RIGHT(13.8, 5.2, -120, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_3_LEFT(12.5, 5.3, -60, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_3_RIGHT(12.4, 5.2, -60, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_4_LEFT(11.7, 4.33, 0, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_4_RIGHT(11.7, 4.0, 0, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_5_LEFT(12.0, 3.0, 60, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_5_RIGHT(12.4, 2.9, 60, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_6_LEFT(13.5, 2.75, 120, 0, 0, 0, 0 ,0, 0, 0, 0),
-    RED_6_RIGHT(13.7, 2.85, 120, 0, 0, 0, 0 ,0, 0, 0, 0)
-    ;
+    RED_1_LEFT(14.4, 3.67, 180, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_1_RIGHT(14.4, 4.33, 180, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_2_LEFT(14.0, 5.1, -120, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_2_RIGHT(13.8, 5.2, -120, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_3_LEFT(12.5, 5.3, -60, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_3_RIGHT(12.4, 5.2, -60, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_4_LEFT(11.7, 4.33, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_4_RIGHT(11.7, 4.0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_5_LEFT(12.0, 3.0, 60, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_5_RIGHT(12.4, 2.9, 60, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_6_LEFT(13.5, 2.75, 120, 0, 0, 0, 0, 0, 0, 0, 0),
+    RED_6_RIGHT(13.7, 2.85, 120, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location, DriverStation.Alliance alliance) {
+    public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location,
+            DriverStation.Alliance alliance) {
         Destination destination = null;
         switch (segment) {
             case Segment_1:
-                switch(location) {
+                switch (location) {
                     case L2_L:
                     case L3_L:
                     case L4_L:
@@ -58,7 +61,7 @@ public enum Destination {
                 }
                 break;
             case Segment_2:
-                switch(location) {
+                switch (location) {
                     case L2_L:
                     case L3_L:
                     case L4_L:
@@ -71,7 +74,7 @@ public enum Destination {
                 }
                 break;
             case Segment_3:
-                switch(location) {
+                switch (location) {
                     case L2_L:
                     case L3_L:
                     case L4_L:
@@ -84,7 +87,7 @@ public enum Destination {
                 }
                 break;
             case Segment_4:
-                switch(location) {
+                switch (location) {
                     case L2_L:
                     case L3_L:
                     case L4_L:
@@ -97,7 +100,7 @@ public enum Destination {
                 }
                 break;
             case Segment_5:
-                switch(location) {
+                switch (location) {
                     case L2_L:
                     case L3_L:
                     case L4_L:
@@ -110,7 +113,7 @@ public enum Destination {
                 }
                 break;
             case Segment_6:
-                switch(location) {
+                switch (location) {
                     case L2_L:
                     case L3_L:
                     case L4_L:
@@ -121,7 +124,7 @@ public enum Destination {
                     case L4_R:
                         destination = alliance == DriverStation.Alliance.Blue ? BLUE_6_RIGHT : RED_6_RIGHT;
                 }
-                break;            
+                break;
         }
         return destination;
     }
