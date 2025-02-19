@@ -14,12 +14,12 @@ public interface ClimberIO {
         public double climberMotorPosition = 0.0;
         public double climberMotorVelocity = 0.0;
         public double climberMotorCurrentAmps = 0.0;
-        // public double climberMotorEncoderVelocity = 0.0;
         public double climberMotorEncoderPosition = 0.0;
-
-        // public boolean bottomLimit = false;
-        // public boolean upperLimit = false;
         public boolean climberMotorIsAtSetPosition = false;
+
+        public double pidSetpoint = 0;
+        public double pidOutput = 0;
+        public double pidOutputClamped = 0;
 
     }
 
@@ -40,6 +40,4 @@ public interface ClimberIO {
     public default void simulationPeriodic() {
     };
 
-    public default void setBrakeMode() {
-    };
 }

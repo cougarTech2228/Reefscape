@@ -63,7 +63,7 @@ public final class Constants {
     public static final int coralRotateCanID = 7;
 
     public static final int climberFalconCanID = 9;
-    public static final int kClimberAngleEncoderDIO = 1; // ?
+    public static final int kClimberAngleEncoderDIO = 1;
 
     public static final int frontLeftDriveFalconCanID = 10;
     public static final int frontLeftSteerCanID = 11;

@@ -284,11 +284,12 @@ public class RobotContainer {
 
                 driverController.rightBumper()
                                 .onTrue(new InstantCommand(() -> {
-                                        elevator.setPosition(Elevator.Position.CORAL_L3);
+                                        // climber.setServoPosition(Climber.ServoLockPosition.LOCKED);
+                                        climber.setClimberPosition(Climber.ClimberPosition.DOWN);
                                 }))
                                 .onFalse(new InstantCommand(() -> {
-                                        // elevator.setPosition(Elevator.Position.TRANSIT);
-                                        elevator.stop();
+                                        // climber.setServoPosition(Climber.ServoLockPosition.UNLOCKED);
+                                        climber.setClimberPosition(Climber.ClimberPosition.UP);
                                 }));
         }
 

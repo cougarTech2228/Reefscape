@@ -24,19 +24,19 @@ public class ElevatorConstants {
 
   //Enum Stuff
 
-  // Min extend == 0 Max extend == -24.96 
+  // Min extend == 0 Max extend == - 
   public static final double HEIGHT_TRANSIT = 0;
-  public static final double HEIGHT_CORAL_LOAD = -4.71;
-  public static final double HEIGHT_CORAL_L1 = -1.79;
-  public static final double HEIGHT_CORAL_L2 = -5.31;
-  public static final double HEIGHT_CORAL_L3 = -10.04;
-  public static final double HEIGHT_CORAL_L4 = -19.58;
-  public static final double HEIGHT_ALGAE_FLOOR = -1;
-  public static final double HEIGHT_ALGAE_ON_CORAL = -2.00;
-  public static final double HEIGHT_ALGAE_PROCESSOR = -4.66;
+  public static final double HEIGHT_CORAL_LOAD = -23.55;
+  public static final double HEIGHT_CORAL_L1 = -8.95;
+  public static final double HEIGHT_CORAL_L2 = -26.55;
+  public static final double HEIGHT_CORAL_L3 = -50.2;
+  public static final double HEIGHT_CORAL_L4 = -97.9;
+  public static final double HEIGHT_ALGAE_FLOOR = -5;
+  public static final double HEIGHT_ALGAE_ON_CORAL = -10.00;
+  public static final double HEIGHT_ALGAE_PROCESSOR = -23.3;
   public static final double HEIGHT_ALGAE_REEF_LOW = HEIGHT_CORAL_L3;
-  public static final double HEIGHT_ALGAE_REEF_HIGH = -18.86;
-  public static final double HEIGHT_ALGAE_BARGE = -24.94;
+  public static final double HEIGHT_ALGAE_REEF_HIGH = -94.3;
+  public static final double HEIGHT_ALGAE_BARGE = -125;
 
-  public static final double ClosedLoopErrorThreshold = 0.05;
+  public static final double ClosedLoopErrorThreshold = 0.1;
 }

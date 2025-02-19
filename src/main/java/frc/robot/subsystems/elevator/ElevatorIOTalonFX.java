@@ -90,17 +90,17 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         slot0Configs.kP = 30;
         slot0Configs.kI = 0;
         slot0Configs.kD = 0.1;
-        slot0Configs.kG = -0.1;
+        slot0Configs.kG = 0;
         slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
 
         // set Motion Magic Expo settings
         talonFXConfigs.MotionMagic
-            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(20)) // 5 (mechanism) rotations per second cruise
+            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(100)) // 5 (mechanism) rotations per second cruise
         
-            .withMotionMagicExpo_kA(0.28) // lower is faster
-            .withMotionMagicExpo_kV(0.2); // lower is faster
+            .withMotionMagicExpo_kA(0.10) // lower is faster
+            .withMotionMagicExpo_kV(0.01); // lower is faster
 
-        talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 80; // allow a spike of 80A
+        talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 100; // allow a spike of 80A
         talonFXConfigs.CurrentLimits.SupplyCurrentLowerLimit = 40; // typical current limit
         talonFXConfigs.CurrentLimits.SupplyCurrentLowerTime = 1; // max allowed spike durration (seconds)
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;

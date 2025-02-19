@@ -1,37 +1,23 @@
 package frc.robot.subsystems.climber;
 
-import java.util.Optional;
-import org.littletonrobotics.junction.AutoLogOutput;
+import static frc.robot.subsystems.climber.ClimberConstants.angleExtended;
+import static frc.robot.subsystems.climber.ClimberConstants.angleRetracted;
+
 import org.littletonrobotics.junction.Logger;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-// import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Volts;
-import static frc.robot.subsystems.climber.ClimberConstants.*;
-
-import org.littletonrobotics.junction.Logger;
-
-public class Climber extends PIDSubsystem {
+public class Climber extends SubsystemBase {
     private final ClimberIO io;
     private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
-    // private final SysIdRoutine sysId;
 
-    private static final double kP = 0.1;
-    private static final double kI = 0.1;
-    private static final double kD = 0.01;
-    private static final double kDt = 0.01;
-    private static final PIDController pidController = new PIDController(kP, kI, kD, kDt);
+    private static final double kP = 100;
+    private static final double kI = 0.0;
+    private static final double kD = 0.0;
+    private static final PIDController pidController = new PIDController(kP, kI, kD, 0.02);
+    private boolean m_enabled = false;
+    double setpoint = 0;
 
     public enum ClimberPosition {
         UP,
@@ -44,25 +30,27 @@ public class Climber extends PIDSubsystem {
     };
 
     public Climber(ClimberIO io) {
-        super(pidController, 0);
 
         this.io = io;
-        io.setBrakeMode();
-        //
 
         pidController.setTolerance(ClimberConstants.climberAngleThreshold);
         pidController.setIZone(ClimberConstants.kIZone);
-
-        io.setBrakeMode();
+        setpoint = angleRetracted;
+        // setSetpoint(setpoint);
     }
 
-    @Override
-    protected double getMeasurement() {
-        return inputs.climberMotorPosition;
-    }
 
     public void setClimberPosition(ClimberPosition climberPosition) {
-        io.setClimberPosition(climberPosition);
+        // io.setClimberPosition(climberPosition);
+        switch (climberPosition) {
+            case DOWN:
+                setpoint = angleRetracted;
+                break;
+            case UP:
+                setpoint = angleExtended;
+                break;
+        }
+        m_enabled = true;
     }
 
     public void setServoPosition(ServoLockPosition servoLockPosition) {
@@ -83,47 +71,39 @@ public class Climber extends PIDSubsystem {
 
     public void stop() {
         io.setVoltage(0);
+        m_enabled = false;
     }
 
     @Override
-    protected void useOutput(double output, double setpoint) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+    public void periodic() {
+        io.updateInputs(inputs);
+        Logger.processInputs("Climber", inputs);
+
+        if (m_enabled) {
+            double voltage = pidController.calculate(inputs.climberMotorEncoderPosition, setpoint);
+            inputs.pidSetpoint = setpoint;
+            inputs.pidOutput = voltage;
+            double clamp = 8;
+            if (voltage > clamp) {
+                voltage = clamp;
+            }
+            if (voltage < -clamp) {
+                voltage = -clamp;
+            }
+            inputs.pidOutputClamped = voltage;
+            setVoltage(voltage);
+        }
     }
 
-    // @Override
-    // protected void useOutput(double output, double setpoint) {
-    // // clamp the output to a sane range
-    // Logger.recordOutput("ShooterAngleSubsystem/PID/output", output);
-    // double val;
-    // if (output < 0) {
-    // val = Math.max(-kMotorVoltageLimit, output);
-    // } else {
-    // val = Math.min(kMotorVoltageLimit, output);
-    // }
-    // if (inputs.isShooterAtTop && val < 0) {
-    // mIO.setOutputPercentage(0);
-    // } else {
-    // mIO.setOutputPercentage(val);
-    // }
-    // }
+      /** Enables the PID control. Resets the controller. */
+    public void enable() {
+        m_enabled = true;
+        pidController.reset();
+    }
 
-    // @AutoLogOutput
-    // public ClimberPosition mCurrentPosition = ClimberPosition.DOWN;
-
-    // @AutoLogOutput
-    // public ServoLockPosition m_currentServoLockPosition =
-    // ServoLockPosition.UNLOCKED;
-
-    // @AutoLogOutput
-    // public double mClimberVoltage = 0;
-
-    // @AutoLogOutput
-    // public double mServoAngle = 0;
-
-    // public Climber(ClimberIO io) {
-    // this.io = io;
-
-    // // Configure SysId
-    // }
+  /** Disables the PID control. Sets output to zero. */
+    public void disable() {
+        m_enabled = false;
+        setVoltage(0);
+    }
 }
