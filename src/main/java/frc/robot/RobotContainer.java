@@ -26,7 +26,23 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants.ReefLocation;
+import frc.robot.Constants.ReefSegment;
+import frc.robot.commands.BargeCommand;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.FireAlgaeCommand;
+import frc.robot.commands.FireCoralCommand;
+import frc.robot.commands.LoadAlgaeAutoCommand;
+import frc.robot.commands.LoadAlgaeCommand;
+import frc.robot.commands.LoadCoralAutoCommand;
+import frc.robot.commands.LoadCoralCommand;
+import frc.robot.commands.PlaceCoralCommand;
+import frc.robot.commands.PrepAlgaeCommand;
+import frc.robot.commands.PrepEmptyTransitCommand;
+import frc.robot.commands.PrepLoadCoralCommand;
+import frc.robot.commands.PrepPlaceCoralCommand;
+import frc.robot.commands.ProcessorCommand;
+import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO;
@@ -51,6 +67,8 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -84,10 +102,29 @@ public class RobotContainer {
         // Dashboard inputs
         private final LoggedDashboardChooser<Command> autoChooser;
 
+        // Command bargeCommand = new BargeCommand(elevator, algaeAcquirer, coralCone);
+        // Command loadFloorAlgaeCommand = new LoadAlgaeCommand(AlgaeHeight.Floor, elevator, algaeAcquirer, coralCone);
+        // Command loadOnCoralAlgaeCommand = new LoadAlgaeCommand(AlgaeHeight.FloorOnCoral, elevator, algaeAcquirer, coralCone);
+        Command fireAlgaeCommand = new FireAlgaeCommand(algaeAcquirer);
+        Command fireCoralCommand = new FireCoralCommand(coralCone);
+        Command loadCoralCommand = new LoadCoralAutoCommand(elevator, algaeAcquirer, coralCone);
+        Command loadAlgaeCommand = new LoadAlgaeAutoCommand(null, elevator, algaeAcquirer, coralCone);
+        
+        Command prepLoadCoralCommand = new PrepLoadCoralCommand(elevator, algaeAcquirer, coralCone);
+        Command prepLowAlgaeCommand = new PrepAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone);
+        Command prepHighAlgaeCommand = new PrepAlgaeCommand(AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone);
+        
+        Command prepProcessorCommand = new ProcessorCommand(elevator, algaeAcquirer, coralCone);
+        Command prepEmptyTransitCommand = new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer);
+        Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator, algaeAcquirer, coralCone);
+        Command prepL2CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone);
+        Command prepL3CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone);
+        Command prepL4CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone);
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
+                NamedCommands.registerCommand(camera1Name, bargeCommand);
                 switch (Constants.currentMode) {
                         case REAL:
                                 // Real robot, instantiate hardware IO implementations
