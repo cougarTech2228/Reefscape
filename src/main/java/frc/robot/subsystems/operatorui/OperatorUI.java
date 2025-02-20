@@ -5,8 +5,6 @@ import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ReefLocation;
 import frc.robot.Constants.ReefSegment;
@@ -22,6 +20,10 @@ import frc.robot.commands.ProcessorCommand;
 import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberConstants;
+import frc.robot.subsystems.climber.Climber.ClimberPosition;
+import frc.robot.subsystems.climber.Climber.ServoLockPosition;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
@@ -36,12 +38,18 @@ public class OperatorUI extends SubsystemBase {
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
     private final Drive drive;
+    private final Climber climber;
 
     private Command activeCommand = null;
 
     // outgoing status topics
     private static final String coralLoadedTopic = "coralLoaded";
     private static final String algaeLoadedTopic = "algaeLoaded";
+    private static final String climberAngleTopic = "climberAngle";
+    private static final String climberStateTopic = "climberState";
+    private static final String climberAngleMinTopic = "climberAngleMin";
+    private static final String climberAngleMaxTopic = "climberAngleMax";
+    private static final String climberLockedTopic = "climberLocked";
 
     // incoming control topics
     private static final String executeCommandTopic = "executeCommand";
@@ -78,11 +86,12 @@ public class OperatorUI extends SubsystemBase {
         return table.getEntry(autoAlignTopic).getBoolean(false);
     }
 
-    public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive) {
+    public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive, Climber climber) {
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
         this.drive = drive;
+        this.climber = climber;
 
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         table = inst.getTable("ReefControl");
@@ -95,6 +104,10 @@ public class OperatorUI extends SubsystemBase {
         table.getEntry(modeTopic).setString("");
         table.getEntry(reefSegmentTopic).setInteger(0);
         table.getEntry(reefPostTopic).setString("");
+        table.getEntry(climberStateTopic).setString("");
+        table.getEntry(climberAngleMinTopic).setDouble(ClimberConstants.angleRetracted);
+        table.getEntry(climberAngleMaxTopic).setDouble(ClimberConstants.angleExtended);
+        table.getEntry(climberLockedTopic).setBoolean(false);
 
         table.addListener(
             executeCommandTopic,
@@ -126,6 +139,9 @@ public class OperatorUI extends SubsystemBase {
 
         table.getEntry(algaeLoadedTopic).setBoolean(algaeAcquirer.isLoaded());
         table.getEntry(coralLoadedTopic).setBoolean(coralCone.isLoaded());
+        table.getEntry(climberAngleTopic).setDouble(climber.getClimberAngle());
+        table.getEntry(climberStateTopic).setString(climber.getClimberState());
+        table.getEntry(climberLockedTopic).setBoolean(climber.isLocked());
     }
 
     // The driver made their selections, and pressed "GO" figure out what we should be doing now
@@ -146,6 +162,34 @@ public class OperatorUI extends SubsystemBase {
                     );
                 startCommand(cmd);
             }
+            return;
+        }
+        if (getMode().equals("cage-extend")){
+            if (climber.getClimberState().equals("EXTENDING")){
+                climber.stop();
+            } else {
+                climber.setClimberPosition(ClimberPosition.UP);
+            }
+            table.getEntry(executeCommandTopic).setBoolean(false);
+            return;
+        }
+        if (getMode().equals("cage-retract")){
+            if (climber.getClimberState().equals("RETRACTING")){
+                climber.stop();
+            } else {
+                climber.setClimberPosition(ClimberPosition.DOWN);
+            }
+            table.getEntry(executeCommandTopic).setBoolean(false);
+            return;
+        }
+        if (getMode().equals("cage-lock")){
+            climber.setServoPosition(ServoLockPosition.LOCKED);
+            table.getEntry(executeCommandTopic).setBoolean(false);
+            return;
+        }
+        if (getMode().equals("cage-unlock")){
+            climber.setServoPosition(ServoLockPosition.UNLOCKED);
+            table.getEntry(executeCommandTopic).setBoolean(false);
             return;
         }
         switch (getDestination()) {

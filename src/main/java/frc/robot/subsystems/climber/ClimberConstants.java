@@ -14,6 +14,9 @@ public class ClimberConstants {
     public static final double angleExtended = 0.425;
     public static final double angleRetracted = 0.223;
 
+    // encoder value less than this amount is a critical failure!
+    public static final double overRetractThreshold = 0.21;
+
     // public static final double angleExtended = 0.4;
     // public static final double angleRetracted = 0.33;
 

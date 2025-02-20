@@ -1,5 +1,7 @@
 package frc.robot.subsystems.elevator;
 
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -14,6 +16,8 @@ public class Elevator extends SubsystemBase {
     private final ElevatorIO io;
     private final ElevatorIOInputsAutoLogged inputs = new ElevatorIOInputsAutoLogged();
     private final SysIdRoutine sysId;
+    private boolean hasBeenHome = false;
+    Alert notHomedAlert = new Alert("Elevator has not been homed", AlertType.kError);
 
     public enum Position {
         TRANSIT,
@@ -49,10 +53,18 @@ public class Elevator extends SubsystemBase {
     // Runs on a schedule, after some amount of milliseconds
     public void periodic() {
         io.updateInputs(inputs);
+        if (!hasBeenHome) {
+            hasBeenHome = inputs.bottomLimit;
+            notHomedAlert.set(!hasBeenHome);
+        }
         Logger.processInputs("Elevator", inputs);
     }
 
     public void setPosition(Position posistion) {
+        if(!hasBeenHome && posistion != Position.TRANSIT){
+            // We are not homed yet, REFUSE to move anywhere but home
+            return;
+        }
         // ensure coral and algae are in a safe position to move the elevator
         io.setPosition(posistion);
     }

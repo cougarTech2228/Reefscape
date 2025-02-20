@@ -17,12 +17,12 @@ public class FireCoralCommand extends Command {
     public FireCoralCommand(CoralCone coralCone) {
         this.coralCone = coralCone;
         addRequirements(coralCone);
-        startTime = Timer.getFPGATimestamp();
     }
 
     @Override
     public void initialize() {
         coralCone.setWheel(WheelState.SHOOT);
+        startTime = Timer.getFPGATimestamp();
     }
 
     @Override

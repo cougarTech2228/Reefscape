@@ -35,7 +35,7 @@ public class AutoAlignCommand extends Command {
             dest.getPose());
     
         // constraints are max-v, max-a, max-angv, max-anga
-        PathConstraints constraints = new PathConstraints(2.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+        PathConstraints constraints = new PathConstraints(1.0, 1.0, 1 * Math.PI, 2 * Math.PI);
         PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null,
             new GoalEndState(0.0, dest.getAngle()));
     

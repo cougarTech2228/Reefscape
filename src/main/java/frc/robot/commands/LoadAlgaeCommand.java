@@ -20,7 +20,6 @@ public class LoadAlgaeCommand extends Command{
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
     private AlgaeAcquirer.Position anglePostition;
-    private boolean angleSet = false;
 
     private boolean commandInitialized = false;
 
@@ -62,8 +61,7 @@ public class LoadAlgaeCommand extends Command{
             return;
         }
 
-        if (!angleSet && elevator.isAtSetPosition()) {
-            angleSet = true;
+        if (elevator.isAtSetPosition()) {
             algaeAcquirer.setPosition(anglePostition);
         }
 
