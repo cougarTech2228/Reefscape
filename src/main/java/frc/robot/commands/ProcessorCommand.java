@@ -34,7 +34,7 @@ public class ProcessorCommand extends Command {
         }
 
         if (algaeAcquirer.isAtSetPosition()) {
-            // algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.SHOOT);
+            algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.SHOOT);
         }
     }
 
