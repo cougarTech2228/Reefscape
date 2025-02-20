@@ -3,13 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants.ReefLocation;
-import frc.robot.Constants.ReefSegment;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.util.Enums.*;
 
 public class PlaceCoralCommand extends SequentialCommandGroup {
     public PlaceCoralCommand(ReefSegment segment, ReefLocation location, Elevator elevator, AlgaeAcquirer algaeAquirer, CoralCone coralCone, Drive drive) {

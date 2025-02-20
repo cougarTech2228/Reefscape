@@ -6,9 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ReefLocation;
-import frc.robot.Constants.ReefSegment;
 import frc.robot.commands.BargeCommand;
+import frc.robot.commands.CollapseCommand;
 import frc.robot.commands.CoralAndAlgaeCommand;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
@@ -17,7 +16,6 @@ import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
 import frc.robot.commands.PrepEmptyTransitCommand;
 import frc.robot.commands.ProcessorCommand;
-import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.climber.Climber;
@@ -28,6 +26,7 @@ import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.util.CTSequentialCommandGroup;
+import frc.robot.util.Enums.*;
 
 import java.util.EnumSet;
 
@@ -192,6 +191,11 @@ public class OperatorUI extends SubsystemBase {
             table.getEntry(executeCommandTopic).setBoolean(false);
             return;
         }
+        if (getMode().equals("collapse")){
+            startCommand(new CollapseCommand(elevator, algaeAcquirer, coralCone));
+            return;
+        }
+
         switch (getDestination()) {
             case DESTINATION_CORAL_STATION:
                 handleCoralStation();

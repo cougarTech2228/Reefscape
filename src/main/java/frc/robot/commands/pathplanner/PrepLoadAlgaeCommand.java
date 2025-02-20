@@ -1,11 +1,10 @@
 package frc.robot.commands.pathplanner;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.util.Enums.AlgaeHeight;
 
 public class PrepLoadAlgaeCommand extends Command {
 

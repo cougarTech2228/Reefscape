@@ -7,20 +7,9 @@ import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
 
 public class LoadAlgaeAutoCommand extends Command{
-
-    public enum AlgaeHeight {
-        Floor,
-        FloorOnCoral,
-        REEF_LOW,
-        REEF_HIGH
-    }
-
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
-    private AlgaeAcquirer.Position anglePostition;
-    private boolean angleSet = false;
-
     private boolean commandInitialized = false;
 
     public LoadAlgaeAutoCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
