@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.pathplanner;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
@@ -15,7 +15,6 @@ public class LoadAlgaeAutoCommand extends Command{
         REEF_HIGH
     }
 
-    private final AlgaeHeight height;
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
@@ -24,8 +23,7 @@ public class LoadAlgaeAutoCommand extends Command{
 
     private boolean commandInitialized = false;
 
-    public LoadAlgaeAutoCommand(AlgaeHeight height, Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
-        this.height = height;
+    public LoadAlgaeAutoCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
@@ -33,7 +31,7 @@ public class LoadAlgaeAutoCommand extends Command{
 
     @Override
     public void initialize() {
-        System.out.println("Starting LoadAlgaeCommand height: " + height);
+        System.out.println("Starting LoadAlgaeAutoCommand");
         commandInitialized = true;
     }
     

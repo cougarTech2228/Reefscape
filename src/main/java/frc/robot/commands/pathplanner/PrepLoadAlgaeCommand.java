@@ -1,19 +1,13 @@
-package frc.robot.commands;
+package frc.robot.commands.pathplanner;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
 
-public class LoadAlgaeCommand extends Command{
-
-    public enum AlgaeHeight {
-        Floor,
-        FloorOnCoral,
-        REEF_LOW,
-        REEF_HIGH
-    }
+public class PrepLoadAlgaeCommand extends Command {
 
     private final AlgaeHeight height;
     private final Elevator elevator;
@@ -24,7 +18,8 @@ public class LoadAlgaeCommand extends Command{
 
     private boolean commandInitialized = false;
 
-    public LoadAlgaeCommand(AlgaeHeight height, Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
+    public PrepLoadAlgaeCommand(AlgaeHeight height, Elevator elevator, AlgaeAcquirer algaeAcquirer,
+            CoralCone coralCone) {
         this.height = height;
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
@@ -33,8 +28,8 @@ public class LoadAlgaeCommand extends Command{
 
     @Override
     public void initialize() {
-        System.out.println("Starting LoadAlgaeCommand height: " + height);
-        switch (height){
+        System.out.println("Starting PrepLoadAlgaeCommand height: " + height);
+        switch (height) {
             case Floor:
                 anglePostition = AlgaeAcquirer.Position.FLOOR_ACQUIRE;
                 elevator.setPosition(Elevator.Position.ALGAE_FLOOR);
@@ -50,12 +45,12 @@ public class LoadAlgaeCommand extends Command{
             case REEF_HIGH:
                 anglePostition = AlgaeAcquirer.Position.REEF_ACQUIRE;
                 elevator.setPosition(Elevator.Position.ALGAE_REEF_LOW);
-                break;            
+                break;
         }
         coralCone.setPosition(CoralCone.Position.STOWED);
         commandInitialized = true;
     }
-    
+
     @Override
     public void execute() {
         if (!commandInitialized) {
@@ -68,13 +63,13 @@ public class LoadAlgaeCommand extends Command{
         }
 
         if (algaeAcquirer.isAtSetPosition()) {
-            algaeAcquirer.setFlywheelState(FlywheelState.ACQUIRE);
+            // algaeAcquirer.setFlywheelState(FlywheelState.ACQUIRE);
         }
     }
 
     @Override
     public boolean isFinished() {
-        boolean finished = algaeAcquirer.isLoaded();
+        boolean finished = elevator.isAtSetPosition() && algaeAcquirer.isAtSetPosition() && coralCone.isAtSetPosition();
         if (finished) {
             commandInitialized = false;
         }
@@ -83,7 +78,7 @@ public class LoadAlgaeCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        if (interrupted){
+        if (interrupted) {
             if (interrupted) {
                 coralCone.stop();
                 algaeAcquirer.stop();

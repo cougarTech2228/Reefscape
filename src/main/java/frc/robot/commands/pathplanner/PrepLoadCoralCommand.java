@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.pathplanner;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
@@ -6,13 +6,13 @@ import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.coralCone.CoralCone.WheelState;
 import frc.robot.subsystems.elevator.Elevator;
 
-public class LoadCoralCommand extends Command {
+public class PrepLoadCoralCommand extends Command {
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
     private boolean commandInitialized = false;
 
-    public LoadCoralCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralClaw) {
+    public PrepLoadCoralCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralClaw) {
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralClaw;
@@ -20,7 +20,7 @@ public class LoadCoralCommand extends Command {
 
     @Override
     public void initialize() {
-        System.out.println("Starting LoadCoralCommand");
+        System.out.println("Starting PrepLoadCoralCommand");
         algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
         elevator.setPosition(Elevator.Position.CORAL_LOAD);
         coralCone.setPosition(CoralCone.Position.LOAD);
@@ -34,14 +34,13 @@ public class LoadCoralCommand extends Command {
         }
     
         if (coralCone.isAtSetPosition()) {
-            coralCone.setWheel(CoralCone.WheelState.LOAD);
+            // coralCone.setWheel(CoralCone.WheelState.LOAD);
         }
     }
 
     @Override
     public boolean isFinished() {
-        boolean finished = elevator.isAtSetPosition() && algaeAcquirer.isAtSetPosition() && coralCone.isAtSetPosition()
-                && coralCone.isLoaded();
+        boolean finished = elevator.isAtSetPosition() && algaeAcquirer.isAtSetPosition() && coralCone.isAtSetPosition();
         if (finished) {
             commandInitialized = false;
         }

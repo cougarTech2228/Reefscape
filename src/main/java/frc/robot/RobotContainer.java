@@ -32,17 +32,18 @@ import frc.robot.commands.BargeCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
-import frc.robot.commands.LoadAlgaeAutoCommand;
 import frc.robot.commands.LoadAlgaeCommand;
-import frc.robot.commands.LoadCoralAutoCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
-import frc.robot.commands.PrepAlgaeCommand;
 import frc.robot.commands.PrepEmptyTransitCommand;
-import frc.robot.commands.PrepLoadCoralCommand;
-import frc.robot.commands.PrepPlaceCoralCommand;
 import frc.robot.commands.ProcessorCommand;
 import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
+import frc.robot.commands.pathplanner.LoadAlgaeAutoCommand;
+import frc.robot.commands.pathplanner.LoadCoralAutoCommand;
+import frc.robot.commands.pathplanner.PrepLoadAlgaeCommand;
+import frc.robot.commands.pathplanner.PrepLoadCoralCommand;
+import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
+import frc.robot.commands.pathplanner.PrepProcessorCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO;
@@ -68,6 +69,7 @@ import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.NamedCommands;
 
 /**
@@ -102,29 +104,10 @@ public class RobotContainer {
         // Dashboard inputs
         private final LoggedDashboardChooser<Command> autoChooser;
 
-        // Command bargeCommand = new BargeCommand(elevator, algaeAcquirer, coralCone);
-        // Command loadFloorAlgaeCommand = new LoadAlgaeCommand(AlgaeHeight.Floor, elevator, algaeAcquirer, coralCone);
-        // Command loadOnCoralAlgaeCommand = new LoadAlgaeCommand(AlgaeHeight.FloorOnCoral, elevator, algaeAcquirer, coralCone);
-        Command fireAlgaeCommand = new FireAlgaeCommand(algaeAcquirer);
-        Command fireCoralCommand = new FireCoralCommand(coralCone);
-        Command loadCoralCommand = new LoadCoralAutoCommand(elevator, algaeAcquirer, coralCone);
-        Command loadAlgaeCommand = new LoadAlgaeAutoCommand(null, elevator, algaeAcquirer, coralCone);
-        
-        Command prepLoadCoralCommand = new PrepLoadCoralCommand(elevator, algaeAcquirer, coralCone);
-        Command prepLowAlgaeCommand = new PrepAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone);
-        Command prepHighAlgaeCommand = new PrepAlgaeCommand(AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone);
-        
-        Command prepProcessorCommand = new ProcessorCommand(elevator, algaeAcquirer, coralCone);
-        Command prepEmptyTransitCommand = new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer);
-        Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator, algaeAcquirer, coralCone);
-        Command prepL2CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L2_L, elevator, algaeAcquirer, coralCone);
-        Command prepL3CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L3_L, elevator, algaeAcquirer, coralCone);
-        Command prepL4CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L4_L, elevator, algaeAcquirer, coralCone);
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
-                NamedCommands.registerCommand(camera1Name, bargeCommand);
                 switch (Constants.currentMode) {
                         case REAL:
                                 // Real robot, instantiate hardware IO implementations
@@ -193,6 +176,42 @@ public class RobotContainer {
                 }
 
                 operatorUI = new OperatorUI(elevator, algaeAcquirer, coralCone, drive);
+
+                Command fireCoralCommand = new FireCoralCommand(coralCone);
+                Command fireAlgaeCommand = new FireAlgaeCommand(algaeAcquirer);
+                Command loadCoralCommand = new LoadCoralAutoCommand(elevator, algaeAcquirer, coralCone);
+                Command loadAlgaeCommand = new LoadAlgaeAutoCommand(elevator, algaeAcquirer, coralCone);
+                Command prepLowAlgaeCommand = new PrepLoadAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer,
+                                coralCone);
+                Command prepHighAlgaeCommand = new PrepLoadAlgaeCommand(AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer,
+                                coralCone);
+
+                Command prepProcessorCommand = new PrepProcessorCommand(elevator, algaeAcquirer, coralCone);
+                Command prepEmptyTransitCommand = new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer);
+                Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
+                                algaeAcquirer, coralCone);
+                Command prepL2CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L2_L,
+                                elevator,
+                                algaeAcquirer, coralCone);
+                Command prepL3CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L3_L,
+                                elevator,
+                                algaeAcquirer, coralCone);
+                Command prepL4CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L4_L,
+                                elevator,
+                                algaeAcquirer, coralCone);
+
+                NamedCommands.registerCommand("fireCoral", fireCoralCommand);
+                NamedCommands.registerCommand("fireAlgae", fireAlgaeCommand);
+                NamedCommands.registerCommand("loadCoral", loadCoralCommand);
+                NamedCommands.registerCommand("loadAlgae", loadAlgaeCommand);
+                NamedCommands.registerCommand("prepLowAlgae", prepLowAlgaeCommand);
+                NamedCommands.registerCommand("prepHighAlgae", prepHighAlgaeCommand);
+                NamedCommands.registerCommand("prepProcessor", prepProcessorCommand);
+                NamedCommands.registerCommand("prepEmptyTransit", prepEmptyTransitCommand);
+                NamedCommands.registerCommand("prepL1Coral", prepL1CoralCommand);
+                NamedCommands.registerCommand("prepL2Coral", prepL2CoralCommand);
+                NamedCommands.registerCommand("prepL3Coral", prepL3CoralCommand);
+                NamedCommands.registerCommand("prepL4Coral", prepL4CoralCommand);
 
                 // Set up auto routines
                 autoChooser = new LoggedDashboardChooser<>("Auto Choices"/* , AutoBuilder.buildAutoChooser() */);

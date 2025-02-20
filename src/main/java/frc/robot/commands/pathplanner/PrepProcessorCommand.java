@@ -1,18 +1,18 @@
-package frc.robot.commands;
+package frc.robot.commands.pathplanner;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
 
-public class ProcessorCommand extends Command {
+public class PrepProcessorCommand extends Command {
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
 
     private boolean commandInitialized = false;
 
-    public ProcessorCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
+    public PrepProcessorCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
@@ -20,7 +20,7 @@ public class ProcessorCommand extends Command {
 
     @Override
     public void initialize() {
-        System.out.println("Starting ProcessorCommand");
+        System.out.println("Starting PrepProcessorCommand");
         algaeAcquirer.setPosition(AlgaeAcquirer.Position.PROCESSOR_SHOOT);
         elevator.setPosition(Elevator.Position.ALGAE_PROCESSOR);
         coralCone.setPosition(CoralCone.Position.STOWED);
