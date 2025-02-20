@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2,
+        "x": 2.1,
         "y": 1.2000000000000002
       },
       "isLocked": false,
@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.1,
+        "x": 5.9,
         "y": 4.0
       },
       "prevControl": {
-        "x": 2.1,
-        "y": 4.0
+        "x": 7.667766952966369,
+        "y": 2.232233047033631
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R1R"
+      "linkedName": "R4R"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "From CR",
