@@ -2,18 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
-import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.util.Enums.*;
 
 public class PrepAlgaeCommand extends Command{
-
-    public enum AlgaeHeight {
-        Floor,
-        FloorOnCoral,
-        REEF_LOW,
-        REEF_HIGH
-    }
 
     private final AlgaeHeight height;
     private final Elevator elevator;

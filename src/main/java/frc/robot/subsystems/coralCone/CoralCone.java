@@ -80,7 +80,7 @@ public class CoralCone extends SubsystemBase {
     }
 
     public boolean isLoaded() {
-        return inputs.beamBreak && extraRotationsDone;
+        return inputs.beamBreak /*&& extraRotationsDone*/;
     }
 
 

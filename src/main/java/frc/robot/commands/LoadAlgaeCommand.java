@@ -5,16 +5,9 @@ import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.util.Enums.AlgaeHeight;
 
 public class LoadAlgaeCommand extends Command{
-
-    public enum AlgaeHeight {
-        Floor,
-        FloorOnCoral,
-        REEF_LOW,
-        REEF_HIGH
-    }
-
     private final AlgaeHeight height;
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
@@ -52,6 +45,7 @@ public class LoadAlgaeCommand extends Command{
                 break;            
         }
         coralCone.setPosition(CoralCone.Position.STOWED);
+        algaeAcquirer.setPosition(anglePostition);
         commandInitialized = true;
     }
     
@@ -59,10 +53,6 @@ public class LoadAlgaeCommand extends Command{
     public void execute() {
         if (!commandInitialized) {
             return;
-        }
-
-        if (elevator.isAtSetPosition()) {
-            algaeAcquirer.setPosition(anglePostition);
         }
 
         if (algaeAcquirer.isAtSetPosition()) {

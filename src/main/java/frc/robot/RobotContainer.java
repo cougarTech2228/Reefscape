@@ -25,13 +25,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.ReefLocation;
-import frc.robot.Constants.ReefSegment;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
 import frc.robot.commands.PrepEmptyTransitCommand;
-import frc.robot.commands.LoadAlgaeCommand.AlgaeHeight;
 import frc.robot.commands.pathplanner.LoadAlgaeAutoCommand;
 import frc.robot.commands.pathplanner.LoadCoralAutoCommand;
 import frc.robot.commands.pathplanner.PrepLoadAlgaeCommand;
@@ -61,6 +58,8 @@ import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import frc.robot.util.Enums.*;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.NamedCommands;
