@@ -116,6 +116,12 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     }
 
     @Override
+    public void setManualPosition(double position) {
+        currentAngleSetPoint = position;
+        algaeAngleMotor.getClosedLoopController().setReference(currentAngleSetPoint, ControlType.kMAXMotionPositionControl);
+    }
+
+    @Override
     public void setAngleVoltage(double voltage) {
         algaeAngleMotor.setVoltage(voltage);
     }

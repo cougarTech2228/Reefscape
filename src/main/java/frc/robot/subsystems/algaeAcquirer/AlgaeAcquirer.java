@@ -2,6 +2,7 @@ package frc.robot.subsystems.algaeAcquirer;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -14,6 +15,9 @@ public class AlgaeAcquirer extends SubsystemBase {
     private final AlgaeAcquirerIO io;
     private final SysIdRoutine sysId;
     private AlgaeAcquirerIOInputsAutoLogged inputs = new AlgaeAcquirerIOInputsAutoLogged();
+
+    private final String manaulValueKey = "AlgaeAcquirer/manualSetpoint/value";
+    private final String manaulEnableKey = "AlgaeAcquirer/manualSetpoint/enabled";
 
     public enum FlywheelState {
         SHOOT,
@@ -31,6 +35,9 @@ public class AlgaeAcquirer extends SubsystemBase {
 
     public AlgaeAcquirer(AlgaeAcquirerIO io) {
         this.io = io;
+
+        SmartDashboard.putNumber(manaulValueKey, 0);
+        SmartDashboard.putBoolean(manaulEnableKey, false);
 
         // Configure SysId
         sysId =
@@ -56,10 +63,23 @@ public class AlgaeAcquirer extends SubsystemBase {
         return inputs.angleIsAtSetPosition;
     }
 
+    private void setManualPosition(double position) {
+        if (position < ANGLE_MIN) {
+            position = ANGLE_MIN;
+        } else if ( position > ANGLE_MAX) {
+            position = ANGLE_MAX;
+        }
+        io.setManualPosition(position);
+    }
+
     @Override
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("AlgaeAcquirer", inputs);
+
+        if (SmartDashboard.getBoolean(manaulEnableKey, false)){
+            setManualPosition(SmartDashboard.getNumber(manaulValueKey, 0));
+        }
     }
 
     public void manualUp() {

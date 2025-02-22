@@ -274,9 +274,9 @@ public class OperatorUI extends SubsystemBase {
                 // pickup an algae from the reef
                 System.out.println("handleReef - Algae");
                 if (segment == ReefSegment.Segment_1 || segment == ReefSegment.Segment_3 || segment == ReefSegment.Segment_5) {
-                    startCommand(new LoadAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone));
-                } else if (segment == ReefSegment.Segment_2 || segment == ReefSegment.Segment_4 || segment == ReefSegment.Segment_6) {
                     startCommand(new LoadAlgaeCommand(AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone));
+                } else if (segment == ReefSegment.Segment_2 || segment == ReefSegment.Segment_4 || segment == ReefSegment.Segment_6) {
+                    startCommand(new LoadAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone));
                 }
             break;
             case MODE_CORAL:

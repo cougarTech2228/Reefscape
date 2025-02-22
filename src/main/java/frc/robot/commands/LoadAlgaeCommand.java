@@ -41,7 +41,7 @@ public class LoadAlgaeCommand extends Command{
                 break;
             case REEF_HIGH:
                 anglePostition = AlgaeAcquirer.Position.REEF_ACQUIRE;
-                elevator.setPosition(Elevator.Position.ALGAE_REEF_LOW);
+                elevator.setPosition(Elevator.Position.ALGAE_REEF_HIGH);
                 break;            
         }
         coralCone.setPosition(CoralCone.Position.STOWED);

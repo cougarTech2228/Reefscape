@@ -2,6 +2,7 @@ package frc.robot.subsystems.elevator;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -19,6 +20,8 @@ public class Elevator extends SubsystemBase {
     private boolean hasBeenHome = false;
     Alert notHomedAlert = new Alert("Elevator has not been homed", AlertType.kError);
 
+    private final String manaulValueKey = "Elevator/manualSetpoint/value";
+    private final String manaulEnableKey = "Elevator/manualSetpoint/enabled";
     public enum Position {
         TRANSIT,
         ALGAE_FLOOR,
@@ -36,6 +39,9 @@ public class Elevator extends SubsystemBase {
 
     public Elevator(ElevatorIO io) {
         this.io = io;
+
+        SmartDashboard.putNumber(manaulValueKey, 0);
+        SmartDashboard.putBoolean(manaulEnableKey, false);
 
         // Configure SysId
         sysId =
@@ -58,15 +64,33 @@ public class Elevator extends SubsystemBase {
             notHomedAlert.set(!hasBeenHome);
         }
         Logger.processInputs("Elevator", inputs);
+
+        if (SmartDashboard.getBoolean(manaulEnableKey, false)){
+            // the UI shows positive values, but we work in negative space, so invert it here
+            setManualPosition(-SmartDashboard.getNumber(manaulValueKey, 0));
+        }
     }
 
-    public void setPosition(Position posistion) {
-        if(!hasBeenHome && posistion != Position.TRANSIT){
+    public void setPosition(Position position) {
+        if(!hasBeenHome && position != Position.TRANSIT){
             // We are not homed yet, REFUSE to move anywhere but home
             return;
         }
         // ensure coral and algae are in a safe position to move the elevator
-        io.setPosition(posistion);
+        io.setPosition(position);
+    }
+
+    private void setManualPosition(double position) {
+        if(!hasBeenHome && position != 0){
+            // We are not homed yet, REFUSE to move anywhere but home
+            return;
+        }
+        if (position < HEIGHT_MIN) {
+            position = HEIGHT_MIN;
+        } else if ( position > HEIGHT_MAX) {
+            position = HEIGHT_MAX;
+        }
+        io.setManualPosition(position);
     }
 
     public boolean isAtSetPosition() {
@@ -105,5 +129,10 @@ public class Elevator extends SubsystemBase {
 
     public void stop() {
         io.setVoltage(0);//-0.5);
+    }
+
+    /** return a value between 0 and 1 */
+    public double getCurrentHeightPercentage() {
+        return Math.abs(inputs.position_A / ElevatorConstants.HEIGHT_MAX);
     }
 }

@@ -35,4 +35,6 @@ public interface ElevatorIO {
   public default void setVoltage(double output){};
 
   public default void simulationPeriodic(){};
+
+  public default void setManualPosition(double position){};
 }

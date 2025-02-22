@@ -26,17 +26,21 @@ public class ElevatorConstants {
 
   // Min extend == 0 Max extend == - 
   public static final double HEIGHT_TRANSIT = 0;
-  public static final double HEIGHT_CORAL_LOAD = -23.55;
+  public static final double HEIGHT_CORAL_LOAD = -25.12;
   public static final double HEIGHT_CORAL_L1 = -8.95;
-  public static final double HEIGHT_CORAL_L2 = -26.55;
+  public static final double HEIGHT_CORAL_L2 = -24.77;
   public static final double HEIGHT_CORAL_L3 = -50.2;
   public static final double HEIGHT_CORAL_L4 = -97.9;
   public static final double HEIGHT_ALGAE_FLOOR = -5;
-  public static final double HEIGHT_ALGAE_ON_CORAL = -10.00;
-  public static final double HEIGHT_ALGAE_PROCESSOR = -23.3;
+  public static final double HEIGHT_ALGAE_ON_CORAL = -24.3;
+  public static final double HEIGHT_ALGAE_PROCESSOR = -20.29
+  ;
   public static final double HEIGHT_ALGAE_REEF_LOW = HEIGHT_CORAL_L3;
-  public static final double HEIGHT_ALGAE_REEF_HIGH = -94.3;
-  public static final double HEIGHT_ALGAE_BARGE = -125;
+  public static final double HEIGHT_ALGAE_REEF_HIGH = -74.16;
+  public static final double HEIGHT_ALGAE_BARGE = -126;
+
+  public static final double HEIGHT_MIN = -126;
+  public static final double HEIGHT_MAX = 0;
 
   public static final double ClosedLoopErrorThreshold = 0.1;
 }

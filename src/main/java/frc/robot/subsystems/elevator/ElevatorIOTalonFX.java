@@ -190,4 +190,10 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         System.out.println("Voltage: " + output);
     }
+
+    @Override
+    public void setManualPosition(double position) {
+        currentSetPosition = position;
+        elevatorA.setControl(motionMagic.withPosition(currentSetPosition));
+    }
 }

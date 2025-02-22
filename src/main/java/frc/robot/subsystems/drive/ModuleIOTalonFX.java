@@ -14,6 +14,7 @@
 package frc.robot.subsystems.drive;
 
 import static frc.robot.util.PhoenixUtil.*;
+import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -88,6 +89,8 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final StatusSignal<AngularVelocity> turnVelocity;
   private final StatusSignal<Voltage> turnAppliedVolts;
   private final StatusSignal<Current> turnCurrent;
+
+  private double currentAcceleration = 1; // Rotations / s^2
 
   // Connection debouncers
   private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
@@ -188,6 +191,18 @@ public class ModuleIOTalonFX implements ModuleIO {
   }
 
   @Override
+  public void setAcceleration(double metersPerSecondPerSecond){
+    // Step 1: Compute wheel angular acceleration (rad/s²)
+    double wheelAngularAcceleration = metersPerSecondPerSecond / TunerConstants.kWheelRadiusMeters.magnitude();
+
+    // Step 2: Convert to motor angular acceleration using gear ratio
+    double motorAngularAccelerationRad = wheelAngularAcceleration * TunerConstants.kDriveGearRatio;
+
+    // Step 3: Convert from rad/s² to rotations per second² (RPS²)
+    currentAcceleration = motorAngularAccelerationRad / (2 * Math.PI);
+}
+
+  @Override
   public void updateInputs(ModuleIOInputs inputs) {
     // Refresh all signals
     var driveStatus =
@@ -202,6 +217,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.driveVelocityRadPerSec = Units.rotationsToRadians(driveVelocity.getValueAsDouble());
     inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
+    inputs.driveAccelerationLimit = currentAcceleration;
 
     // Update turn inputs
     inputs.turnConnected = turnConnectedDebounce.calculate(turnStatus.isOK());
@@ -250,10 +266,14 @@ public class ModuleIOTalonFX implements ModuleIO {
   public void setDriveVelocity(double velocityRadPerSec) {
     double velocityRotPerSec = Units.radiansToRotations(velocityRadPerSec);
     driveTalon.setControl(
+        // switch (constants.DriveMotorClosedLoopOutput) {
+        //   case Voltage -> velocityVoltageRequest.withVelocity(velocityRotPerSec).withAcceleration(currentAcceleration);
+        //   case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(velocityRotPerSec).withAcceleration(currentAcceleration);
+        // });
         switch (constants.DriveMotorClosedLoopOutput) {
-          case Voltage -> velocityVoltageRequest.withVelocity(velocityRotPerSec);
-          case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(velocityRotPerSec);
-        });
+            case Voltage -> velocityVoltageRequest.withVelocity(velocityRotPerSec);
+            case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(velocityRotPerSec);
+          });
   }
 
   @Override

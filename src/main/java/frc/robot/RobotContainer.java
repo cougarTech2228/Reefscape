@@ -329,4 +329,13 @@ public class RobotContainer {
                 return autoChooser.get();
         }
 
+    public void calculateMaxAcceleration() {
+        double percentage = elevator.getCurrentHeightPercentage();
+        // we need a minimum level of acceleration
+        double minimumPercentage = 0.1;
+        if (percentage < minimumPercentage) {
+            percentage = minimumPercentage;
+        }
+        drive.setAccelerationPercentage(percentage);
+    }
 }

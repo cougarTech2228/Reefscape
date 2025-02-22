@@ -1,8 +1,9 @@
 package frc.robot.subsystems.coralCone;
 
-import static frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.*;
-import static frc.robot.subsystems.coralCone.CoralConeConstants.extraLoadRotations;
+import static frc.robot.subsystems.coralCone.CoralConeConstants.*;
 import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -18,6 +19,8 @@ public class CoralCone extends SubsystemBase {
     private final SysIdRoutine sysId;
     private boolean extraRotationsDone = false;
     private double extraRotationsStart = 0;
+    private final String manaulValueKey = "CoralCone/manualSetpoint/value";
+    private final String manaulEnableKey = "CoralCone/manualSetpoint/enabled";
 
     public enum Position {
         STOWED,
@@ -47,6 +50,9 @@ public class CoralCone extends SubsystemBase {
                 (state) -> Logger.recordOutput("Elevator/SysIdState", state.toString())),
             new SysIdRoutine.Mechanism(
                 (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
+
+        SmartDashboard.putNumber(manaulValueKey, 0);
+        SmartDashboard.putBoolean(manaulEnableKey, false);
     }
 
     public void setPosition(Position position) {
@@ -103,6 +109,19 @@ public class CoralCone extends SubsystemBase {
         if (!inputs.beamBreak){
             extraRotationsDone = false;
         }
+
+        if (SmartDashboard.getBoolean(manaulEnableKey, false)){
+            setManualPosition(SmartDashboard.getNumber(manaulValueKey, 0));
+        }
+    }
+
+    private void setManualPosition(double position) {
+        if (position < ANGLE_MIN) {
+            position = ANGLE_MIN;
+        } else if ( position > ANGLE_MAX) {
+            position = ANGLE_MAX;
+        }
+        io.setManualPosition(position);
     }
 
     public void manualUp() {

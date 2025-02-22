@@ -37,4 +37,6 @@ public interface AlgaeAcquirerIO {
     public default void setPosition(Position position) {}
 
     public default void setAngleVoltage(double voltage) {}
+
+    public default void setManualPosition(double position){};
 }

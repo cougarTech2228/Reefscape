@@ -241,6 +241,14 @@ public class Drive extends SubsystemBase {
         Logger.recordOutput("SwerveStates/SetpointsOptimized", setpointStates);
     }
 
+    /** Limit max acceleration */
+    public void setAccelerationPercentage(double percentage) {
+        double acceleration = TunerConstants.kMaxLinearAcceleration.magnitude() * percentage;
+        for (int i = 0; i < 4; i++) {
+            modules[i].setAcceleration(acceleration);
+        }
+    }
+
     /** Runs the drive in a straight line with the specified drive output. */
     public void runCharacterization(double output) {
         for (int i = 0; i < 4; i++) {

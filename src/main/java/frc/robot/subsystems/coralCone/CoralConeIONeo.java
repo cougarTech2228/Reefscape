@@ -109,11 +109,13 @@ public class CoralConeIONeo implements CoralConeIO {
         wheelMotor.setVoltage(motorVoltage);
     }
 
-    
     public void setAngleVoltage(double voltage) {
         wheelMotor.setVoltage(voltage);
     }
+
+    @Override
+    public void setManualPosition(double position) {
+        currentAngleSetPoint = position;
+        angleMotor.getClosedLoopController().setReference(currentAngleSetPoint, ControlType.kMAXMotionPositionControl);
+    }
 }
-
-   
-

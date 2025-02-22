@@ -34,4 +34,5 @@ public interface CoralConeIO {
 
     public default void setAngleVoltage(double kManualUpVvoltage) {        
     }
+    public default void setManualPosition(double position){};
 }
