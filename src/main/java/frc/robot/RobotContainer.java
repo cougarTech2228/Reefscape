@@ -62,6 +62,7 @@ import frc.robot.util.Enums.*;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 /**
@@ -202,7 +203,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("prepL4Coral", prepL4CoralCommand);
 
                 // Set up auto routines
-                autoChooser = new LoggedDashboardChooser<>("Auto Choices"/* , AutoBuilder.buildAutoChooser() */);
+                autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
                 operatorUI = new OperatorUI(elevator, algaeAcquirer, coralCone, drive, climber);
 
@@ -329,14 +330,14 @@ public class RobotContainer {
                 return autoChooser.get();
         }
 
-    public void calculateMaxAcceleration() {
-        double percentage = elevator.getCurrentHeightPercentage();
-        // we need a minimum level of acceleration
-        double minimumPercentage = 0.1;
-        if (percentage < minimumPercentage) {
-            percentage = minimumPercentage;
-        }
+        public void calculateMaxAcceleration() {
+                double percentage = elevator.getCurrentHeightPercentage();
+                // we need a minimum level of acceleration
+                double minimumPercentage = 0.1;
+                if (percentage < minimumPercentage) {
+                        percentage = minimumPercentage;
+                }
 
-        drive.setAccelerationPercentage(percentage);
-    }
+                drive.setAccelerationPercentage(percentage);
+        }
 }
