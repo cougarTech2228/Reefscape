@@ -336,6 +336,7 @@ public class RobotContainer {
         if (percentage < minimumPercentage) {
             percentage = minimumPercentage;
         }
+
         drive.setAccelerationPercentage(percentage);
     }
 }

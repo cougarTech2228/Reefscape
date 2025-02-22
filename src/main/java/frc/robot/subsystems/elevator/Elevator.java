@@ -133,6 +133,7 @@ public class Elevator extends SubsystemBase {
 
     /** return a value between 0 and 1 */
     public double getCurrentHeightPercentage() {
-        return Math.abs(inputs.position_A / ElevatorConstants.HEIGHT_MAX);
+        return Math.abs((
+            Math.abs(ElevatorConstants.HEIGHT_MIN) - Math.abs(inputs.position_A)) / ElevatorConstants.HEIGHT_MIN);
     }
 }

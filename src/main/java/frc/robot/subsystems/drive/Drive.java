@@ -243,9 +243,9 @@ public class Drive extends SubsystemBase {
 
     /** Limit max acceleration */
     public void setAccelerationPercentage(double percentage) {
-        double acceleration = TunerConstants.kMaxLinearAcceleration.magnitude() * percentage;
+        // double acceleration = TunerConstants.kMaxLinearAcceleration.magnitude() * percentage;
         for (int i = 0; i < 4; i++) {
-            modules[i].setAcceleration(acceleration);
+            modules[i].setAcceleration(percentage);
         }
     }
 

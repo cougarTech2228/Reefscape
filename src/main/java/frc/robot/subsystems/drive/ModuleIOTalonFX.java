@@ -19,6 +19,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -90,7 +91,7 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final StatusSignal<Voltage> turnAppliedVolts;
   private final StatusSignal<Current> turnCurrent;
 
-  private double currentAcceleration = 1; // Rotations / s^2
+  private double currentLimitPercent = 1;
 
   // Connection debouncers
   private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
@@ -118,6 +119,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         constants.DriveMotorInverted
             ? InvertedValue.Clockwise_Positive
             : InvertedValue.CounterClockwise_Positive;
+
+    driveConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0.1;
     tryUntilOk(5, () -> driveTalon.getConfigurator().apply(driveConfig, 0.25));
     tryUntilOk(5, () -> driveTalon.setPosition(0.0, 0.25));
 
@@ -191,15 +194,21 @@ public class ModuleIOTalonFX implements ModuleIO {
   }
 
   @Override
-  public void setAcceleration(double metersPerSecondPerSecond){
-    // Step 1: Compute wheel angular acceleration (rad/s²)
-    double wheelAngularAcceleration = metersPerSecondPerSecond / TunerConstants.kWheelRadiusMeters.magnitude();
+  public void setAcceleration(double percentage){
+    currentLimitPercent = percentage;
+    driveTalon.getConfigurator().apply(
+        new ClosedLoopRampsConfigs().withTorqueClosedLoopRampPeriod((1 - (1* percentage)) + 0.1));
+    
+    // driveConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0.1;
+    // driveTalon.getConfigurator().apply(new ClosedLoopRampsConfigs().withTorqueClosedLoopRampPeriod(2000));
+    // // Step 1: Compute wheel angular acceleration (rad/s²)
+    // double wheelAngularAcceleration = metersPerSecondPerSecond / TunerConstants.kWheelRadiusMeters.magnitude();
 
-    // Step 2: Convert to motor angular acceleration using gear ratio
-    double motorAngularAccelerationRad = wheelAngularAcceleration * TunerConstants.kDriveGearRatio;
+    // // Step 2: Convert to motor angular acceleration using gear ratio
+    // double motorAngularAccelerationRad = wheelAngularAcceleration * TunerConstants.kDriveGearRatio;
 
-    // Step 3: Convert from rad/s² to rotations per second² (RPS²)
-    currentAcceleration = motorAngularAccelerationRad / (2 * Math.PI);
+    // // Step 3: Convert from rad/s² to rotations per second² (RPS²)
+    // currentAcceleration = motorAngularAccelerationRad / (2 * Math.PI);
 }
 
   @Override
@@ -217,7 +226,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.driveVelocityRadPerSec = Units.rotationsToRadians(driveVelocity.getValueAsDouble());
     inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
-    inputs.driveAccelerationLimit = currentAcceleration;
+    inputs.driveAccelerationLimit = currentLimitPercent;
 
     // Update turn inputs
     inputs.turnConnected = turnConnectedDebounce.calculate(turnStatus.isOK());
@@ -266,14 +275,10 @@ public class ModuleIOTalonFX implements ModuleIO {
   public void setDriveVelocity(double velocityRadPerSec) {
     double velocityRotPerSec = Units.radiansToRotations(velocityRadPerSec);
     driveTalon.setControl(
-        // switch (constants.DriveMotorClosedLoopOutput) {
-        //   case Voltage -> velocityVoltageRequest.withVelocity(velocityRotPerSec).withAcceleration(currentAcceleration);
-        //   case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(velocityRotPerSec).withAcceleration(currentAcceleration);
-        // });
         switch (constants.DriveMotorClosedLoopOutput) {
-            case Voltage -> velocityVoltageRequest.withVelocity(velocityRotPerSec);
-            case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(velocityRotPerSec);
-          });
+          case Voltage -> velocityVoltageRequest.withVelocity(velocityRotPerSec);
+          case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(velocityRotPerSec * currentLimitPercent);
+        });
   }
 
   @Override
