@@ -60,6 +60,7 @@ public class CoralCone extends SubsystemBase {
     }
 
     public void setWheel(WheelState state) {
+
         io.setWheel(state);
         currentWheelState = state;
     }
@@ -86,7 +87,7 @@ public class CoralCone extends SubsystemBase {
     }
 
     public boolean isLoaded() {
-        return inputs.beamBreak /*&& extraRotationsDone*/;
+        return inputs.beamBreak && extraRotationsDone;
     }
 
 
@@ -98,7 +99,7 @@ public class CoralCone extends SubsystemBase {
             if (extraRotationsStart == 0) {
                 extraRotationsStart = inputs.wheelPosition;
             } else {
-                if (Math.abs(inputs.wheelPosition - extraRotationsStart) > extraLoadRotations){
+                if (inputs.wheelPosition < (extraRotationsStart - extraLoadRotations)){
                     setWheel(WheelState.TRANSIT);
                     extraRotationsStart = 0;
                     extraRotationsDone = true;

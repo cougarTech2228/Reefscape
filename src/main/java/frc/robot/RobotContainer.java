@@ -97,6 +97,8 @@ public class RobotContainer {
     // Dashboard inputs
     private final LoggedDashboardChooser<Command> autoChooser;
 
+    private double driverOverridePercentage = 1;
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -264,60 +266,60 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
-                DriveCommands.joystickDrive(
-                        drive,
-                        () -> -driverController.getLeftY(),
-                        () -> -driverController.getLeftX(),
-                        () -> -driverController.getRightX()));
+            DriveCommands.joystickDrive(
+                drive,
+                () -> -driverController.getLeftY(),
+                () -> -driverController.getLeftX(),
+                () -> -driverController.getRightX()));
 
         // Lock to 0° when A button is held
         driverController
-                .a()
-                .whileTrue(
-                        DriveCommands.joystickDriveAtAngle(
-                                drive,
-                                () -> -driverController.getLeftY(),
-                                () -> -driverController.getLeftX(),
-                                () -> new Rotation2d()));
+            .a()
+            .whileTrue(
+                DriveCommands.joystickDriveAtAngle(
+                    drive,
+                    () -> -driverController.getLeftY(),
+                    () -> -driverController.getLeftX(),
+                    () -> new Rotation2d()));
 
         // Switch to X pattern when X button is pressed
         driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
         // Reset gyro to 0° when B button is pressed
         driverController
-                .b()
-                .onTrue(
-                        Commands.runOnce(
-                                () -> drive.setPose(
-                                        new Pose2d(drive.getPose()
-                                                .getTranslation(),
-                                                new Rotation2d())),
-                                drive)
-                                .ignoringDisable(true));
+            .b()
+            .onTrue(
+                Commands.runOnce(
+                    () -> drive.setPose(
+                            new Pose2d(drive.getPose()
+                                    .getTranslation(),
+                                    new Rotation2d())),
+                    drive)
+                    .ignoringDisable(true));
 
         driverController
-                .leftBumper()
-                .onTrue(
-                        new InstantCommand(() -> {
-                            elevator.manualUp();
-                        }));
+            .leftBumper()
+            .onTrue(
+                new InstantCommand(() -> {
+                    elevator.manualUp();
+                }));
 
         driverController
-                .leftTrigger()
-                .onTrue(
-                        new InstantCommand(() -> {
-                            elevator.manualDown();
-                        }));
+            .leftTrigger()
+            .onTrue(
+                new InstantCommand(() -> {
+                    elevator.manualDown();
+                }));
 
-        // driverController.rightBumper()
-        // .onTrue(new InstantCommand(() -> {
-        // // climber.setServoPosition(Climber.ServoLockPosition.LOCKED);
-        // climber.setClimberPosition(Climber.ClimberPosition.DOWN);
-        // }))
-        // .onFalse(new InstantCommand(() -> {
-        // // climber.setServoPosition(Climber.ServoLockPosition.UNLOCKED);
-        // climber.setClimberPosition(Climber.ClimberPosition.UP);
-        // }));
+        driverController.rightBumper()
+            .onTrue(new InstantCommand(() -> {
+                driverOverridePercentage = 0.3;
+            }
+            ))
+            .onFalse(new InstantCommand(() -> {
+                driverOverridePercentage = 1.0;
+            }
+        ));
     }
 
     /**
@@ -338,6 +340,6 @@ public class RobotContainer {
             percentage = minimumPercentage;
         }
 
-        drive.setAccelerationPercentage(percentage);
+        drive.setAccelerationPercentage(Math.min(percentage, driverOverridePercentage));
     }
 }
