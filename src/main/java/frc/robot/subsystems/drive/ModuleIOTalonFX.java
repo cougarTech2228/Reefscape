@@ -196,6 +196,7 @@ public class ModuleIOTalonFX implements ModuleIO {
   @Override
   public void setAcceleration(double percentage){
     currentLimitPercent = percentage;
+    System.out.println("setAccelleration: " + percentage);
     driveTalon.getConfigurator().apply(
         new ClosedLoopRampsConfigs().withTorqueClosedLoopRampPeriod((1 - (1* percentage)) + 0.1));
     

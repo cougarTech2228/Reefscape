@@ -98,6 +98,7 @@ public class RobotContainer {
     private final LoggedDashboardChooser<Command> autoChooser;
 
     private double driverOverridePercentage = 1;
+    private double currentPercentage = 1;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -340,6 +341,10 @@ public class RobotContainer {
             percentage = minimumPercentage;
         }
 
-        drive.setAccelerationPercentage(Math.min(percentage, driverOverridePercentage));
+        double value = Math.min(percentage, driverOverridePercentage);
+        if (Math.abs(currentPercentage - value) > 0.05){
+            currentPercentage = value;
+            drive.setAccelerationPercentage(value);
+        }
     }
 }
