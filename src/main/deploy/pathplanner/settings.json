@@ -6,6 +6,7 @@
     "From B1",
     "From B2",
     "From B3",
+    "From CL",
     "From CR",
     "From R1",
     "From R2",
@@ -14,15 +15,15 @@
     "From R5",
     "From R6",
     "Misc",
-    "From CL"
+    "Reef Short Paths"
   ],
   "autoFolders": [
     "Test Autos"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 3.0,
-  "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 720.0,
+  "defaultMaxVel": 1.5,
+  "defaultMaxAccel": 4.0,
+  "defaultMaxAngVel": 720.0,
+  "defaultMaxAngAccel": 1440.0,
   "defaultNominalVoltage": 12.0,
   "robotMass": 63.85,
   "robotMOI": 6.883,

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.0,
-        "y": 2.7
+        "x": 4.878435284102455,
+        "y": 2.6845269772378493
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.323810781214881,
-        "y": 1.24990754074136
+        "x": 3.8410697049415026,
+        "y": 1.4663838595492655
       },
       "isLocked": false,
       "linkedName": "R3L"
     },
     {
       "anchor": {
-        "x": 1.1,
-        "y": 1.2
+        "x": 1.0431635451425423,
+        "y": 1.1423685716593297
       },
       "prevControl": {
-        "x": 2.2691342951089926,
-        "y": 1.8749999999999996
+        "x": 2.213887229353068,
+        "y": 2.0334047558698556
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,12 +31,35 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "prepEmptyTransit",
+      "waypointRelativePos": 0.04129263913824055,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "prepEmptyTransit"
+        }
+      }
+    },
+    {
+      "name": "loadCoral",
+      "waypointRelativePos": 0.5,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "loadCoral"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 1.5,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 360.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 1440.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },

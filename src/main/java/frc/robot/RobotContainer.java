@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
+import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PrepEmptyTransitCommand;
 import frc.robot.commands.pathplanner.LoadAlgaeAutoCommand;
 import frc.robot.commands.pathplanner.LoadCoralAutoCommand;
@@ -64,6 +65,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -90,9 +92,9 @@ public class RobotContainer {
 
     // Controller
     private final CommandXboxController driverController = new CommandXboxController(0);
-    private final Joystick buttonBox1 = new Joystick(1);
-    private final Joystick buttonBox2 = new Joystick(2);
-    private final ButtonBoard buttonBoard;
+    // private final Joystick buttonBox1 = new Joystick(1);
+    // private final Joystick buttonBox2 = new Joystick(2);
+    // private final ButtonBoard buttonBoard;
 
     // Dashboard inputs
     private final LoggedDashboardChooser<Command> autoChooser;
@@ -171,7 +173,7 @@ public class RobotContainer {
 
         Command fireCoralCommand = new FireCoralCommand(coralCone);
         Command fireAlgaeCommand = new FireAlgaeCommand(algaeAcquirer);
-        Command loadCoralCommand = new LoadCoralAutoCommand(elevator, algaeAcquirer, coralCone);
+        Command loadCoralCommand = new LoadCoralCommand(elevator, algaeAcquirer, coralCone);
         Command loadAlgaeCommand = new LoadAlgaeAutoCommand(elevator, algaeAcquirer, coralCone);
         Command prepLowAlgaeCommand = new PrepLoadAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer,
                 coralCone);
@@ -251,8 +253,9 @@ public class RobotContainer {
                         }));
         // Configure the button bindings
         configureButtonBindings();
-        buttonBoard = new ButtonBoard(buttonBox1, buttonBox2, elevator, coralCone, algaeAcquirer, climber);
-        buttonBoard.configureButtonBindings();
+        // buttonBoard = new ButtonBoard(buttonBox1, buttonBox2, elevator, coralCone,
+        // algaeAcquirer, climber);
+        // buttonBoard.configureButtonBindings();
 
     }
 
@@ -267,60 +270,58 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
-            DriveCommands.joystickDrive(
-                drive,
-                () -> -driverController.getLeftY(),
-                () -> -driverController.getLeftX(),
-                () -> -driverController.getRightX()));
+                DriveCommands.joystickDrive(
+                        drive,
+                        () -> -driverController.getLeftY(),
+                        () -> -driverController.getLeftX(),
+                        () -> -driverController.getRightX()));
 
         // Lock to 0° when A button is held
         driverController
-            .a()
-            .whileTrue(
-                DriveCommands.joystickDriveAtAngle(
-                    drive,
-                    () -> -driverController.getLeftY(),
-                    () -> -driverController.getLeftX(),
-                    () -> new Rotation2d()));
+                .a()
+                .whileTrue(
+                        DriveCommands.joystickDriveAtAngle(
+                                drive,
+                                () -> -driverController.getLeftY(),
+                                () -> -driverController.getLeftX(),
+                                () -> new Rotation2d()));
 
         // Switch to X pattern when X button is pressed
         driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
         // Reset gyro to 0° when B button is pressed
         driverController
-            .b()
-            .onTrue(
-                Commands.runOnce(
-                    () -> drive.setPose(
-                            new Pose2d(drive.getPose()
-                                    .getTranslation(),
-                                    new Rotation2d())),
-                    drive)
-                    .ignoringDisable(true));
+                .b()
+                .onTrue(
+                        Commands.runOnce(
+                                () -> drive.setPose(
+                                        new Pose2d(drive.getPose()
+                                                .getTranslation(),
+                                                new Rotation2d())),
+                                drive)
+                                .ignoringDisable(true));
 
         driverController
-            .leftBumper()
-            .onTrue(
-                new InstantCommand(() -> {
-                    elevator.manualUp();
-                }));
+                .leftBumper()
+                .onTrue(
+                        new InstantCommand(() -> {
+                            elevator.manualUp();
+                        }));
 
         driverController
-            .leftTrigger()
-            .onTrue(
-                new InstantCommand(() -> {
-                    elevator.manualDown();
-                }));
+                .leftTrigger()
+                .onTrue(
+                        new InstantCommand(() -> {
+                            elevator.manualDown();
+                        }));
 
         driverController.rightBumper()
-            .onTrue(new InstantCommand(() -> {
-                driverOverridePercentage = 0.3;
-            }
-            ))
-            .onFalse(new InstantCommand(() -> {
-                driverOverridePercentage = 1.0;
-            }
-        ));
+                .onTrue(new InstantCommand(() -> {
+                    driverOverridePercentage = 0.3;
+                }))
+                .onFalse(new InstantCommand(() -> {
+                    driverOverridePercentage = 1.0;
+                }));
     }
 
     /**
@@ -342,7 +343,7 @@ public class RobotContainer {
         }
 
         double value = Math.min(percentage, driverOverridePercentage);
-        if (Math.abs(currentPercentage - value) > 0.05){
+        if (Math.abs(currentPercentage - value) > 0.05) {
             currentPercentage = value;
             drive.setAccelerationPercentage(value);
         }
