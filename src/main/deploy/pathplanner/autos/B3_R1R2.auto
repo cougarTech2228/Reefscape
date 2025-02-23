@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "prepL2"
+                  "name": "prepL2Coral"
                 }
               }
             ]
@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shootCoral"
+            "name": "fireCoral"
           }
         }
       ]
