@@ -332,8 +332,8 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                return new AutoAlignCommand(drive, Destination.REEF_2_LEFT);
-                // return autoChooser.get();
+                // return new AutoAlignCommand(drive, Destination.REEF_2_LEFT);
+                return autoChooser.get();
         }
 
         public void calculateMaxAcceleration() {

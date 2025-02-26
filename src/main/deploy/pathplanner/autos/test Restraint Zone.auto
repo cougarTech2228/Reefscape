@@ -1,0 +1,63 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B3_R2R Restraint Zone"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "prepL4Coral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fireCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "prepEmptyTransit"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "R2R_CR Restraint Zone"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "loadCoral"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Test Autos",
+  "choreoAuto": false
+}
