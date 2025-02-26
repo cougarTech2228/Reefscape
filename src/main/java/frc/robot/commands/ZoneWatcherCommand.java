@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.Drive;
 
@@ -18,7 +19,7 @@ public class ZoneWatcherCommand extends Command {
     }
 
     public boolean isFinished() {
-        if (dest.inZone(drive.getPose())) {
+        if (dest.inZone(drive.getPose(), DriverStation.getAlliance().get())) {
             // Command path = DriveCommands.shortAutoPath(drive, dest);
             // CommandScheduler.getInstance().schedule(path);
             return true;

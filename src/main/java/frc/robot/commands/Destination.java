@@ -12,35 +12,25 @@ import java.util.ArrayList;
  * Destinations for short autonomous paths
  */
 public enum Destination {
-    BLUE_1_LEFT(3.1, 4.33, 0, 0, 9, 0, -1, 2.8, 3, 2.8, 5),
-    BLUE_1_RIGHT(3.1, 4.0, 0, 0, 9, 0, -1, 2.8, 3, 2.8, 5),
-    BLUE_2_LEFT(3.6, 2.9, 60, 2.7, 2.9, -1, 1, 5.5, -2, 4.5, 2.2),
-    BLUE_2_RIGHT(3.8, 2.8, 60, 2.7, 2.9, -1, 1, 5.5, -2, 4.5, 2.2),
-    BLUE_3_LEFT(5, 2.7, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
-    BLUE_3_RIGHT(5.2, 2.8, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
+    // All defined here relative to Blue. All functions below will mirror as needed.
+    REEF_1_LEFT(3.15, 4.36, 0, 0, 9, 0, -1, 2.8, 3, 2.8, 5),
+    REEF_1_RIGHT(3.15, 4.03, 0, 0, 9, 0, -1, 2.8, 3, 2.8, 5),
+    REEF_2_LEFT(3.55, 3.05, 60, 2.7, 2.9, -1, 1, 5.5, -2, 4.5, 2.2),
+    REEF_2_RIGHT(3.83, 2.89, 60, 2.7, 2.9, -1, 1, 5.5, -2, 4.5, 2.2),
+    REEF_3_LEFT(4.86, 2.72, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
+    REEF_3_RIGHT(5.15, 2.89, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
 
     // Changed x coord from 5.8 to 5.9; bumper would hit reef if unchanged
-    BLUE_4_LEFT(5.9, 3.67, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
-    BLUE_4_RIGHT(5.9, 4.0, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
+    // AprilTag math says 5.81 should be ok...
+    REEF_4_LEFT(5.81, 3.7, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
+    REEF_4_RIGHT(5.81, 4.03, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
 
-    BLUE_5_LEFT(5.4, 5.1, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
-    BLUE_5_RIGHT(5.2, 5.2, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
-    BLUE_6_LEFT(4, 5.3, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
-    BLUE_6_RIGHT(3.8, 5.2, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
+    REEF_5_LEFT(5.43, 5.0, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
+    REEF_5_RIGHT(5.15, 5.16, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
+    REEF_6_LEFT(4.12, 5.33, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
+    REEF_6_RIGHT(3.83, 5.16, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
 
-    // TODO: give these their own trapezoids
-    RED_1_LEFT(14.4, 3.67, 180, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_1_RIGHT(14.4, 4.33, 180, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_2_LEFT(14.0, 5.1, -120, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_2_RIGHT(13.8, 5.2, -120, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_3_LEFT(12.5, 5.3, -60, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_3_RIGHT(12.4, 5.2, -60, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_4_LEFT(11.7, 4.33, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_4_RIGHT(11.7, 4.0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_5_LEFT(12.0, 3.0, 60, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_5_RIGHT(12.4, 2.9, 60, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_6_LEFT(13.5, 2.75, 120, 0, 0, 0, 0, 0, 0, 0, 0),
-    RED_6_RIGHT(13.7, 2.85, 120, 0, 0, 0, 0, 0, 0, 0, 0);
+    PROCESSOR(5.99, 0.48, 270, 8.3, 0, 8.3, 3.5, 3, 3.5, 1, 0);
 
     public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location,
             DriverStation.Alliance alliance) {
@@ -51,12 +41,12 @@ public enum Destination {
                     case L2_L:
                     case L3_L:
                     case L4_L:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_1_LEFT : RED_1_LEFT;
+                        destination = REEF_1_LEFT;
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_1_RIGHT : RED_1_RIGHT;
+                        destination = REEF_1_RIGHT;
                 }
                 break;
             case Segment_2:
@@ -64,12 +54,12 @@ public enum Destination {
                     case L2_L:
                     case L3_L:
                     case L4_L:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_2_LEFT : RED_2_LEFT;
+                        destination = REEF_2_LEFT;
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_2_RIGHT : RED_2_RIGHT;
+                        destination = REEF_2_RIGHT;
                 }
                 break;
             case Segment_3:
@@ -77,12 +67,12 @@ public enum Destination {
                     case L2_L:
                     case L3_L:
                     case L4_L:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_3_LEFT : RED_3_LEFT;
+                        destination = REEF_3_LEFT;
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_3_RIGHT : RED_3_RIGHT;
+                        destination = REEF_3_RIGHT;
                 }
                 break;
             case Segment_4:
@@ -90,12 +80,12 @@ public enum Destination {
                     case L2_L:
                     case L3_L:
                     case L4_L:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_4_LEFT : RED_4_LEFT;
+                        destination = REEF_4_LEFT;
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_4_RIGHT : RED_4_RIGHT;
+                        destination = REEF_4_RIGHT;
                 }
                 break;
             case Segment_5:
@@ -103,12 +93,12 @@ public enum Destination {
                     case L2_L:
                     case L3_L:
                     case L4_L:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_5_LEFT : RED_5_LEFT;
+                        destination = REEF_5_LEFT;
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_5_RIGHT : RED_5_RIGHT;
+                        destination = REEF_5_RIGHT;
                 }
                 break;
             case Segment_6:
@@ -116,12 +106,12 @@ public enum Destination {
                     case L2_L:
                     case L3_L:
                     case L4_L:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_6_LEFT : RED_6_LEFT;
+                        destination = REEF_6_LEFT;
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
-                        destination = alliance == DriverStation.Alliance.Blue ? BLUE_6_RIGHT : RED_6_RIGHT;
+                        destination = REEF_6_RIGHT;
                 }
                 break;
         }
@@ -143,15 +133,17 @@ public enum Destination {
         zone.add(new Translation2d(p4x, p4y));
     }
 
-    public Rotation2d getAngle() {
-        return pose.getRotation();
+    public Rotation2d getAngle(DriverStation.Alliance alliance) {
+        return alliance == DriverStation.Alliance.Blue ? pose.getRotation()
+                : pose.getRotation().plus(Rotation2d.k180deg);
     }
 
-    public Pose2d getPose() {
-        return pose;
+    public Pose2d getPose(DriverStation.Alliance alliance) {
+        return alliance == DriverStation.Alliance.Blue ? pose
+                : new Pose2d(17.55 - pose.getX(), 8.05 - pose.getY(), pose.getRotation().unaryMinus());
     }
 
-    public boolean inZone(Pose2d pos) {
+    public boolean inZone(Pose2d pos, DriverStation.Alliance alliance) {
         // for the given pose, is it in the trapezoid?
         // n>2 Keep track of cross product sign changes
         int pve = 0;
@@ -163,13 +155,21 @@ public enum Destination {
         for (int i = 0; i < 4; i++) {
             // Form a segment between the i'th point
             double x1 = zone.get(i).getX();
+            if (alliance == DriverStation.Alliance.Red)
+                x1 = 17.55 - x1;
             double y1 = zone.get(i).getY();
+            if (alliance == DriverStation.Alliance.Red)
+                y1 = 8.05 - y1;
 
             // And the i+1'th, or if i is the last, with the first point
             int i2 = (i + 1) % 4;
 
             double x2 = zone.get(i2).getX();
+            if (alliance == DriverStation.Alliance.Red)
+                x2 = 17.55 - x2;
             double y2 = zone.get(i2).getY();
+            if (alliance == DriverStation.Alliance.Red)
+                y2 = 8.05 - y2;
 
             // Compute the cross product
             double d = (x - x1) * (y2 - y1) - (y - y1) * (x2 - x1);
