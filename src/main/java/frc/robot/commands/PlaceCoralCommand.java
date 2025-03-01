@@ -23,7 +23,7 @@ public class PlaceCoralCommand extends SequentialCommandGroup {
                 new AutoAlignCommand(drive, dest)
             ),
             // once we're in the right place, shoot the coral
-            new FireCoralCommand(coralCone),
+            new FireCoralCommand(coralCone, false),
 
             // Once we've shot, go back to a safe state to transit
             new PrepEmptyTransitCommand( elevator, coralCone, algaeAquirer)

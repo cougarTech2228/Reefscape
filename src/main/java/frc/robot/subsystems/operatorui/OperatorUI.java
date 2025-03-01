@@ -155,10 +155,14 @@ public class OperatorUI extends SubsystemBase {
                     );
                 startCommand(cmd);
             } else if (coralCone.isLoaded()) {
+                boolean isFast = false;
+                if (getReefPost().equals("L1")) {
+                    isFast = true;
+                }
                 Command cmd = new CTSequentialCommandGroup(
-                        new FireCoralCommand(coralCone),
+                        new FireCoralCommand(coralCone, isFast),
                         new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer)
-                    );
+                );
                 startCommand(cmd);
             }
             return;

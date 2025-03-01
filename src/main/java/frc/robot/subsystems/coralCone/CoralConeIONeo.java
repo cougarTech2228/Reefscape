@@ -36,17 +36,17 @@ public class CoralConeIONeo implements CoralConeIO {
 
         angleMotorConfig.absoluteEncoder.setSparkMaxDataPortConfig();
         angleMotorConfig
-            .idleMode(IdleMode.kBrake)
-            .smartCurrentLimit(20)
-            .apply(closedLoopConfig);
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(20)
+                .apply(closedLoopConfig);
 
         angleMotor.configure(angleMotorConfig, null, null);
 
         wheelMotorConfig
-            .idleMode(IdleMode.kBrake)
-            .smartCurrentLimit(20);
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(20);
         wheelMotor.configure(wheelMotorConfig, null, null);
-        
+
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CoralConeIONeo implements CoralConeIO {
         inputs.angleMotorEncoderVelocity = angleMotor.getAbsoluteEncoder().getVelocity();
         inputs.angleMotorEncoderPosition = angleMotor.getAbsoluteEncoder().getPosition();
         inputs.angleMotorIsAtSetPosition = Math.abs(angleMotor.getAbsoluteEncoder().getPosition()
-            - currentAngleSetPoint) <= CoralConeConstants.closedLoopAngleAllowedError;
+                - currentAngleSetPoint) <= CoralConeConstants.closedLoopAngleAllowedError;
 
         inputs.wheelVoltage = wheelMotor.getAppliedOutput();
         inputs.wheelPosition = wheelMotor.getEncoder().getPosition();
@@ -66,7 +66,6 @@ public class CoralConeIONeo implements CoralConeIO {
         inputs.angleSetPoition = currentAngleSetPoint;
     }
 
-    
     public void setPosition(Position angle) {
         switch (angle) {
             case STOWED:
@@ -91,8 +90,6 @@ public class CoralConeIONeo implements CoralConeIO {
         angleMotor.getClosedLoopController().setReference(currentAngleSetPoint, ControlType.kMAXMotionPositionControl);
     }
 
-  
-
     public void setWheel(WheelState state) {
         double motorVoltage = 0;
         switch (state) {
@@ -104,6 +101,9 @@ public class CoralConeIONeo implements CoralConeIO {
                 break;
             case TRANSIT:
                 motorVoltage = CoralConeConstants.transitVoltage;
+                break;
+            case SHOOT_FAST:
+                motorVoltage = CoralConeConstants.shootFastVoltage;
                 break;
         }
         wheelMotor.setVoltage(motorVoltage);

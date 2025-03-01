@@ -61,6 +61,7 @@ import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.Enums.*;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.CollapseCommand;
 import frc.robot.commands.Destination;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -173,7 +174,7 @@ public class RobotContainer {
                                 });
                 }
 
-                Command fireCoralCommand = new FireCoralCommand(coralCone);
+                Command fireCoralCommand = new FireCoralCommand(coralCone, false);
                 Command fireAlgaeCommand = new FireAlgaeCommand(algaeAcquirer);
                 Command loadCoralCommand = new LoadCoralCommand(elevator, algaeAcquirer, coralCone);
                 Command loadAlgaeCommand = new LoadAlgaeAutoCommand(elevator, algaeAcquirer, coralCone);
@@ -183,7 +184,7 @@ public class RobotContainer {
                                 coralCone);
 
                 Command prepProcessorCommand = new PrepProcessorCommand(elevator, algaeAcquirer, coralCone);
-                Command prepEmptyTransitCommand = new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer);
+                Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone);
                 Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
                                 algaeAcquirer, coralCone);
                 Command prepL2CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L2_L,
@@ -203,7 +204,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("prepLowAlgae", prepLowAlgaeCommand);
                 NamedCommands.registerCommand("prepHighAlgae", prepHighAlgaeCommand);
                 NamedCommands.registerCommand("prepProcessor", prepProcessorCommand);
-                NamedCommands.registerCommand("prepEmptyTransit", prepEmptyTransitCommand);
+                NamedCommands.registerCommand("collapse", collapseCommand);
                 NamedCommands.registerCommand("prepL1Coral", prepL1CoralCommand);
                 NamedCommands.registerCommand("prepL2Coral", prepL2CoralCommand);
                 NamedCommands.registerCommand("prepL3Coral", prepL3CoralCommand);

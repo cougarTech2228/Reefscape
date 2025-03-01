@@ -13,15 +13,21 @@ public class FireCoralCommand extends Command {
 
     private final double shootDurationSec = 0.75;
     private double startTime = 0;
+    private boolean isFast;
 
-    public FireCoralCommand(CoralCone coralCone) {
+    public FireCoralCommand(CoralCone coralCone, boolean isFast) {
         this.coralCone = coralCone;
+        this.isFast = isFast;
         addRequirements(coralCone);
     }
 
     @Override
     public void initialize() {
-        coralCone.setWheel(WheelState.SHOOT);
+        if (isFast) {
+            coralCone.setWheel(WheelState.SHOOT_FAST);
+        } else {
+            coralCone.setWheel(WheelState.SHOOT);
+        }
         startTime = Timer.getFPGATimestamp();
     }
 
@@ -34,7 +40,7 @@ public class FireCoralCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         coralCone.setWheel(WheelState.TRANSIT);
-        if (interrupted){
+        if (interrupted) {
             if (interrupted) {
                 coralCone.stop();
             }

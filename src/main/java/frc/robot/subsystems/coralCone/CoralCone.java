@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 
-
 public class CoralCone extends SubsystemBase {
     private final CoralConeIO io;
     private CoralConeIOInputsAutoLogged inputs = new CoralConeIOInputsAutoLogged();
@@ -34,22 +33,22 @@ public class CoralCone extends SubsystemBase {
     public enum WheelState {
         LOAD,
         SHOOT,
-        TRANSIT
+        TRANSIT,
+        SHOOT_FAST
     }
 
     public CoralCone(CoralConeIO io) {
         this.io = io;
 
         // Configure SysId
-        sysId =
-        new SysIdRoutine(
-            new SysIdRoutine.Config(
-                Volts.of(0.5).per(Second),
-                Volts.of(3),
-                null,
-                (state) -> Logger.recordOutput("Elevator/SysIdState", state.toString())),
-            new SysIdRoutine.Mechanism(
-                (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
+        sysId = new SysIdRoutine(
+                new SysIdRoutine.Config(
+                        Volts.of(0.5).per(Second),
+                        Volts.of(3),
+                        null,
+                        (state) -> Logger.recordOutput("Elevator/SysIdState", state.toString())),
+                new SysIdRoutine.Mechanism(
+                        (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
 
         SmartDashboard.putNumber(manaulValueKey, 0);
         SmartDashboard.putBoolean(manaulEnableKey, false);
@@ -68,8 +67,8 @@ public class CoralCone extends SubsystemBase {
     /** Returns a command to run a quasistatic test in the specified direction. */
     public Command sysIdAngleQuasistatic(SysIdRoutine.Direction direction) {
         return run(() -> runCharacterization(0.0))
-            .withTimeout(1.0)
-            .andThen(sysId.quasistatic(direction));
+                .withTimeout(1.0)
+                .andThen(sysId.quasistatic(direction));
     }
 
     /** Returns a command to run a dynamic test in the specified direction. */
@@ -77,7 +76,9 @@ public class CoralCone extends SubsystemBase {
         return run(() -> runCharacterization(0.0)).withTimeout(1.0).andThen(sysId.dynamic(direction));
     }
 
-    /** Runs the module with the specified output while controlling to zero degrees. */
+    /**
+     * Runs the module with the specified output while controlling to zero degrees.
+     */
     public void runCharacterization(double output) {
         io.setAngleVoltage(output);
     }
@@ -90,16 +91,15 @@ public class CoralCone extends SubsystemBase {
         return inputs.beamBreak && extraRotationsDone;
     }
 
-
     @Override
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("CoralCone", inputs);
-        if (currentWheelState == WheelState.LOAD && inputs.beamBreak){
+        if (currentWheelState == WheelState.LOAD && inputs.beamBreak) {
             if (extraRotationsStart == 0) {
                 extraRotationsStart = inputs.wheelPosition;
             } else {
-                if (inputs.wheelPosition < (extraRotationsStart - extraLoadRotations)){
+                if (inputs.wheelPosition < (extraRotationsStart - extraLoadRotations)) {
                     setWheel(WheelState.TRANSIT);
                     extraRotationsStart = 0;
                     extraRotationsDone = true;
@@ -107,11 +107,11 @@ public class CoralCone extends SubsystemBase {
             }
         }
 
-        if (!inputs.beamBreak){
+        if (!inputs.beamBreak) {
             extraRotationsDone = false;
         }
 
-        if (SmartDashboard.getBoolean(manaulEnableKey, false)){
+        if (SmartDashboard.getBoolean(manaulEnableKey, false)) {
             setManualPosition(SmartDashboard.getNumber(manaulValueKey, 0));
         }
     }
@@ -119,7 +119,7 @@ public class CoralCone extends SubsystemBase {
     private void setManualPosition(double position) {
         if (position < ANGLE_MIN) {
             position = ANGLE_MIN;
-        } else if ( position > ANGLE_MAX) {
+        } else if (position > ANGLE_MAX) {
             position = ANGLE_MAX;
         }
         io.setManualPosition(position);
@@ -128,7 +128,7 @@ public class CoralCone extends SubsystemBase {
     public void manualUp() {
         io.setAngleVoltage(kManualUpVoltage);
     }
-    
+
     public void manualDown() {
         io.setAngleVoltage(kManualDownVoltage);
     }

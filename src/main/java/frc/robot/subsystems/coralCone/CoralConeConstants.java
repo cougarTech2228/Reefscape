@@ -9,7 +9,7 @@ public class CoralConeConstants {
     // Angle motor values
     public static final double stowedAngle = 0.502;
     public static final double loadAngle = 0.521; // 0.288;
-    public static final double L1Angle = 0.668;
+    public static final double L1Angle = 0.61;
     public static final double L2Angle = 0.693;
     public static final double L3Angle = L2Angle;
     public static final double L4Angle = 0.788;
@@ -20,6 +20,7 @@ public class CoralConeConstants {
     public static final double loadVoltage = -2;
     public static final double shootVoltage = 6;
     public static final double transitVoltage = 0; // lock wheel in place
+    public static final double shootFastVoltage = 8;
     public static final double extraLoadRotations = 3; // motor rotations to keep loading after the beam break
 
     // 1.2

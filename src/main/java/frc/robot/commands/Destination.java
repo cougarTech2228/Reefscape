@@ -42,11 +42,14 @@ public enum Destination {
                     case L3_L:
                     case L4_L:
                         destination = REEF_1_LEFT;
+                        break;
+
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
                         destination = REEF_1_RIGHT;
+                        break;
                 }
                 break;
             case Segment_2:
@@ -55,11 +58,14 @@ public enum Destination {
                     case L3_L:
                     case L4_L:
                         destination = REEF_2_LEFT;
+                        break;
+
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
                         destination = REEF_2_RIGHT;
+                        break;
                 }
                 break;
             case Segment_3:
@@ -68,11 +74,14 @@ public enum Destination {
                     case L3_L:
                     case L4_L:
                         destination = REEF_3_LEFT;
+                        break;
+
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
                         destination = REEF_3_RIGHT;
+                        break;
                 }
                 break;
             case Segment_4:
@@ -81,11 +90,14 @@ public enum Destination {
                     case L3_L:
                     case L4_L:
                         destination = REEF_4_LEFT;
+                        break;
+
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
                         destination = REEF_4_RIGHT;
+                        break;
                 }
                 break;
             case Segment_5:
@@ -94,11 +106,14 @@ public enum Destination {
                     case L3_L:
                     case L4_L:
                         destination = REEF_5_LEFT;
+                        break;
+
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
                         destination = REEF_5_RIGHT;
+                        break;
                 }
                 break;
             case Segment_6:
@@ -107,11 +122,14 @@ public enum Destination {
                     case L3_L:
                     case L4_L:
                         destination = REEF_6_LEFT;
+                        break;
+
                     case L1:
                     case L2_R:
                     case L3_R:
                     case L4_R:
                         destination = REEF_6_RIGHT;
+                        break;
                 }
                 break;
         }
