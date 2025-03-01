@@ -106,6 +106,8 @@ public class Drive extends SubsystemBase {
     private SwerveDrivePoseEstimator poseEstimator =
         new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
+    private boolean mIisAutoDriving = false;
+
     public Drive(
         GyroIO gyroIO,
         ModuleIO flModuleIO,
@@ -163,6 +165,7 @@ public class Drive extends SubsystemBase {
         odometryLock.lock(); // Prevents odometry updates while reading data
         gyroIO.updateInputs(gyroInputs);
         Logger.processInputs("Drive/Gyro", gyroInputs);
+        Logger.recordOutput("Drive/isAutoDriving", mIisAutoDriving);
         for (var module : modules) {
         module.periodic();
         }
@@ -372,5 +375,12 @@ public class Drive extends SubsystemBase {
         new Translation2d(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
         new Translation2d(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)
         };
+    }
+    
+    public void setIsAutoDriving(boolean isAutoDriving){
+        this.mIisAutoDriving = isAutoDriving;
+    }
+    public boolean isAutoDriving() {
+        return mIisAutoDriving;
     }
 }

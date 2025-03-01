@@ -12,6 +12,7 @@ public class BargeCommand extends Command {
 
     private boolean commandInitialized = false;
     private boolean elevatorPositionSet = false;
+    private boolean algaePositionSet = false;
 
     public BargeCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.elevator = elevator;
@@ -36,9 +37,11 @@ public class BargeCommand extends Command {
         if (elevatorPositionSet && elevator.isAtSetPosition()){
             coralCone.setPosition(CoralCone.Position.STOWED);
             algaeAcquirer.setPosition(AlgaeAcquirer.Position.BARGE_SHOOT);
+            algaePositionSet = true;
         }
 
         if (algaeAcquirer.isAtSetPosition() && coralCone.isAtSetPosition()) {
+            // algae and coral are in a safe location to extend the elevator
             elevator.setPosition(Elevator.Position.ALGAE_BARGE);
             elevatorPositionSet = true;
         }
@@ -46,12 +49,12 @@ public class BargeCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        boolean finished = elevatorPositionSet &&
+        boolean finished = algaePositionSet &&
             elevator.isAtSetPosition() &&
             algaeAcquirer.isAtSetPosition() &&
             coralCone.isAtSetPosition();
         if (finished) {
-            commandInitialized = false;
+            System.out.println("Barge Finished");
         }
         return finished;
     }

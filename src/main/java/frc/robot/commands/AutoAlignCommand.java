@@ -71,7 +71,16 @@ public class AutoAlignCommand extends Command {
     }
 
     @Override
+    public void execute() {
+        drive.setIsAutoDriving(true);
+    }
+    @Override
     public boolean isFinished() {
-        return subCommand.isFinished();
+        if(subCommand.isFinished()){
+            drive.setIsAutoDriving(false);
+            return true;
+        }
+
+        return false;
     }
 }

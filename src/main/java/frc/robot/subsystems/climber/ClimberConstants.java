@@ -8,14 +8,14 @@ public class ClimberConstants {
     public static final double servoUnlockedAngle = 0.5;
 
     public static final double climberAngleThreshold = 0.02; // to change
-    public static final double kIZone = 2; // to change
+    public static final double kIZone = 0.02; // to change
 
     public static final double ClosedLoopErrorThreshold = 2;
-    public static final double angleExtended = 0.425;
-    public static final double angleRetracted = 0.223;
+    public static final double angleExtended = 0.516;
+    public static final double angleRetracted = 0.345;
 
     // encoder value less than this amount is a critical failure!
-    public static final double overRetractThreshold = 0.21;
+    public static final double overRetractThreshold = 0.330;
 
     // public static final double angleExtended = 0.4;
     // public static final double angleRetracted = 0.33;

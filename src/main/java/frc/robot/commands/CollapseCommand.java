@@ -30,7 +30,7 @@ public class CollapseCommand extends Command {
             algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.STOP);
         }
         // put coral cone in a safe place to move the elevator
-        coralCone.setPosition(CoralCone.Position.L1_SHOOT);
+        coralCone.setPosition(CoralCone.Position.STOWED);
         initialized = true;
     }
 
