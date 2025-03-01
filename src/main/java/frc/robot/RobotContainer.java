@@ -18,7 +18,6 @@ import static frc.robot.subsystems.vision.VisionConstants.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,9 +28,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
 import frc.robot.commands.LoadCoralCommand;
-import frc.robot.commands.PrepEmptyTransitCommand;
 import frc.robot.commands.pathplanner.LoadAlgaeAutoCommand;
-import frc.robot.commands.pathplanner.LoadCoralAutoCommand;
 import frc.robot.commands.pathplanner.PrepLoadAlgaeCommand;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.commands.pathplanner.PrepProcessorCommand;
@@ -60,15 +57,12 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.Enums.*;
-import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.CollapseCommand;
-import frc.robot.commands.Destination;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.events.EventTrigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

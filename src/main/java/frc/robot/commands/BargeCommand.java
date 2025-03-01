@@ -11,6 +11,7 @@ public class BargeCommand extends Command {
     private final CoralCone coralCone;
 
     private boolean commandInitialized = false;
+    private boolean elevatorPositionSet = false;
 
     public BargeCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.elevator = elevator;
@@ -21,9 +22,8 @@ public class BargeCommand extends Command {
     @Override
     public void initialize() {
         System.out.println("Starting BargeCommand");
-        algaeAcquirer.setPosition(AlgaeAcquirer.Position.BARGE_SHOOT);
-        elevator.setPosition(Elevator.Position.ALGAE_BARGE);
-        coralCone.setPosition(CoralCone.Position.STOWED);
+        algaeAcquirer.setPosition(AlgaeAcquirer.Position.PROCESSOR_SHOOT);
+        coralCone.setPosition(CoralCone.Position.LOAD);
         commandInitialized = true;
     }
 
@@ -33,15 +33,23 @@ public class BargeCommand extends Command {
             return;
         }
 
-        if (algaeAcquirer.isAtSetPosition()) {
-            // algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.SHOOT);
+        if (elevatorPositionSet && elevator.isAtSetPosition()){
+            coralCone.setPosition(CoralCone.Position.STOWED);
+            algaeAcquirer.setPosition(AlgaeAcquirer.Position.BARGE_SHOOT);
+        }
+
+        if (algaeAcquirer.isAtSetPosition() && coralCone.isAtSetPosition()) {
+            elevator.setPosition(Elevator.Position.ALGAE_BARGE);
+            elevatorPositionSet = true;
         }
     }
 
     @Override
     public boolean isFinished() {
-        boolean finished = elevator.isAtSetPosition() && algaeAcquirer.isAtSetPosition() && coralCone.isAtSetPosition();
-        // && !algaeAcquirer.isLoaded();
+        boolean finished = elevatorPositionSet &&
+            elevator.isAtSetPosition() &&
+            algaeAcquirer.isAtSetPosition() &&
+            coralCone.isAtSetPosition();
         if (finished) {
             commandInitialized = false;
         }
@@ -52,8 +60,8 @@ public class BargeCommand extends Command {
     public void end(boolean interrupted) {
         if (interrupted){
             if (interrupted) {
-                coralCone.setPosition(CoralCone.Position.STOWED);
-                algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
+                coralCone.setPosition(CoralCone.Position.LOAD);
+                algaeAcquirer.setPosition(AlgaeAcquirer.Position.FLOOR_ACQUIRE);
                 elevator.stop();
             }
         }

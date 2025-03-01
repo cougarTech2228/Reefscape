@@ -29,6 +29,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import frc.robot.Constants;
 import frc.robot.subsystems.elevator.Elevator.Position;
 
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -97,7 +98,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         talonFXConfigs.MotionMagic
             .withMotionMagicCruiseVelocity(RotationsPerSecond.of(100)) // 5 (mechanism) rotations per second cruise
         
-            .withMotionMagicExpo_kA(0.10) // lower is faster
+            .withMotionMagicExpo_kA(0.20) // lower is faster
             .withMotionMagicExpo_kV(0.01); // lower is faster
 
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 100; // allow a spike of 80A
@@ -136,7 +137,11 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         inputs.bottomLimit = forwardLimitA.getValue() == ForwardLimitValue.ClosedToGround;
         inputs.closedLoopError = elevatorA.getClosedLoopError().getValueAsDouble();
         inputs.setPosition = elevatorA.getClosedLoopReference().getValueAsDouble();
-        inputs.isAtSetPosition = Math.abs(inputs.position_A - currentSetPosition) < ClosedLoopErrorThreshold;
+        if (Constants.currentMode == Constants.Mode.SIM) {
+            inputs.isAtSetPosition = true;
+        } else {
+            inputs.isAtSetPosition = Math.abs(inputs.position_A - currentSetPosition) < ClosedLoopErrorThreshold;
+        }
         inputs.pidOutput = elevatorA.getClosedLoopOutput().getValueAsDouble();
     }
 

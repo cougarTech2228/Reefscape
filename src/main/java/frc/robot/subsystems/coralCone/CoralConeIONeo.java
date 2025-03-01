@@ -23,6 +23,7 @@ public class CoralConeIONeo implements CoralConeIO {
     protected final DigitalInput beamBreakSensor = new DigitalInput(Constants.CoralBeamBreakSensorDIO);
 
     protected double currentAngleSetPoint = 0;
+    private WheelState currentWheelState = WheelState.TRANSIT;
 
     public CoralConeIONeo() {
 
@@ -57,12 +58,19 @@ public class CoralConeIONeo implements CoralConeIO {
         inputs.angleMotorCurrent = angleMotor.getOutputCurrent();
         inputs.angleMotorEncoderVelocity = angleMotor.getAbsoluteEncoder().getVelocity();
         inputs.angleMotorEncoderPosition = angleMotor.getAbsoluteEncoder().getPosition();
-        inputs.angleMotorIsAtSetPosition = Math.abs(angleMotor.getAbsoluteEncoder().getPosition()
+        if (Constants.currentMode == Constants.Mode.SIM) {
+            inputs.angleMotorIsAtSetPosition = true;
+        } else {
+            inputs.angleMotorIsAtSetPosition = Math.abs(angleMotor.getAbsoluteEncoder().getPosition()
                 - currentAngleSetPoint) <= CoralConeConstants.closedLoopAngleAllowedError;
-
+        }
         inputs.wheelVoltage = wheelMotor.getAppliedOutput();
         inputs.wheelPosition = wheelMotor.getEncoder().getPosition();
-        inputs.beamBreak = !beamBreakSensor.get();
+        if (Constants.currentMode == Constants.Mode.SIM && currentWheelState == WheelState.LOAD) {
+            inputs.beamBreak = true;
+        } else {
+            inputs.beamBreak = !beamBreakSensor.get();
+        }
         inputs.angleSetPoition = currentAngleSetPoint;
     }
 
@@ -92,6 +100,7 @@ public class CoralConeIONeo implements CoralConeIO {
 
     public void setWheel(WheelState state) {
         double motorVoltage = 0;
+        currentWheelState = state;
         switch (state) {
             case LOAD:
                 motorVoltage = CoralConeConstants.loadVoltage;

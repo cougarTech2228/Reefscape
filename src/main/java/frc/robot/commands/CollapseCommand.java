@@ -27,8 +27,10 @@ public class CollapseCommand extends Command {
             algaeAcquirer.setPosition(AlgaeAcquirer.Position.PROCESSOR_SHOOT);
         } else {
             algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
+            algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.STOP);
         }
-        coralCone.setPosition(CoralCone.Position.STOWED);
+        // put coral cone in a safe place to move the elevator
+        coralCone.setPosition(CoralCone.Position.L1_SHOOT);
         initialized = true;
     }
 
@@ -38,7 +40,8 @@ public class CollapseCommand extends Command {
             return;
         }
 
-        if (algaeAcquirer.isAtSetPosition()) {
+        if (algaeAcquirer.isAtSetPosition() && coralCone.isAtSetPosition()) {
+            // attachments are in a safe position, move the elevator
             if (algaeAcquirer.isLoaded()) {
                 elevator.setPosition(Elevator.Position.ALGAE_PROCESSOR);
             } else {
@@ -50,6 +53,10 @@ public class CollapseCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return elevatorSet && elevator.isAtSetPosition();
+        if (elevatorSet && elevator.isAtSetPosition()) {
+            coralCone.setPosition(CoralCone.Position.STOWED);
+            return true;
+        }
+        return false;
     }
 }

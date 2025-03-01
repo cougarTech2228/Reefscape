@@ -7,7 +7,7 @@ public class ClimberConstants {
     public static final double servoLockedAngle = 0.1;
     public static final double servoUnlockedAngle = 0.5;
 
-    public static final double climberAngleThreshold = 2; // to change
+    public static final double climberAngleThreshold = 0.02; // to change
     public static final double kIZone = 2; // to change
 
     public static final double ClosedLoopErrorThreshold = 2;

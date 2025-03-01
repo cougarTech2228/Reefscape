@@ -14,7 +14,6 @@
 package frc.robot.subsystems.drive;
 
 import static frc.robot.util.PhoenixUtil.*;
-import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;

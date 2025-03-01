@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.BargeCommand;
 import frc.robot.commands.CollapseCommand;
-import frc.robot.commands.CoralAndAlgaeCommand;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
 import frc.robot.commands.LoadAlgaeCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
-import frc.robot.commands.PrepEmptyTransitCommand;
 import frc.robot.commands.ProcessorCommand;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
@@ -60,7 +58,7 @@ public class OperatorUI extends SubsystemBase {
 
     private static final String MODE_ALGAE = "algae";
     private static final String MODE_CORAL = "coral";
-    private static final String MODE_CORAL_AND_ALGAE = "coral_and_algae";
+    private static final String MODE_CORAL_AND_ALGAE = "coralAndAlgae";
 
     private static final String DESTINATION_REEF = "reef";
     private static final String DESTINATION_CORAL_STATION = "coralStation";
@@ -151,7 +149,7 @@ public class OperatorUI extends SubsystemBase {
             if(algaeAcquirer.isLoaded()) {
                 Command cmd = new CTSequentialCommandGroup(
                         new FireAlgaeCommand(algaeAcquirer),
-                        new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer)
+                        new CollapseCommand(elevator, algaeAcquirer, coralCone)
                     );
                 startCommand(cmd);
             } else if (coralCone.isLoaded()) {
@@ -160,8 +158,8 @@ public class OperatorUI extends SubsystemBase {
                     isFast = true;
                 }
                 Command cmd = new CTSequentialCommandGroup(
-                        new FireCoralCommand(coralCone, isFast),
-                        new PrepEmptyTransitCommand(elevator, coralCone, algaeAcquirer)
+                    new FireCoralCommand(coralCone, isFast),
+                    new CollapseCommand(elevator, algaeAcquirer, coralCone)
                 );
                 startCommand(cmd);
             }
@@ -273,6 +271,8 @@ public class OperatorUI extends SubsystemBase {
     }
 
     private void handleReef(ReefSegment segment) {
+        boolean autoAlign = getAutoAlign();
+
         switch (getMode()){
             case MODE_ALGAE:
                 // pickup an algae from the reef
@@ -287,7 +287,6 @@ public class OperatorUI extends SubsystemBase {
                 // place a coral on the reef
                 System.out.println("handleReef - Coral");
                 String post = getReefPost();
-                boolean autoAlign = getAutoAlign();
                 switch(post) {
                     case "L1":
                         if (autoAlign) {
@@ -346,7 +345,18 @@ public class OperatorUI extends SubsystemBase {
             case MODE_CORAL_AND_ALGAE:
                 // place a coral and pickup an algae from the reef
                 System.out.println("handleReef - Coral and Algae");
-                startCommand(new CoralAndAlgaeCommand(segment, elevator, algaeAcquirer, coralCone));
+                ReefLocation reefLocation;
+                if (segment == ReefSegment.Segment_1 || segment == ReefSegment.Segment_3 || segment == ReefSegment.Segment_5) {
+                    reefLocation = ReefLocation.L3_R;
+                } else {
+                    reefLocation = ReefLocation.L2_R;
+                }
+
+                if (autoAlign) {
+                    startCommand(new PlaceCoralCommand(true, segment, reefLocation, elevator, algaeAcquirer, coralCone, drive));
+                } else {
+                    startCommand(new PrepPlaceCoralCommand(true, segment, reefLocation, elevator, algaeAcquirer, coralCone));
+                }
             break;
         }
     }

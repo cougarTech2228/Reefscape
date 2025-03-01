@@ -23,6 +23,7 @@ public class Climber extends SubsystemBase {
     private ClimberState climberState = ClimberState.DISABLED;
     private boolean _isLocked = false;
     Alert overRetractAlert = new Alert("The climber has retracted too far! check for spool wrap", AlertType.kError);
+    Alert noEncoderAlarm = new Alert("The climber encoder is not a valid value", AlertType.kError);
 
     private enum ClimberState {
         DISABLED,
@@ -96,6 +97,13 @@ public class Climber extends SubsystemBase {
         io.updateInputs(inputs);
         Logger.processInputs("Climber", inputs);
 
+        if (inputs.climberMotorEncoderPosition == 1) {
+            noEncoderAlarm.set(true);
+            stop();
+            return;
+        } else {
+            noEncoderAlarm.set(false);
+        }
         if (inputs.climberMotorEncoderPosition <= ClimberConstants.overRetractThreshold) {
             overRetractAlert.set(true);
             stop();

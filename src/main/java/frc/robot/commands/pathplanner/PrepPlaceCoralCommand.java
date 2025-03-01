@@ -13,10 +13,9 @@ public class PrepPlaceCoralCommand extends Command {
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
+    private final boolean coralAndAlgae;
 
-    private boolean commandInitialized = false;
-
-    public PrepPlaceCoralCommand(
+    public PrepPlaceCoralCommand( boolean coralAndAlgae,
             ReefSegment segment, ReefLocation location, Elevator elevator,
             AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.segment = segment;
@@ -24,8 +23,16 @@ public class PrepPlaceCoralCommand extends Command {
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
+        this.coralAndAlgae = coralAndAlgae;
 
         addRequirements(elevator, algaeAcquirer, coralCone);
+    }
+
+    public PrepPlaceCoralCommand(
+        ReefSegment segment, ReefLocation location, Elevator elevator,
+        AlgaeAcquirer algaeAcquirer, CoralCone coralCone)
+    {
+        this(false, segment, location, elevator, algaeAcquirer, coralCone);
     }
 
     @Override
@@ -59,27 +66,17 @@ public class PrepPlaceCoralCommand extends Command {
                 coralCone.setPosition(CoralCone.Position.L4_SHOOT);
                 break;
         }
-        algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
-        commandInitialized = true;
-    }
-
-    @Override
-    public void execute() {
-        if (!commandInitialized) {
-            return;
-        }
-
-        if (coralCone.isAtSetPosition()) {
-            // coralCone.setWheel(CoralCone.WheelState.SHOOT);
+        if (coralAndAlgae){
+            algaeAcquirer.setPosition(AlgaeAcquirer.Position.REEF_ACQUIRE);
+            // algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.ACQUIRE);
+        } else {
+            algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
         }
     }
 
     @Override
     public boolean isFinished() {
         boolean finished = elevator.isAtSetPosition() && coralCone.isAtSetPosition() && algaeAcquirer.isAtSetPosition();
-        if (finished) {
-            commandInitialized = false;
-        }
         return finished;
     }
 
@@ -90,6 +87,10 @@ public class PrepPlaceCoralCommand extends Command {
                 coralCone.stop();
                 algaeAcquirer.stop();
                 elevator.stop();
+
+                if (!algaeAcquirer.isLoaded()) {
+                    algaeAcquirer.setPosition(AlgaeAcquirer.Position.STOWED);
+                }
             }
         }
     }

@@ -23,6 +23,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     private final SparkMaxConfig flywheelConfig = new SparkMaxConfig();
 
     protected double currentAngleSetPoint = 0;
+    private FlywheelState currentFlywheelState = FlywheelState.STOP;
 
     public AlgaeAcquirerIONeo() {
         ClosedLoopConfig closedLoopConfig = new ClosedLoopConfig();
@@ -54,12 +55,15 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         inputs.anglePosition = algaeAngleMotor.getEncoder().getPosition();
         inputs.angleVelocity = algaeAngleMotor.getEncoder().getVelocity();
         inputs.angleEncoderPosition = algaeAngleMotor.getAbsoluteEncoder().getPosition();
-        inputs.angleEncoderVelocity =algaeAngleMotor.getAbsoluteEncoder().getVelocity();
+        inputs.angleEncoderVelocity = algaeAngleMotor.getAbsoluteEncoder().getVelocity();
         inputs.angleAppliedVolts = algaeAngleMotor.getAppliedOutput();
         inputs.angleCurrentAmps = algaeAngleMotor.getOutputCurrent();
-        inputs.angleIsAtSetPosition = Math.abs(algaeAngleMotor.getAbsoluteEncoder().getPosition()
+        if (Constants.currentMode == Constants.Mode.SIM) {
+            inputs.angleIsAtSetPosition = true;
+        } else {
+            inputs.angleIsAtSetPosition = Math.abs(algaeAngleMotor.getAbsoluteEncoder().getPosition()
                     - currentAngleSetPoint) <= AlgaeAcquirerConstants.closedLoopAngleAllowedError;
-
+        }
         inputs.flyAppliedVoltsLeft = leftFlyWheel.getAppliedOutput();
         inputs.flyVelocityLeft = leftFlyWheel.getEncoder().getVelocity();
         inputs.flyCurrentAmpsLeft = leftFlyWheel.getOutputCurrent();
@@ -69,8 +73,12 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         inputs.flyCurrentAmpsRight = rightFlyWheel.getOutputCurrent();
 
         // determine loaded state based on high current draw, and low velocity
-        inputs.isLoaded = (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
-            (Math.abs(inputs.flyCurrentAmpsRight) > 0));
+        if (Constants.currentMode == Constants.Mode.SIM && currentFlywheelState == FlywheelState.ACQUIRE) {
+            inputs.isLoaded = true;
+        } else {
+            inputs.isLoaded = (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
+                (Math.abs(inputs.flyCurrentAmpsRight) > 0));
+        }
     }
 
     @Override
@@ -80,6 +88,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
 
     @Override
     public void setAlgaeAcquirer(FlywheelState state) {
+        currentFlywheelState = state;
         switch (state) {
             case SHOOT:
                 setFlyVoltage(AlgaeAcquirerConstants.shootVoltage);

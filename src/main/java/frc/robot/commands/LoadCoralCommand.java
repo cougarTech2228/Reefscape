@@ -29,7 +29,7 @@ public class LoadCoralCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.println("Executing LoadCoralCommand");
+        // System.out.println("Executing LoadCoralCommand");
         if (!commandInitialized) {
             return;
         }
@@ -46,7 +46,7 @@ public class LoadCoralCommand extends Command {
         if (finished) {
             commandInitialized = false;
         }
-        System.out.println("LoadCoralCommand finished: " + finished);
+        // System.out.println("LoadCoralCommand finished: " + finished);
         return finished;
     }
 
