@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8410697049415026,
-        "y": 1.4663838595492655
+        "x": 5.378435284102455,
+        "y": 1.8185015734534105
       },
       "isLocked": false,
       "linkedName": "R3L"
@@ -20,8 +20,8 @@
         "y": 1.1423685716593297
       },
       "prevControl": {
-        "x": 2.213887229353068,
-        "y": 2.0334047558698556
+        "x": 2.0776266514052613,
+        "y": 1.929697017596149
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.19748653500897706,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 720.0,
+        "maxAngularAcceleration": 1440.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {

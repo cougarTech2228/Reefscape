@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.9,
+        "x": 5.85,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.100458208319614,
-        "y": 1.7087521943889854
+        "x": 7.85,
+        "y": 4.0
       },
       "isLocked": false,
       "linkedName": "R4R"
@@ -30,11 +30,25 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.18396226415094347,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 0.339622641509434,
+      "rotationDegrees": -145.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.19928186714542231,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 720.0,
+        "maxAngularAcceleration": 1440.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {

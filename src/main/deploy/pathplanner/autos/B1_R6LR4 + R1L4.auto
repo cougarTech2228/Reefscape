@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "B3_R3R"
+                  "pathName": "B1_R6L"
                 }
               },
               {
@@ -24,19 +24,19 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "fireCoral"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "R3R_CR"
+                  "name": "fireCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "collapse"
                 }
               }
             ]
@@ -49,7 +49,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CR_R2R"
+                  "pathName": "R6L_CL"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "loadCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CL_R6R"
                 }
               },
               {
@@ -62,54 +81,79 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "fireCoral"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "R2R_CR"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "CR_R2L"
+                  "name": "fireCoral"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "prepL4Coral"
-                      }
-                    }
-                  ]
+                  "name": "collapse"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "fireCoral"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "R6R_CL"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "loadCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CL_R1L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "prepL4Coral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "collapse"
+                }
+              }
+            ]
           }
         }
       ]
