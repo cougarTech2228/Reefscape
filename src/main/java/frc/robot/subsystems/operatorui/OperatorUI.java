@@ -10,6 +10,7 @@ import frc.robot.commands.BargeCommand;
 import frc.robot.commands.CollapseCommand;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
+import frc.robot.commands.LoadAlgaeAutoCommand;
 import frc.robot.commands.LoadAlgaeCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
@@ -263,11 +264,11 @@ public class OperatorUI extends SubsystemBase {
 
     private void handleFloorAlgae() {
         System.out.println("handleFloorAlgae()");
-        startCommand(new LoadAlgaeCommand(AlgaeHeight.Floor, elevator, algaeAcquirer, coralCone));
+        startCommand(new LoadAlgaeCommand(true, AlgaeHeight.Floor, elevator, algaeAcquirer, coralCone));
     }
     private void handleAlgaeOnCoral() {
         System.out.println("handleAlgaeOnCoral()");
-        startCommand(new LoadAlgaeCommand(AlgaeHeight.FloorOnCoral, elevator, algaeAcquirer, coralCone));
+        startCommand(new LoadAlgaeCommand(true, AlgaeHeight.FloorOnCoral, elevator, algaeAcquirer, coralCone));
     }
 
     private void handleReef(ReefSegment segment) {
@@ -278,9 +279,17 @@ public class OperatorUI extends SubsystemBase {
                 // pickup an algae from the reef
                 System.out.println("handleReef - Algae");
                 if (segment == ReefSegment.Segment_1 || segment == ReefSegment.Segment_3 || segment == ReefSegment.Segment_5) {
-                    startCommand(new LoadAlgaeCommand(AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone));
+                    if (autoAlign){
+                        startCommand(new LoadAlgaeAutoCommand(segment, AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone, drive));
+                    } else {
+                        startCommand(new LoadAlgaeCommand(true, AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone));
+                    }
                 } else if (segment == ReefSegment.Segment_2 || segment == ReefSegment.Segment_4 || segment == ReefSegment.Segment_6) {
-                    startCommand(new LoadAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone));
+                    if (autoAlign) {
+                        startCommand(new LoadAlgaeAutoCommand(segment, AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone, drive));
+                    } else {
+                        startCommand(new LoadAlgaeCommand(true, AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone));
+                    }
                 }
             break;
             case MODE_CORAL:

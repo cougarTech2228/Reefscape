@@ -15,12 +15,15 @@ public class LoadAlgaeCommand extends Command{
     private AlgaeAcquirer.Position anglePostition;
 
     private boolean commandInitialized = false;
+    private final boolean finishOnLoaded;
+    private boolean flywheelsOn = false;
 
-    public LoadAlgaeCommand(AlgaeHeight height, Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
+    public LoadAlgaeCommand(boolean finishOnLoaded, AlgaeHeight height, Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.height = height;
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
+        this.finishOnLoaded = finishOnLoaded;
     }
 
     @Override
@@ -57,16 +60,17 @@ public class LoadAlgaeCommand extends Command{
 
         if (algaeAcquirer.isAtSetPosition()) {
             algaeAcquirer.setFlywheelState(FlywheelState.ACQUIRE);
+            flywheelsOn = true;
         }
     }
 
     @Override
     public boolean isFinished() {
-        boolean finished = algaeAcquirer.isLoaded();
-        if (finished) {
-            commandInitialized = false;
+        if (finishOnLoaded) {
+            return algaeAcquirer.isLoaded();
+        } else {
+            return algaeAcquirer.isAtSetPosition() && elevator.isAtSetPosition() && flywheelsOn;
         }
-        return finished;
     }
 
     @Override
