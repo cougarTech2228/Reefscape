@@ -45,30 +45,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "prepEmptyTransit",
-      "waypointRelativePos": 0.030520646319569106,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "prepEmptyTransit"
-        }
-      }
-    },
-    {
-      "name": "loadCoral",
-      "waypointRelativePos": 0.49730700179533494,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "loadCoral"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 1.5,
     "maxAcceleration": 4.0,
