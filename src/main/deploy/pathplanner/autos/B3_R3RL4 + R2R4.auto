@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -31,12 +37,6 @@
                 "type": "named",
                 "data": {
                   "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]
@@ -81,6 +81,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -88,12 +94,6 @@
                 "type": "named",
                 "data": {
                   "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]
@@ -138,6 +138,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -145,12 +151,6 @@
                 "type": "named",
                 "data": {
                   "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]

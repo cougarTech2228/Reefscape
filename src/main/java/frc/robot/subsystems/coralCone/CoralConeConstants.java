@@ -13,9 +13,9 @@ public class CoralConeConstants {
     public static final double L1Angle = 0.61;
     public static final double L2Angle = 0.693;
     public static final double L3Angle = L2Angle;
-    public static final double L4Angle = 0.77;
+    public static final double L4Angle = 0.823;
     public static final double bargeShootAngle = 0.4;
-    public static final double ANGLE_MAX = 0.8;
+    public static final double ANGLE_MAX = 0.823;
     public static final double ANGLE_MIN = 0.4;
 
     // wheel motor values
