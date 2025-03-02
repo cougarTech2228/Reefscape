@@ -16,23 +16,23 @@
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 5.3
+        "x": 5.403673806280256,
+        "y": 5.057153793407986
       },
       "prevControl": {
-        "x": 3.5,
-        "y": 6.166025403784438
+        "x": 5.8668438483248195,
+        "y": 5.709437100071922
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R6L"
+      "linkedName": "R5L"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.7468581687612219,
+      "minWaypointRelativePos": 0.8,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.5,
@@ -47,8 +47,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 1440.0,
     "nominalVoltage": 12.0,
@@ -56,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": "From B1",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -155.0
   },
   "useDefaultConstraints": true
 }

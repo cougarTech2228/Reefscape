@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "B1_R6L"
+                  "pathName": "B1_R5L"
                 }
               },
               {
@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -31,12 +37,6 @@
                 "type": "named",
                 "data": {
                   "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]
@@ -49,7 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "R6L_CL"
+                  "pathName": "R5L_CL"
                 }
               },
               {
@@ -81,6 +81,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -88,12 +94,6 @@
                 "type": "named",
                 "data": {
                   "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]
@@ -125,7 +125,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CL_R1L"
+                  "pathName": "CL_R6L"
                 }
               },
               {
@@ -138,6 +138,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -145,12 +151,6 @@
                 "type": "named",
                 "data": {
                   "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]

@@ -5,22 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "B2_R4L"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "prepL4Coral"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B2_R4R"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         },
         {
@@ -31,88 +37,6 @@
                 "type": "named",
                 "data": {
                   "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "R4L_CR"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "loadCoral"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "CR_R1L"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "prepL4Coral"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "fireCoral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "R1L_CR"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "loadCoral"
                 }
               }
             ]
