@@ -16,6 +16,7 @@ import frc.robot.commands.LoadCoralAutoCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
 import frc.robot.commands.PrepProcessorCommand;
+import frc.robot.commands.ScoreBargeCommand;
 import frc.robot.commands.ScoreProcessorCommand;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
@@ -271,7 +272,12 @@ public class OperatorUI extends SubsystemBase {
 
     private void handleBarge() {
         System.out.println("handleBarge()");
-        startCommand( new BargeCommand(elevator, algaeAcquirer, coralCone));
+        boolean autoAlign = getAutoAlign();
+        if (autoAlign) {
+            startCommand( new ScoreBargeCommand(elevator, algaeAcquirer, coralCone, drive));
+        } else {
+            startCommand( new BargeCommand(elevator, algaeAcquirer, coralCone));
+        }
     }
 
     private void handleFloorAlgae() {

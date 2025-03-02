@@ -32,7 +32,9 @@ public enum Destination {
 
     PROCESSOR(16, false, 6.5, 0.55, 7.3, 2, 5, 2, 5.6, 0.55),
     LOADER_RIGHT(12, false, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
-    LOADER_LEFT(13, false, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8);
+    LOADER_LEFT(13, false, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8),
+
+    BARGE (14, false, 8.2, 7.4, 6.5, 7.4, 6.5, 4.8, 8.2, 4.8);
 
     public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location) {
         Destination destination = null;
@@ -168,9 +170,12 @@ public enum Destination {
                 : pose.getRotation().plus(Rotation2d.k180deg);
     }
 
-    public Pose2d getPose(DriverStation.Alliance alliance) {
-        return alliance == DriverStation.Alliance.Blue ? pose
-                : new Pose2d(17.55 - pose.getX(), 8.05 - pose.getY(), pose.getRotation().unaryMinus());
+    public Pose2d getPose() {
+        return pose;
+    }
+
+    public Pose2d getApproachPose() {
+        return pose.transformBy(new Transform2d(-Constants.robotLength/2, 0, new Rotation2d()));
     }
 
     public boolean inZone(Pose2d pos, DriverStation.Alliance alliance) {

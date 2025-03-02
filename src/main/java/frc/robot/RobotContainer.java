@@ -342,6 +342,11 @@ public class RobotContainer {
                 currentPercentage = value;
                 drive.setAccelerationPercentage(value);
             }
+        } else {
+            if (currentPercentage != 1) {
+                currentPercentage = 1;
+                drive.setAccelerationPercentage(currentPercentage);
+            }
         }
     }
 }
