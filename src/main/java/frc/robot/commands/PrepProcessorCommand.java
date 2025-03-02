@@ -5,14 +5,14 @@ import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
 
-public class ProcessorCommand extends Command {
+public class PrepProcessorCommand extends Command {
     private final Elevator elevator;
     private final AlgaeAcquirer algaeAcquirer;
     private final CoralCone coralCone;
 
     private boolean commandInitialized = false;
 
-    public ProcessorCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
+    public PrepProcessorCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;

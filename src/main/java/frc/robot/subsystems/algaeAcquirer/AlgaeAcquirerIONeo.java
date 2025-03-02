@@ -76,7 +76,8 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         if (Constants.currentMode == Constants.Mode.SIM && currentFlywheelState == FlywheelState.ACQUIRE) {
             inputs.isLoaded = true;
         } else {
-            inputs.isLoaded = (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
+            inputs.isLoaded = currentFlywheelState == FlywheelState.ACQUIRE && 
+                (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
                 (Math.abs(inputs.flyCurrentAmpsRight) > 0));
         }
     }

@@ -2,34 +2,39 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Constants;
 import frc.robot.util.Enums.*;
 
 import java.util.ArrayList;
+
+import static frc.robot.subsystems.vision.VisionConstants.aprilTagLayout;
 
 /**
  * Destinations for short autonomous paths
  */
 public enum Destination {
     // All defined here relative to Blue. All functions below will mirror as needed.
-    REEF_1_LEFT(3.15, 4.36, 0, 0, 9, 0, -1, 2.8, 3, 2.8, 5),
-    REEF_1_RIGHT(3.15, 4.03, 0, 0, 9, 0, -1, 2.8, 3, 2.8, 5),
-    REEF_2_LEFT(3.55, 3.05, 60, 2.7, 2.9, -1, 1, 5.5, -2, 4.5, 2.2),
-    REEF_2_RIGHT(3.83, 2.89, 60, 2.7, 2.9, -1, 1, 5.5, -2, 4.5, 2.2),
-    REEF_3_LEFT(4.86, 2.72, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
-    REEF_3_RIGHT(5.15, 2.89, 120, 4.5, 2.2, 3.5, -2, 10, 1, 6.2, 3),
-    REEF_4_LEFT(5.81, 3.7, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
-    REEF_4_RIGHT(5.81, 4.03, 180, 9, -1, 9, 9, 6.2, 5, 6.2, 3),
-    REEF_5_LEFT(5.43, 5.0, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
-    REEF_5_RIGHT(5.15, 5.16, -120, 4.5, 5.8, 3.5, 10, 10, 7, 6.2, 5),
-    REEF_6_LEFT(4.12, 5.33, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
-    REEF_6_RIGHT(3.83, 5.16, -60, 2.7, 5.1, -1, 7, 5.5, 10, 4.5, 5.8),
+    REEF_1_LEFT (18, true,  0,   9,   0,  -1,  2.8, 3,  2.8, 5),
+    REEF_1_RIGHT(18, false, 0,   9,   0,  -1,  2.8, 3,  2.8, 5),
+    REEF_2_LEFT (17, true,  2.7, 2.9, -1,  1,  5.5, -2, 4.5, 2.2),
+    REEF_2_RIGHT(17, false, 2.7, 2.9, -1,  1,  5.5, -2, 4.5, 2.2),
+    REEF_3_LEFT (22, true,  4.5, 2.2, 3.5, -2, 10,  1,  6.2, 3),
+    REEF_3_RIGHT(22, false, 4.5, 2.2, 3.5, -2, 10,  1,  6.2, 3),
+    REEF_4_LEFT (21, true,  9,  -1,   9,   9,  6.2, 5,  6.2, 3),
+    REEF_4_RIGHT(21, false, 9,  -1,   9,   9,  6.2, 5,  6.2, 3),
+    REEF_5_LEFT (20, true,  4.5, 5.8, 3.5, 10, 10,  7,  6.2, 5),
+    REEF_5_RIGHT(20, false, 4.5, 5.8, 3.5, 10, 10,  7,  6.2, 5),
+    REEF_6_LEFT (19, true,  2.7, 5.1, -1,  7,  5.5, 10, 4.5, 5.8),
+    REEF_6_RIGHT(19, false, 2.7, 5.1, -1,  7,  5.5, 10, 4.5, 5.8),
 
-    PROCESSOR(5.99, 0.48, 270, 8.3, 0, 8.3, 3.5, 3, 3.5, 1, 0);
+    PROCESSOR(16, false, 6.5, 0.55, 7.3, 2, 5, 2, 5.6, 0.55),
+    LOADER_RIGHT(12, false, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
+    LOADER_LEFT(13, false, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8);
 
-    public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location,
-            DriverStation.Alliance alliance) {
+    public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location) {
         Destination destination = null;
         switch (segment) {
             case Segment_1:
@@ -140,6 +145,17 @@ public enum Destination {
     private Destination(double x, double y, double angle, double p1x, double p1y, double p2x, double p2y, double p3x,
             double p3y, double p4x, double p4y) {
         this.pose = new Pose2d(x, y, Rotation2d.fromDegrees(angle));
+        this.zone = new ArrayList<>();
+        zone.add(new Translation2d(p1x, p1y));
+        zone.add(new Translation2d(p2x, p2y));
+        zone.add(new Translation2d(p3x, p3y));
+        zone.add(new Translation2d(p4x, p4y));
+    }
+
+    private Destination(int tagID, boolean leftShift, double p1x, double p1y, double p2x, double p2y, double p3x,
+    double p3y, double p4x, double p4y) {
+        this.pose =  aprilTagLayout.getTagPose(tagID).get().toPose2d()
+            .transformBy(new Transform2d(Constants.robotLength/2, leftShift ? -0.33 : 0, new Rotation2d(Math.PI)));
         this.zone = new ArrayList<>();
         zone.add(new Translation2d(p1x, p1y));
         zone.add(new Translation2d(p2x, p2y));

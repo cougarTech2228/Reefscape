@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
@@ -15,7 +14,7 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
     public PlaceCoralCommand(boolean coralAndAlgae, ReefSegment segment, ReefLocation location,
                              Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive)
     {
-        Destination dest = Destination.fromSegmentAndPosition(segment, location, DriverStation.getAlliance().get());
+        Destination dest = Destination.fromSegmentAndPosition(segment, location);
         this.addCommands(
             // Wait until we're in the destination zone
             new ZoneWatcherCommand(dest, drive),

@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
@@ -13,7 +11,7 @@ public class LoadAlgaeAutoCommand extends CTSequentialCommandGroup {
     public LoadAlgaeAutoCommand(ReefSegment segment, AlgaeHeight height, Elevator elevator,
          AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive)
     {
-        Destination dest = Destination.fromSegmentAndPosition(segment, ReefLocation.L2_R, DriverStation.getAlliance().get());
+        Destination dest = Destination.fromSegmentAndPosition(segment, ReefLocation.L2_R);
         this.addCommands(
             // Wait until we're in the destination zone
             new ZoneWatcherCommand(dest, drive),
@@ -24,7 +22,6 @@ public class LoadAlgaeAutoCommand extends CTSequentialCommandGroup {
                 new LoadAlgaeCommand(false, height, elevator, algaeAcquirer, coralCone),
                 new AutoAlignCommand(drive, dest)
             )
-            
         );
     }
 }

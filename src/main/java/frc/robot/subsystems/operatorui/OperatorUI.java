@@ -12,9 +12,11 @@ import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
 import frc.robot.commands.LoadAlgaeAutoCommand;
 import frc.robot.commands.LoadAlgaeCommand;
+import frc.robot.commands.LoadCoralAutoCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PlaceCoralCommand;
-import frc.robot.commands.ProcessorCommand;
+import frc.robot.commands.PrepProcessorCommand;
+import frc.robot.commands.ScoreProcessorCommand;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.climber.Climber;
@@ -249,12 +251,22 @@ public class OperatorUI extends SubsystemBase {
 
     private void handleCoralStation() {
         System.out.println("handleCoralStation()");
-        startCommand( new LoadCoralCommand(elevator, algaeAcquirer, coralCone));
+        boolean autoAlign = getAutoAlign();
+        if (autoAlign) {
+            startCommand( new LoadCoralAutoCommand(elevator, algaeAcquirer, coralCone, drive));
+        } else {
+            startCommand( new LoadCoralCommand(elevator, algaeAcquirer, coralCone));
+        }
     }
 
     private void handleProcessor() {
+        boolean autoAlign = getAutoAlign();
         System.out.println("handleProcessor()");
-        startCommand( new ProcessorCommand(elevator, algaeAcquirer, coralCone));
+        if (autoAlign) {
+            startCommand( new ScoreProcessorCommand(elevator, algaeAcquirer, coralCone, drive));
+        } else {
+            startCommand( new PrepProcessorCommand(elevator, algaeAcquirer, coralCone));
+        }
     }
 
     private void handleBarge() {
