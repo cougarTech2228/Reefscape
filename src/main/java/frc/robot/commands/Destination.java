@@ -143,6 +143,7 @@ public enum Destination {
     private final Pose2d pose;
     // vertices of the trapezoid in which the destination is possible
     private final ArrayList<Translation2d> zone;
+    private final boolean leftShift;
 
     private Destination(double x, double y, double angle, double p1x, double p1y, double p2x, double p2y, double p3x,
             double p3y, double p4x, double p4y) {
@@ -152,6 +153,7 @@ public enum Destination {
         zone.add(new Translation2d(p2x, p2y));
         zone.add(new Translation2d(p3x, p3y));
         zone.add(new Translation2d(p4x, p4y));
+        leftShift = false;
     }
 
     private Destination(int tagID, boolean leftShift, double p1x, double p1y, double p2x, double p2y, double p3x,
@@ -163,6 +165,7 @@ public enum Destination {
         zone.add(new Translation2d(p2x, p2y));
         zone.add(new Translation2d(p3x, p3y));
         zone.add(new Translation2d(p4x, p4y));
+        this.leftShift = leftShift;
     }
 
     public Rotation2d getAngle(DriverStation.Alliance alliance) {
@@ -175,7 +178,7 @@ public enum Destination {
     }
 
     public Pose2d getApproachPose() {
-        return pose.transformBy(new Transform2d(-Constants.robotLength/2, 0, new Rotation2d()));
+        return pose.transformBy(new Transform2d(-Constants.robotLength/2, leftShift ? -0.33 : 0, new Rotation2d()));
     }
 
     public boolean inZone(Pose2d pos, DriverStation.Alliance alliance) {

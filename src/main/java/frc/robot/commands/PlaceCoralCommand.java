@@ -20,10 +20,10 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
             new ZoneWatcherCommand(dest, drive),
 
             // Take over driving, and move all components to the right places
-            new ParallelCommandGroup(
+            // new ParallelCommandGroup(
                 new PrepPlaceCoralCommand(coralAndAlgae, segment, location, elevator, algaeAcquirer, coralCone),
-                new AutoAlignCommand(drive, dest)
-            ),
+                new AutoAlignCommand(drive, dest),
+            // ),
             // once we're in the right place, shoot the coral
             new FireCoralCommand(coralCone, false)
         );

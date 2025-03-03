@@ -30,7 +30,7 @@ public class AutoAlignCommand extends Command {
 
     // constraints are max-v, max-a, max-angv, max-anga
     private PathConstraints globalConstraints = new PathConstraints(2, 2.0, 2 * Math.PI, 3 * Math.PI);
-    private PathConstraints endingConstraints = new PathConstraints(2, 1.0, 2 * Math.PI, 3 * Math.PI);
+    private PathConstraints endingConstraints = new PathConstraints(1, 0.5, 2 * Math.PI, 3 * Math.PI);
     private ArrayList<ConstraintsZone> constraintZones;
 
     public AutoAlignCommand(Drive drive, Destination dest, boolean useApproachPoint) {
@@ -84,7 +84,7 @@ public class AutoAlignCommand extends Command {
             }
             
             ArrayList<ConstraintsZone> constraintZones = new ArrayList<>();
-            constraintZones.add(new ConstraintsZone(0.75, 1, endingConstraints));
+            constraintZones.add(new ConstraintsZone(0.5, 1, endingConstraints));
 
             path = new PathPlannerPath(
                 waypoints,

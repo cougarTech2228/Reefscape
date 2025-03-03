@@ -191,9 +191,13 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     @Override
     public void setVoltage(double output) {
         // elevatorA.setControl(torqueCurrentRequest.withOutput(output));
-        elevatorA.setVoltage(output);
-
-        System.out.println("Voltage: " + output);
+        if (output == 0) {
+            elevatorA.setControl(motionMagic.withPosition(positionRotA.getValueAsDouble()));
+            System.out.println ("Elevator voltage 0, setting setPoint to current position.");
+        } else {
+            elevatorA.setVoltage(output);
+            System.out.println("Voltage: " + output);
+        }
     }
 
     @Override
