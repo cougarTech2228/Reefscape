@@ -58,12 +58,8 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         inputs.angleEncoderVelocity = algaeAngleMotor.getAbsoluteEncoder().getVelocity();
         inputs.angleAppliedVolts = algaeAngleMotor.getAppliedOutput();
         inputs.angleCurrentAmps = algaeAngleMotor.getOutputCurrent();
-        if (Constants.currentMode == Constants.Mode.SIM) {
-            inputs.angleIsAtSetPosition = true;
-        } else {
-            inputs.angleIsAtSetPosition = Math.abs(algaeAngleMotor.getAbsoluteEncoder().getPosition()
-                    - currentAngleSetPoint) <= AlgaeAcquirerConstants.closedLoopAngleAllowedError;
-        }
+        inputs.angleIsAtSetPosition = Math.abs(algaeAngleMotor.getAbsoluteEncoder().getPosition()
+                - currentAngleSetPoint) <= AlgaeAcquirerConstants.closedLoopAngleAllowedError;
         inputs.flyAppliedVoltsLeft = leftFlyWheel.getAppliedOutput();
         inputs.flyVelocityLeft = leftFlyWheel.getEncoder().getVelocity();
         inputs.flyCurrentAmpsLeft = leftFlyWheel.getOutputCurrent();

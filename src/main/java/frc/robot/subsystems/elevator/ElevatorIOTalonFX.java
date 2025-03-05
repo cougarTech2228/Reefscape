@@ -29,15 +29,10 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.Constants;
 import frc.robot.subsystems.elevator.Elevator.Position;
 
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
-/**
- * This Elevator implementation is for a Talon FX driving a motor like the Falon
- * 500 or Kraken X60.
- */
 public class ElevatorIOTalonFX implements ElevatorIO {
     protected final TalonFX elevatorA = new TalonFX(elevatorACanID, "canivore");
     protected final TalonFX elevatorB = new TalonFX(elevatorBCanID, "canivore");
@@ -137,11 +132,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         inputs.bottomLimit = forwardLimitA.getValue() == ForwardLimitValue.ClosedToGround;
         inputs.closedLoopError = elevatorA.getClosedLoopError().getValueAsDouble();
         inputs.setPosition = elevatorA.getClosedLoopReference().getValueAsDouble();
-        if (Constants.currentMode == Constants.Mode.SIM) {
-            inputs.isAtSetPosition = true;
-        } else {
-            inputs.isAtSetPosition = Math.abs(inputs.position_A - currentSetPosition) < ClosedLoopErrorThreshold;
-        }
+        inputs.isAtSetPosition = Math.abs(inputs.position_A - currentSetPosition) < ClosedLoopErrorThreshold;
         inputs.pidOutput = elevatorA.getClosedLoopOutput().getValueAsDouble();
     }
 

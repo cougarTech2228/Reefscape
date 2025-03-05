@@ -10,7 +10,6 @@ import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.util.CTSequentialCommandGroup;
-import frc.robot.util.Enums.*;
 
 public class LoadCoralAutoCommand extends CTSequentialCommandGroup {
     private Destination dest;

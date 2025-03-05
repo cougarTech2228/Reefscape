@@ -58,12 +58,8 @@ public class CoralConeIONeo implements CoralConeIO {
         inputs.angleMotorCurrent = angleMotor.getOutputCurrent();
         inputs.angleMotorEncoderVelocity = angleMotor.getAbsoluteEncoder().getVelocity();
         inputs.angleMotorEncoderPosition = angleMotor.getAbsoluteEncoder().getPosition();
-        if (Constants.currentMode == Constants.Mode.SIM) {
-            inputs.angleMotorIsAtSetPosition = true;
-        } else {
-            inputs.angleMotorIsAtSetPosition = Math.abs(angleMotor.getAbsoluteEncoder().getPosition()
-                - currentAngleSetPoint) <= CoralConeConstants.closedLoopAngleAllowedError;
-        }
+        inputs.angleMotorIsAtSetPosition = Math.abs(angleMotor.getAbsoluteEncoder().getPosition()
+            - currentAngleSetPoint) <= CoralConeConstants.closedLoopAngleAllowedError;
         inputs.wheelVoltage = wheelMotor.getAppliedOutput();
         inputs.wheelPosition = wheelMotor.getEncoder().getPosition();
         if (Constants.currentMode == Constants.Mode.SIM && currentWheelState == WheelState.LOAD) {

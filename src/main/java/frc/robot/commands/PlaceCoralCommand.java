@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
@@ -20,10 +19,9 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
             new ZoneWatcherCommand(dest, drive),
 
             // Take over driving, and move all components to the right places
-            // new ParallelCommandGroup(
-                new PrepPlaceCoralCommand(coralAndAlgae, segment, location, elevator, algaeAcquirer, coralCone),
-                new AutoAlignCommand(drive, dest),
-            // ),
+            new PrepPlaceCoralCommand(coralAndAlgae, segment, location, elevator, algaeAcquirer, coralCone),
+            new AutoAlignCommand(drive, dest),
+
             // once we're in the right place, shoot the coral
             new FireCoralCommand(coralCone, false)
         );
