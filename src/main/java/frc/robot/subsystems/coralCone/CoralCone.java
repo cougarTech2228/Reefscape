@@ -3,12 +3,15 @@ package frc.robot.subsystems.coralCone;
 import static frc.robot.subsystems.coralCone.CoralConeConstants.*;
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
-
+import frc.robot.RobotContainer;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 
@@ -119,6 +122,13 @@ public class CoralCone extends SubsystemBase {
         if (SmartDashboard.getBoolean(manaulEnableKey, false)){
             setManualPosition(SmartDashboard.getNumber(manaulValueKey, 0));
         }
+
+        double angle = (360 * (inputs.angleMotorEncoderPosition - 0.59));
+        RobotContainer.coralConePose = new Pose3d(
+            RobotContainer.coralConePose.getX(),
+            RobotContainer.coralConePose.getY(),
+            RobotContainer.coralConePose.getZ(),
+            new Rotation3d(0, Units.degreesToRadians(angle), 0));
     }
 
     private void setManualPosition(double position) {

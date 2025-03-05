@@ -55,7 +55,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
     private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
 
-    private double currentSetPosition = 0;
+    protected double currentSetPosition = 0;
 
     public ElevatorIOTalonFX() {
         var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();

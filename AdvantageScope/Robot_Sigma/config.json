@@ -1,0 +1,57 @@
+{
+  "name": "Sigma",
+  "sourceUrl": "",
+  "disableSimplification": false,
+  "rotations": [
+    { "axis": "x", "degrees": 90 },
+    { "axis": "z", "degrees": 90 }
+  ],
+  "position": [0.16, 0.1, 0],
+  "cameras": [],
+  "components": [
+    {
+      "name": "Elevator Stage 1",
+      "zeroedRotations": [
+        { "axis": "x", "degrees": 90 },
+        { "axis": "z", "degrees": 90 }
+      ],
+      "zeroedPosition": [0.169, -0.007, 0.06]
+    },
+    {
+      "name": "Elevator Stage 2",
+      "zeroedRotations": [
+        { "axis": "x", "degrees": 90 },
+        { "axis": "z", "degrees": 90 }
+      ],
+      "zeroedPosition": [0.169, -0.007, 0.061]
+    },
+    {
+      "name": "Elevator Carriage",
+      "zeroedRotations": [
+        { "axis": "x", "degrees": 90 },
+        { "axis": "z", "degrees": 90 }
+      ],
+      "zeroedPosition": [0.1625, 0.1, 0]
+    },
+    {
+      "name": "Algae Acquirer",
+      "zeroedRotations": [
+        { "axis": "x", "degrees": 86 },
+        { "axis": "y", "degrees": 0 },
+        { "axis": "z", "degrees": 90 }
+        
+      ],
+      "zeroedPosition": [-0.195, 0, -0.195]
+    },
+    {
+      "name": "Coral Cone",
+      "zeroedRotations": [
+        { "axis": "x", "degrees": 90 },
+        { "axis": "y", "degrees": 0 },
+        { "axis": "z", "degrees": 90 }
+        
+      ],
+      "zeroedPosition": [-0.187, 0, -0.554]
+    }
+  ]
+}

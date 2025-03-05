@@ -16,7 +16,9 @@ package frc.robot;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,9 +38,11 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIO;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIONeo;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerIOSim;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.coralCone.CoralConeIO;
 import frc.robot.subsystems.coralCone.CoralConeIONeo;
+import frc.robot.subsystems.coralCone.CoralConeIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -47,6 +51,7 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIO;
+import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.subsystems.elevator.ElevatorIOTalonFX;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
@@ -59,6 +64,7 @@ import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.Enums.*;
 import frc.robot.commands.CollapseCommand;
 
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -98,6 +104,24 @@ public class RobotContainer {
 
     private double driverOverridePercentage = 1;
     private double currentPercentage = 1;
+
+    @AutoLogOutput(key = "ComponentPoses/ElevatorStage1")
+    public static Pose3d elevatorStage1Pose = new Pose3d(0, 0, 0, new Rotation3d());
+
+    @AutoLogOutput(key = "ComponentPoses/ElevatorStage2")
+    public static Pose3d elevatorStage2Pose = new Pose3d(0, 0, 0, new Rotation3d());
+
+    @AutoLogOutput(key = "ComponentPoses/ElevatorCarriage")
+    public static Pose3d elevatorCarriagePose = new Pose3d(0, 0, 0, new Rotation3d());
+
+    public static final double coralConeBaseHeight = 0.445;
+
+    @AutoLogOutput(key = "ComponentPoses/CoralCone")
+    public static Pose3d coralConePose = new Pose3d(0.349, 0.096, coralConeBaseHeight, new Rotation3d());
+
+    public static final double algaeAcquirerBaseHeight = 0.188;
+    @AutoLogOutput(key = "ComponentPoses/AlgaeAcquirer")
+    public static Pose3d algaeAcquirerPose = new Pose3d(0.37, 0.1, 0.188, new Rotation3d());
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -139,10 +163,10 @@ public class RobotContainer {
                         new VisionIOPhotonVisionSim(camera1Name, robotToCamera1,
                                 drive::getPose));
                 
-                algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIONeo());
-                coralCone = new CoralCone(new CoralConeIONeo());
+                algaeAcquirer = new AlgaeAcquirer(new AlgaeAcquirerIOSim());
+                coralCone = new CoralCone(new CoralConeIOSim());
                 climber = new Climber(new ClimberIOTalonFX());
-                elevator = new Elevator(new ElevatorIOTalonFX());
+                elevator = new Elevator(new ElevatorIOSim());
                 break;
 
             default:

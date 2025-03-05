@@ -1,11 +1,13 @@
 package frc.robot.subsystems.elevator;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.RobotContainer;
 
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
@@ -69,6 +71,38 @@ public class Elevator extends SubsystemBase {
             // the UI shows positive values, but we work in negative space, so invert it here
             setManualPosition(-SmartDashboard.getNumber(manaulValueKey, 0));
         }
+
+        double height = (2.09 / 125.5) * Math.abs(inputs.position_A);
+
+        RobotContainer.elevatorStage1Pose = new Pose3d(
+            RobotContainer.elevatorStage1Pose.getX(),
+            RobotContainer.elevatorStage1Pose.getY(),
+            height / 3,
+            RobotContainer.elevatorStage1Pose.getRotation());
+
+        RobotContainer.elevatorStage2Pose = new Pose3d(
+            RobotContainer.elevatorStage2Pose.getX(),
+            RobotContainer.elevatorStage2Pose.getY(),
+            (height * 2) / 3,
+            RobotContainer.elevatorStage2Pose.getRotation());
+
+        RobotContainer.elevatorCarriagePose = new Pose3d(
+            RobotContainer.elevatorCarriagePose.getX(),
+            RobotContainer.elevatorCarriagePose.getY(),
+            height,
+            RobotContainer.elevatorCarriagePose.getRotation());
+
+        RobotContainer.coralConePose = new Pose3d(
+            RobotContainer.coralConePose.getX(),
+            RobotContainer.coralConePose.getY(),
+            height + RobotContainer.coralConeBaseHeight,
+            RobotContainer.coralConePose.getRotation());
+
+        RobotContainer.algaeAcquirerPose = new Pose3d(
+            RobotContainer.algaeAcquirerPose.getX(),
+            RobotContainer.algaeAcquirerPose.getY(),
+            height + RobotContainer.algaeAcquirerBaseHeight,
+            RobotContainer.algaeAcquirerPose.getRotation());
     }
 
     public void setPosition(Position position) {
