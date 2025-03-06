@@ -11,7 +11,7 @@ public class ClimberConstants {
     public static final double kIZone = 0.02; // to change
 
     public static final double ClosedLoopErrorThreshold = 2;
-    public static final double angleExtended = 0.516;
+    public static final double angleExtended = 0.58;
     public static final double angleRetracted = 0.345;
 
     // encoder value less than this amount is a critical failure!
