@@ -26,4 +26,10 @@ public class Enums {
         Segment_5,
         Segment_6
     }
+
+    public enum CoralStationSide {
+        Left,
+        Center,
+        Right
+    }
 }

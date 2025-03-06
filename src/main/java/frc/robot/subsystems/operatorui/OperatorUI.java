@@ -65,7 +65,9 @@ public class OperatorUI extends SubsystemBase {
     private static final String MODE_CORAL_AND_ALGAE = "coralAndAlgae";
 
     private static final String DESTINATION_REEF = "reef";
-    private static final String DESTINATION_CORAL_STATION = "coralStation";
+    private static final String DESTINATION_CORAL_STATION_LEFT = "coralStationLeft";
+    private static final String DESTINATION_CORAL_STATION_RIGHT = "coralStationRight";
+    private static final String DESTINATION_CORAL_STATION_CENTER = "coralStationCenter";
     private static final String DESTINATION_PROCESSOR = "processor";
     private static final String DESTINATION_BARGE = "barge";
     private static final String DESTINATION_FLOOR_ALGAE = "floorAlgae";
@@ -203,8 +205,14 @@ public class OperatorUI extends SubsystemBase {
         }
 
         switch (getDestination()) {
-            case DESTINATION_CORAL_STATION:
-                handleCoralStation();
+            case DESTINATION_CORAL_STATION_LEFT:
+                handleCoralStation(CoralStationSide.Left);
+            break;
+            case DESTINATION_CORAL_STATION_CENTER:
+                handleCoralStation(CoralStationSide.Center);
+            break;
+            case DESTINATION_CORAL_STATION_RIGHT:
+                handleCoralStation(CoralStationSide.Right);
             break;
             case DESTINATION_PROCESSOR:
                 handleProcessor();
@@ -250,11 +258,11 @@ public class OperatorUI extends SubsystemBase {
         CommandScheduler.getInstance().schedule(activeCommand);
     }
 
-    private void handleCoralStation() {
+    private void handleCoralStation(CoralStationSide side) {
         System.out.println("handleCoralStation()");
         boolean autoAlign = getAutoAlign();
         if (autoAlign) {
-            startCommand( new LoadCoralAutoCommand(elevator, algaeAcquirer, coralCone, drive));
+            startCommand( new LoadCoralAutoCommand(elevator, algaeAcquirer, coralCone, drive, side));
         } else {
             startCommand( new LoadCoralCommand(elevator, algaeAcquirer, coralCone));
         }

@@ -13,28 +13,46 @@ import java.util.ArrayList;
 import static frc.robot.subsystems.vision.VisionConstants.aprilTagLayout;
 
 /**
+ *  We have to declare these in a class if we want to use them in the constructor of Destination objects
+ *  Thanks Java....
+ */
+class DestConsts {
+    static double loaderCenterOffset = -0.125;
+    static double loaderRightOffset = loaderCenterOffset + 0.6096;
+    static double loaderLeftOffset = loaderCenterOffset - 0.6096;
+
+    static double reefLeftOffset = -0.33;
+}
+
+/**
  * Destinations for short autonomous paths
  */
 public enum Destination {
     // All defined here relative to Blue. All functions below will mirror as needed.
-    REEF_1_LEFT (18, true,  0,   9,   0,  -1,  2.8, 3,  2.8, 5),
-    REEF_1_RIGHT(18, false, 0,   9,   0,  -1,  2.8, 3,  2.8, 5),
-    REEF_2_LEFT (17, true,  2.7, 2.9, -1,  1,  5.5, -2, 4.5, 2.2),
-    REEF_2_RIGHT(17, false, 2.7, 2.9, -1,  1,  5.5, -2, 4.5, 2.2),
-    REEF_3_LEFT (22, true,  4.5, 2.2, 3.5, -2, 10,  1,  6.2, 3),
-    REEF_3_RIGHT(22, false, 4.5, 2.2, 3.5, -2, 10,  1,  6.2, 3),
-    REEF_4_LEFT (21, true,  9,  -1,   9,   9,  6.2, 5,  6.2, 3),
-    REEF_4_RIGHT(21, false, 9,  -1,   9,   9,  6.2, 5,  6.2, 3),
-    REEF_5_LEFT (20, true,  4.5, 5.8, 3.5, 10, 10,  7,  6.2, 5),
-    REEF_5_RIGHT(20, false, 4.5, 5.8, 3.5, 10, 10,  7,  6.2, 5),
-    REEF_6_LEFT (19, true,  2.7, 5.1, -1,  7,  5.5, 10, 4.5, 5.8),
-    REEF_6_RIGHT(19, false, 2.7, 5.1, -1,  7,  5.5, 10, 4.5, 5.8),
+    REEF_1_LEFT (18, DestConsts.reefLeftOffset, 0,  0,   9,   0,  -1,  2.8, 3,  2.8, 5),
+    REEF_1_RIGHT(18, 0, 0, 0,   9,   0,  -1,  2.8, 3,  2.8, 5),
+    REEF_2_LEFT (17, DestConsts.reefLeftOffset, 0,  2.7, 2.9, -1,  1,  5.5, -2, 4.5, 2.2),
+    REEF_2_RIGHT(17, 0, 0, 2.7, 2.9, -1,  1,  5.5, -2, 4.5, 2.2),
+    REEF_3_LEFT (22, DestConsts.reefLeftOffset, 0,  4.5, 2.2, 3.5, -2, 10,  1,  6.2, 3),
+    REEF_3_RIGHT(22, 0, 0, 4.5, 2.2, 3.5, -2, 10,  1,  6.2, 3),
+    REEF_4_LEFT (21, DestConsts.reefLeftOffset, 0,  9,  -1,   9,   9,  6.2, 5,  6.2, 3),
+    REEF_4_RIGHT(21, 0, 0, 9,  -1,   9,   9,  6.2, 5,  6.2, 3),
+    REEF_5_LEFT (20, DestConsts.reefLeftOffset, 0,  4.5, 5.8, 3.5, 10, 10,  7,  6.2, 5),
+    REEF_5_RIGHT(20, 0, 0, 4.5, 5.8, 3.5, 10, 10,  7,  6.2, 5),
+    REEF_6_LEFT (19, DestConsts.reefLeftOffset, 0,  2.7, 5.1, -1,  7,  5.5, 10, 4.5, 5.8),
+    REEF_6_RIGHT(19, 0, 0, 2.7, 5.1, -1,  7,  5.5, 10, 4.5, 5.8),
 
-    PROCESSOR(16, false, 6.5, 0.55, 7.3, 2, 5, 2, 5.6, 0.55),
-    LOADER_RIGHT(12, false, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
-    LOADER_LEFT(13, false, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8),
+    PROCESSOR(16, 0, 0.1, 6.5, 0.55, 7.3, 2, 5, 2, 5.6, 0.55),
 
-    BARGE (14, false, 8.2, 7.4, 6.5, 7.4, 6.5, 4.8, 8.2, 4.8);
+    LOADER_RIGHT_LEFT(12, DestConsts.loaderLeftOffset, 0, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
+    LOADER_RIGHT_CENTER(12, DestConsts.loaderCenterOffset, 0, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
+    LOADER_RIGHT_RIGHT(12, DestConsts.loaderRightOffset, 0, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
+
+    LOADER_LEFT_LEFT(13, DestConsts.loaderLeftOffset, 0, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8),
+    LOADER_LEFT_CENTER(13, DestConsts.loaderCenterOffset, 0, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8),
+    LOADER_LEFT_RIGHT(13, DestConsts.loaderRightOffset, 0, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8),
+
+    BARGE (14, 0, 0, 8.2, 7.4, 6.5, 7.4, 6.5, 4.8, 8.2, 4.8);
 
     public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location) {
         Destination destination = null;
@@ -141,31 +159,37 @@ public enum Destination {
 
     // x, y, angle of the destination
     private final Pose2d pose;
+    private final Pose2d tagPose;
+
     // vertices of the trapezoid in which the destination is possible
     private final ArrayList<Translation2d> zone;
-    private final boolean leftShift;
+    private final double yShift;
+    private final double xShift;
 
     private Destination(double x, double y, double angle, double p1x, double p1y, double p2x, double p2y, double p3x,
             double p3y, double p4x, double p4y) {
         this.pose = new Pose2d(x, y, Rotation2d.fromDegrees(angle));
+        this.tagPose = pose;
         this.zone = new ArrayList<>();
         zone.add(new Translation2d(p1x, p1y));
         zone.add(new Translation2d(p2x, p2y));
         zone.add(new Translation2d(p3x, p3y));
         zone.add(new Translation2d(p4x, p4y));
-        leftShift = false;
+        yShift = 0;
+        xShift = 0;
     }
 
-    private Destination(int tagID, boolean leftShift, double p1x, double p1y, double p2x, double p2y, double p3x,
+    private Destination(int tagID, double yShift, double xShift, double p1x, double p1y, double p2x, double p2y, double p3x,
     double p3y, double p4x, double p4y) {
-        this.pose =  aprilTagLayout.getTagPose(tagID).get().toPose2d()
-            .transformBy(new Transform2d(Constants.robotLength/2, leftShift ? -0.33 : 0, new Rotation2d(Math.PI)));
+        tagPose = aprilTagLayout.getTagPose(tagID).get().toPose2d();
+        this.pose = tagPose.transformBy(new Transform2d(Constants.robotLength/2 + xShift, yShift, new Rotation2d(Math.PI)));
         this.zone = new ArrayList<>();
         zone.add(new Translation2d(p1x, p1y));
         zone.add(new Translation2d(p2x, p2y));
         zone.add(new Translation2d(p3x, p3y));
         zone.add(new Translation2d(p4x, p4y));
-        this.leftShift = leftShift;
+        this.yShift = yShift;
+        this.xShift = xShift;
     }
 
     public Rotation2d getAngle(DriverStation.Alliance alliance) {
@@ -178,7 +202,8 @@ public enum Destination {
     }
 
     public Pose2d getApproachPose() {
-        return pose.transformBy(new Transform2d(-Constants.robotLength/2, leftShift ? -0.33 : 0, new Rotation2d()));
+        // return pose.transformBy(new Transform2d(-Constants.robotLength/2, xShift, new Rotation2d()));
+        return tagPose.transformBy(new Transform2d(Constants.robotLength + xShift, yShift, new Rotation2d(Math.PI)));
     }
 
     public boolean inZone(Pose2d pos, DriverStation.Alliance alliance) {

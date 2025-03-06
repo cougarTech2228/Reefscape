@@ -3,6 +3,9 @@ package frc.robot.commands;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
@@ -25,9 +28,10 @@ public class ScoreBargeCommand extends CTSequentialCommandGroup {
 
             
             new AutoAlignCommand(drive, new Pose2d(
+                // DriverStation.getAlliance().get() == Alliance.Blue ? 7.48 : (17.55 - 7.48),
                 7.48,
-                drive.getPose().getY(),
-                barge.getPose().getRotation()),
+                -1,
+                DriverStation.getAlliance().get() == Alliance.Blue ? barge.getPose().getRotation() : barge.getPose().getRotation().rotateBy(new Rotation2d(Math.PI))),
                 pathConstraints),
             // once we're in the right place, shoot the coral
             new FireAlgaeCommand(algaeAcquirer),

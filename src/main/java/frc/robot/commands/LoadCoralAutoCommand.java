@@ -10,25 +10,46 @@ import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.util.CTSequentialCommandGroup;
+import frc.robot.util.Enums.CoralStationSide;
 
 public class LoadCoralAutoCommand extends CTSequentialCommandGroup {
     private Destination dest;
-    public LoadCoralAutoCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive)
+    public LoadCoralAutoCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive, CoralStationSide side)
     {
        // = Destination.fromSegmentAndPosition(segment, ReefLocation.L2_R);
         this.addCommands(
             // Wait until we're in the destination zone
             new ParallelRaceGroup(
                 new SequentialCommandGroup(
-                    new ZoneWatcherCommand(Destination.LOADER_LEFT, drive),
+                    new ZoneWatcherCommand(Destination.LOADER_LEFT_CENTER, drive),
                     new InstantCommand(() -> {
-                        dest = Destination.LOADER_LEFT;
+                        switch (side) {
+                            case Left:
+                                dest = Destination.LOADER_LEFT_LEFT;
+                                break;
+                            case Center:
+                                dest = Destination.LOADER_LEFT_CENTER;
+                                break;
+                            case Right:
+                                dest = Destination.LOADER_LEFT_RIGHT;
+                                break;
+                        }
                     })
                 ),
                 new SequentialCommandGroup(
-                    new ZoneWatcherCommand(Destination.LOADER_RIGHT, drive),
+                    new ZoneWatcherCommand(Destination.LOADER_RIGHT_CENTER, drive),
                     new InstantCommand(() -> {
-                        dest = Destination.LOADER_RIGHT;
+                        switch (side) {
+                            case Left:
+                                dest = Destination.LOADER_RIGHT_LEFT;
+                                break;
+                            case Center:
+                                dest = Destination.LOADER_RIGHT_CENTER;
+                                break;
+                            case Right:
+                                dest = Destination.LOADER_RIGHT_RIGHT;
+                                break;
+                        }
                     })
                 )
             ),

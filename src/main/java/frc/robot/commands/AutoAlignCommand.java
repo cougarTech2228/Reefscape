@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.drive.Drive;
@@ -95,32 +97,16 @@ public class AutoAlignCommand extends Command {
                 false); // reversed
             subCommand = AutoBuilder.followPath(path);
         } else {
-            // List<Waypoint> waypoints;
-            // //return pose.transformBy(new Transform2d(-Constants.robotLength/2, 0, new Rotation2d()));
-            // Pose2d approchPoint = destPoint.transformBy(
-            //     new Transform2d(-Constants.robotLength/2, 0, new Rotation2d()));
-            // if (useApproachPoint) {
-            //     waypoints = PathPlannerPath.waypointsFromPoses(
-            //         approchPoint,
-            //         destPoint);
-            // } else {
-            //     waypoints = PathPlannerPath.waypointsFromPoses(
-            //         currentPose,
-            //         new Pose2d(currentPose.getX(), currentPose.getY(), destPoint.getRotation()),
-            //         destPoint);
-            // }
-
-            // path = new PathPlannerPath(
-            //     waypoints,
-            //     new ArrayList<>(), // holonomicRotations,
-            //     new ArrayList<>(), // pointTowardsZones,
-            //     constraintZones,
-            //     new ArrayList<>(), // eventMarkers,
-            //     globalConstraints,
-            //     null, // idealStartingState,
-            //     new GoalEndState(0.0, destPoint.getRotation()),
-            //     false); // reversed
-            subCommand = AutoBuilder.pathfindToPose(destPoint, globalConstraints);
+            Alliance currentAlliance = DriverStation.getAlliance().get();
+            Pose2d autoPoint = new Pose2d(
+                destPoint.getX() == -1 ? drive.getPose().getX() : destPoint.getX(),
+                destPoint.getY() == -1 ? (currentAlliance == Alliance.Blue ? drive.getPose().getY() : 8.024 - drive.getPose().getY()) : destPoint.getY(),
+                destPoint.getRotation() == null ?
+                    drive.getPose().getRotation() :
+                    (currentAlliance == Alliance.Blue ? destPoint.getRotation() :
+                    destPoint.getRotation().plus(new Rotation2d(Math.PI)))
+            );
+            subCommand = AutoBuilder.pathfindToPoseFlipped(autoPoint, globalConstraints);
         }
 
         // path.preventFlipping = true;
