@@ -24,11 +24,11 @@ public class ElevatorConstants {
 
   // Enum Stuff
   public static final double HEIGHT_TRANSIT = 0;
-  public static final double HEIGHT_CORAL_LOAD = -20.16; // -25.12;
+  public static final double HEIGHT_CORAL_LOAD = -22.16; // -25.12;
   public static final double HEIGHT_CORAL_L1 = -9.44;
   public static final double HEIGHT_CORAL_L2 = -21.34;
   public static final double HEIGHT_CORAL_L3 = -45.62;
-  public static final double HEIGHT_CORAL_L4 = -95.04;
+  public static final double HEIGHT_CORAL_L4 = -99.73;
   public static final double HEIGHT_ALGAE_FLOOR = -0;
   public static final double HEIGHT_ALGAE_ON_CORAL = -19.34;
   public static final double HEIGHT_ALGAE_PROCESSOR = -15.33;
