@@ -207,6 +207,13 @@ public enum Destination {
     }
 
     public boolean inZone(Pose2d pos, DriverStation.Alliance alliance) {
+        // if the robot is more than 90 degrees away from the right angle, it's not in the zone.
+        double destAngle = getAngle(alliance).getDegrees();
+        double robAngle = pos.getRotation().getDegrees();
+        double angleDiff = (robAngle-destAngle+720) % 360; //sorry
+        if (angleDiff > 90 && angleDiff < 270)
+            return false;
+        
         // for the given pose, is it in the trapezoid?
         // n>2 Keep track of cross product sign changes
         int pve = 0;
