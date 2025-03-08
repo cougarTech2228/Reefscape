@@ -151,4 +151,10 @@ public class CoralCone extends SubsystemBase {
     public void stop() {
         io.setAngleVoltage(0);
     }
+
+    public void teleopInit() {
+        if (inputs.beamBreak) {
+            extraRotationsDone = true;
+        }
+    }
 }

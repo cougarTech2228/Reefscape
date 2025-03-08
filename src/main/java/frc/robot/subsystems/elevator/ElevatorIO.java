@@ -24,6 +24,11 @@ public interface ElevatorIO {
     public boolean isAtSetPosition = false;
     public double setPosition = 0.0;
     public double closedLoopError = 0.0;
+
+    public double temp_A = 0.0;
+    public double temp_B = 0.0;
+    public boolean tempFaultA = false;
+    public boolean tempFaultB = false;
   }
 
   /** Update the set of loggable inputs. */

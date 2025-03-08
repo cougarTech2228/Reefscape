@@ -373,4 +373,8 @@ public class RobotContainer {
             }
         }
     }
+
+    public void teleopInit() {
+        coralCone.teleopInit();
+    }
 }

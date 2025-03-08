@@ -28,6 +28,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.subsystems.elevator.Elevator.Position;
 
@@ -42,6 +43,11 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     private final StatusSignal<Voltage> appliedVoltsA = elevatorA.getMotorVoltage();
     private final StatusSignal<Current> currentAmpsA = elevatorA.getSupplyCurrent();
     private final StatusSignal<ForwardLimitValue> forwardLimitA = elevatorA.getForwardLimit();
+
+    private final StatusSignal<Temperature> temperatureA = elevatorA.getDeviceTemp();
+    private final StatusSignal<Temperature> temperatureB = elevatorB.getDeviceTemp();
+    private final StatusSignal<Boolean> tempFaultA = elevatorA.getFault_DeviceTemp();
+    private final StatusSignal<Boolean> tempFaultB = elevatorA.getFault_DeviceTemp();
 
     private final StatusSignal<Angle> positionRotB = elevatorB.getPosition();
     private final StatusSignal<AngularVelocity> velocityRotPerSecB = elevatorB.getVelocity();
@@ -134,6 +140,11 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         inputs.setPosition = elevatorA.getClosedLoopReference().getValueAsDouble();
         inputs.isAtSetPosition = Math.abs(inputs.position_A - currentSetPosition) < ClosedLoopErrorThreshold;
         inputs.pidOutput = elevatorA.getClosedLoopOutput().getValueAsDouble();
+
+        inputs.temp_A = temperatureA.getValueAsDouble();
+        inputs.temp_B = temperatureB.getValueAsDouble();
+        inputs.tempFaultA = tempFaultA.getValue();
+        inputs.tempFaultB = tempFaultB.getValue();
     }
 
     @Override

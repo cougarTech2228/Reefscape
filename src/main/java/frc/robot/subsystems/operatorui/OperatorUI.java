@@ -381,11 +381,7 @@ public class OperatorUI extends SubsystemBase {
                 // place a coral and pickup an algae from the reef
                 System.out.println("handleReef - Coral and Algae");
                 ReefLocation reefLocation;
-                if (segment == ReefSegment.Segment_1 || segment == ReefSegment.Segment_3 || segment == ReefSegment.Segment_5) {
-                    reefLocation = ReefLocation.L3_R;
-                } else {
-                    reefLocation = ReefLocation.L2_R;
-                }
+                reefLocation = ReefLocation.L3_R;
 
                 if (autoAlign) {
                     startCommand(new PlaceCoralCommand(true, segment, reefLocation, elevator, algaeAcquirer, coralCone, drive));
