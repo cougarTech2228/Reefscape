@@ -22,6 +22,8 @@ class DestConsts {
     static double loaderLeftOffset = loaderCenterOffset - 0.6096;
 
     static double reefLeftOffset = -0.33;
+
+    static double angleTolerance = 60; // how close to destination angle to be in zone (degrees)
 }
 
 /**
@@ -211,7 +213,7 @@ public enum Destination {
         double destAngle = getAngle(alliance).getDegrees();
         double robAngle = pos.getRotation().getDegrees();
         double angleDiff = (robAngle-destAngle+720) % 360; //sorry
-        if (angleDiff > 90 && angleDiff < 270)
+        if (angleDiff > DestConsts.angleTolerance && angleDiff < 360-DestConsts.angleTolerance)
             return false;
         
         // for the given pose, is it in the trapezoid?
