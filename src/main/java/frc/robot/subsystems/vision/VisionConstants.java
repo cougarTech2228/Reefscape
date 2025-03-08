@@ -31,14 +31,14 @@ public class VisionConstants {
     // Robot to camera transforms
     // (Not used by Limelight, configure in web UI instead)
     public static Transform3d robotToCamera1 = new Transform3d(
-            0.3462, 0.2838, 0.2286, new Rotation3d(0.0, Math.toRadians(-45), Math.toRadians(-35)));
+            0.3762, 0.2750, 0.2286, new Rotation3d(0.0, Math.toRadians(-45), Math.toRadians(-35)));
     public static Transform3d robotToCamera2 = new Transform3d(
-            0.3462, -0.2838, 0.2159, new Rotation3d(0.0, Math.toRadians(-20), Math.toRadians(35)));
+            0.3762, -0.2838, 0.2159, new Rotation3d(0.0, Math.toRadians(-20), Math.toRadians(35)));
     public static Transform3d robotToCamera3 = new Transform3d(
-            -0.1838, -0.2838, 0.2286,
-            new Rotation3d(0.0, Math.toRadians(-55), Math.toRadians(-(35 + 180))));
+            -0.3462, -0.2750, 0.14,
+            new Rotation3d(Math.toRadians(3), Math.toRadians(-50), Math.toRadians(-(35 + 180))));
     public static Transform3d robotToCamera4 = new Transform3d(
-            -0.2138, 0.2838, 0.2159, new Rotation3d(0.0, Math.toRadians(-23), Math.toRadians(35 + 180)));
+            -0.3462, 0.2838, 0.11, new Rotation3d(0.0, Math.toRadians(-25), Math.toRadians(35 + 180)));
 
     // Basic filtering thresholds
     public static double maxAmbiguity = 0.2;
@@ -46,8 +46,8 @@ public class VisionConstants {
 
     // Standard deviation baselines, for 1 meter distance and 1 tag
     // (Adjusted automatically based on distance and # of tags)
-    public static double linearStdDevBaseline = 0.04; // Meters
-    public static double angularStdDevBaseline = 0.12; // Radians
+    public static double linearStdDevBaseline = 0.02; // Meters
+    public static double angularStdDevBaseline = 0.06; // Radians
 
     // Standard deviation multipliers for each camera
     // (Adjust to trust some cameras more than others)

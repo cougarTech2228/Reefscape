@@ -17,9 +17,10 @@ import static frc.robot.subsystems.vision.VisionConstants.aprilTagLayout;
  *  Thanks Java....
  */
 class DestConsts {
-    static double loaderCenterOffset = -0.125;
+    static double loaderCenterOffset = -0.115;
     static double loaderRightOffset = loaderCenterOffset + 0.6096;
     static double loaderLeftOffset = loaderCenterOffset - 0.6096;
+    static double loaderXOffset = -0.05;
 
     static double reefLeftOffset = -0.33;
 }
@@ -44,9 +45,9 @@ public enum Destination {
 
     PROCESSOR(16, 0, 0.1, 6.5, 0.55, 7.3, 2, 5, 2, 5.6, 0.55),
 
-    LOADER_RIGHT_LEFT(12, DestConsts.loaderLeftOffset, 0, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
-    LOADER_RIGHT_CENTER(12, DestConsts.loaderCenterOffset, 0, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
-    LOADER_RIGHT_RIGHT(12, DestConsts.loaderRightOffset, 0, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
+    LOADER_RIGHT_LEFT(12, DestConsts.loaderLeftOffset, DestConsts.loaderXOffset, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
+    LOADER_RIGHT_CENTER(12, DestConsts.loaderCenterOffset, DestConsts.loaderXOffset, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
+    LOADER_RIGHT_RIGHT(12, DestConsts.loaderRightOffset,DestConsts.loaderXOffset, 1.7, 0.55, 2.9, 1.3, 1.2, 2.6, 0.1, 1.2),
 
     LOADER_LEFT_LEFT(13, DestConsts.loaderLeftOffset, 0, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8),
     LOADER_LEFT_CENTER(13, DestConsts.loaderCenterOffset, 0, 0.3, 6.8, 1, 5, 3, 6.5, 1.7, 8),
