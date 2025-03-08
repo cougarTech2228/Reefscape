@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
@@ -23,6 +24,7 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
             new AutoAlignCommand(drive, dest),
 
             // once we're in the right place, shoot the coral
+            new WaitCommand(0.5),
             new FireCoralCommand(coralCone, false)
         );
         if (coralAndAlgae){

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.65,
-        "y": 2.0239745962155617
+        "x": 5.772766147219749,
+        "y": 1.8642503590655903
       },
       "isLocked": false,
       "linkedName": "R3R"
@@ -20,8 +20,8 @@
         "y": 1.075
       },
       "prevControl": {
-        "x": 2.411950282921078,
-        "y": 1.8180210922781488
+        "x": 2.7319690242163484,
+        "y": 2.990111107797445
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.10233393177737872,
+      "maxWaypointRelativePos": 0.1,
       "constraints": {
         "maxVelocity": 2.5,
         "maxAcceleration": 1.0,
