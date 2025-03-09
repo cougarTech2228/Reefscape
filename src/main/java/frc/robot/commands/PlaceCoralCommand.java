@@ -44,7 +44,7 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
         } else if (location.equals(ReefLocation.L1)) {
             this.addCommands(
                 // Once we've shot, go back to a safe state to transit
-                new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_L1)
+                new CollapseCommand( elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_LOAD)
             );
         } else {
             if (!coralAndAlgae){

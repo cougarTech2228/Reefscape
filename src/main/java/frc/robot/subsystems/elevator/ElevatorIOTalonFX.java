@@ -36,7 +36,7 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 public class ElevatorIOTalonFX implements ElevatorIO {
     protected final TalonFX elevatorA = new TalonFX(elevatorACanID, "canivore");
-    protected final TalonFX elevatorB = new TalonFX(elevatorBCanID, "canivore");
+    // protected final TalonFX elevatorB = new TalonFX(elevatorBCanID, "canivore");
 
     private final StatusSignal<Angle> positionRotA = elevatorA.getPosition();
     private final StatusSignal<AngularVelocity> velocityRotPerSecA = elevatorA.getVelocity();
@@ -45,14 +45,14 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     private final StatusSignal<ForwardLimitValue> forwardLimitA = elevatorA.getForwardLimit();
 
     private final StatusSignal<Temperature> temperatureA = elevatorA.getDeviceTemp();
-    private final StatusSignal<Temperature> temperatureB = elevatorB.getDeviceTemp();
+    // private final StatusSignal<Temperature> temperatureB = elevatorB.getDeviceTemp();
     private final StatusSignal<Boolean> tempFaultA = elevatorA.getFault_DeviceTemp();
     private final StatusSignal<Boolean> tempFaultB = elevatorA.getFault_DeviceTemp();
 
-    private final StatusSignal<Angle> positionRotB = elevatorB.getPosition();
-    private final StatusSignal<AngularVelocity> velocityRotPerSecB = elevatorB.getVelocity();
-    private final StatusSignal<Voltage> appliedVoltsB = elevatorB.getMotorVoltage();
-    private final StatusSignal<Current> currentAmpsB = elevatorB.getSupplyCurrent();
+    // private final StatusSignal<Angle> positionRotB = elevatorB.getPosition();
+    // private final StatusSignal<AngularVelocity> velocityRotPerSecB = elevatorB.getVelocity();
+    // private final StatusSignal<Voltage> appliedVoltsB = elevatorB.getMotorVoltage();
+    // private final StatusSignal<Current> currentAmpsB = elevatorB.getSupplyCurrent();
 
     private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
 
@@ -81,8 +81,8 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         elevatorA.getConfigurator().apply(talonFXConfigs);
         elevatorA.getConfigurator().apply(hardwareLimitSwitchConfig);
 
-        elevatorB.getConfigurator().apply(talonFXConfigs);
-        elevatorB.setControl(new Follower(elevatorACanID, false));
+        // elevatorB.getConfigurator().apply(talonFXConfigs);
+        // elevatorB.setControl(new Follower(elevatorACanID, false));
 
         // set slot 0 gains
         var slot0Configs = talonFXConfigs.Slot0;
@@ -99,7 +99,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         talonFXConfigs.MotionMagic
             .withMotionMagicCruiseVelocity(RotationsPerSecond.of(100)) // 5 (mechanism) rotations per second cruise
         
-            .withMotionMagicExpo_kA(0.20) // lower is faster
+            .withMotionMagicExpo_kA(0.10) // lower is faster
             .withMotionMagicExpo_kV(0.01); // lower is faster
 
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 100; // allow a spike of 80A
@@ -113,7 +113,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         BaseStatusSignal.setUpdateFrequencyForAll(50.0,
             positionRotA, velocityRotPerSecA, appliedVoltsA, currentAmpsA,
-            positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
+            // positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
             forwardLimitA);
         elevatorA.optimizeBusUtilization();
     }
@@ -122,7 +122,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     public void updateInputs(ElevatorIOInputs inputs) {
         BaseStatusSignal.refreshAll(
             positionRotA, velocityRotPerSecA, appliedVoltsA, currentAmpsA,
-            positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
+            // positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
             forwardLimitA);
 
         inputs.position_A = positionRotA.getValueAsDouble();
@@ -130,10 +130,10 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         inputs.appliedVolts_A = appliedVoltsA.getValueAsDouble();
         inputs.currentAmps_A = currentAmpsA.getValueAsDouble();
 
-        inputs.position_B = positionRotB.getValueAsDouble();
-        inputs.velocity_B = velocityRotPerSecB.getValueAsDouble();
-        inputs.appliedVolts_B = appliedVoltsB.getValueAsDouble();
-        inputs.currentAmps_B = currentAmpsB.getValueAsDouble();
+        // inputs.position_B = positionRotB.getValueAsDouble();
+        // inputs.velocity_B = velocityRotPerSecB.getValueAsDouble();
+        // inputs.appliedVolts_B = appliedVoltsB.getValueAsDouble();
+        // inputs.currentAmps_B = currentAmpsB.getValueAsDouble();
 
         inputs.bottomLimit = forwardLimitA.getValue() == ForwardLimitValue.ClosedToGround;
         inputs.closedLoopError = elevatorA.getClosedLoopError().getValueAsDouble();
@@ -142,7 +142,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         inputs.pidOutput = elevatorA.getClosedLoopOutput().getValueAsDouble();
 
         inputs.temp_A = temperatureA.getValueAsDouble();
-        inputs.temp_B = temperatureB.getValueAsDouble();
+        // inputs.temp_B = temperatureB.getValueAsDouble();
         inputs.tempFaultA = tempFaultA.getValue();
         inputs.tempFaultB = tempFaultB.getValue();
     }

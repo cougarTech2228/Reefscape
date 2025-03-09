@@ -43,7 +43,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
 
         flywheelConfig
             .idleMode(IdleMode.kCoast)
-            .smartCurrentLimit(5);
+            .smartCurrentLimit(10);
 
         rightFlyWheel.configure(flywheelConfig, null, null);
         leftFlyWheel.configure(flywheelConfig.follow(rightFlyWheel, true), null, null);
@@ -73,8 +73,8 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
             inputs.isLoaded = true;
         } else {
             inputs.isLoaded = currentFlywheelState == FlywheelState.ACQUIRE && 
-                (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
-                (Math.abs(inputs.flyCurrentAmpsRight) > 0));
+                (Math.abs(inputs.flyVelocityLeft) < kLoadedVelocityThreshold &&
+                (Math.abs(inputs.flyCurrentAmpsLeft) > 0));
         }
     }
 
