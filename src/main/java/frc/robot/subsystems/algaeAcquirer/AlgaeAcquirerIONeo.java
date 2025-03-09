@@ -43,7 +43,7 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
 
         flywheelConfig
             .idleMode(IdleMode.kCoast)
-            .smartCurrentLimit(10);
+            .smartCurrentLimit(5);
 
         rightFlyWheel.configure(flywheelConfig, null, null);
         leftFlyWheel.configure(flywheelConfig.follow(rightFlyWheel, true), null, null);

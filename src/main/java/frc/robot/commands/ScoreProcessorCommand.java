@@ -22,7 +22,7 @@ public class ScoreProcessorCommand extends CTSequentialCommandGroup {
             ),
             // once we're in the right place, shoot the coral
             new FireAlgaeCommand(algaeAcquirer),
-            new CollapseCommand( elevator, algaeAcquirer, coralCone)
+            new CollapseCommand( elevator, algaeAcquirer, coralCone, Elevator.Position.TRANSIT)
         );
     }
 }

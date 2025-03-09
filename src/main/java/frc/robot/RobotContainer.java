@@ -199,7 +199,7 @@ public class RobotContainer {
                 coralCone);
 
         Command prepProcessorCommand = new PrepProcessorCommand(elevator, algaeAcquirer, coralCone);
-        Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone);
+        Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.ALGAE_REEF_LOW);
         Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
                 algaeAcquirer, coralCone);
         Command prepL2CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L2_L,

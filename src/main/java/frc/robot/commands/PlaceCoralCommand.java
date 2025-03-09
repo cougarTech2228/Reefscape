@@ -37,7 +37,7 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
             // if we're not also loading an algae, collapse things
             this.addCommands(
                 // Once we've shot, go back to a safe state to transit
-                new CollapseCommand( elevator, algaeAcquirer, coralCone)
+                new CollapseCommand( elevator, algaeAcquirer, coralCone, Elevator.Position.ALGAE_REEF_LOW)
             );
         }
     }
