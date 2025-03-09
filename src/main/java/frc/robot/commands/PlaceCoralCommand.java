@@ -33,12 +33,22 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
             new WaitCommand(0.25),
             new FireCoralCommand(coralCone, false)
         );
-        if (!coralAndAlgae){
-            // if we're not also loading an algae, collapse things
-            this.addCommands(
-                // Once we've shot, go back to a safe state to transit
-                new CollapseCommand( elevator, algaeAcquirer, coralCone, Elevator.Position.ALGAE_REEF_LOW)
-            );
+        if (location.equals(ReefLocation.L2_L) || location.equals(ReefLocation.L2_R)) {
+            if (!coralAndAlgae){
+                // if we're not also loading an algae, collapse things
+                this.addCommands(
+                    // Once we've shot, go back to a safe state to transit
+                    new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_L2)
+                );
+            }
+        } else if (location.equals(ReefLocation.L1)) {
+            if (!coralAndAlgae){
+                // if we're not also loading an algae, collapse things
+                this.addCommands(
+                    // Once we've shot, go back to a safe state to transit
+                    new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_L1)
+                );
+            }
         }
     }
 
