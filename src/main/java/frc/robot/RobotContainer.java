@@ -294,6 +294,11 @@ public class RobotContainer {
                         () -> -driverController.getLeftX(),
                         () -> -driverController.getRightX()));
 
+        driverController.axisGreaterThan(XboxController.Axis.kRightTrigger.value, 0).whileTrue(
+                DriveCommands.strafe(drive, () -> -driverController.getRightTriggerAxis()));
+        driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, 0).whileTrue(
+                DriveCommands.strafe(drive, () -> driverController.getLeftTriggerAxis()));
+
         // Lock to 0° when A button is held
         driverController
                 .a()

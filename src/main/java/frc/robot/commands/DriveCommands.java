@@ -154,6 +154,21 @@ public class DriveCommands {
         .beforeStarting(() -> angleController.reset(drive.getRotation().getRadians()));
   }
 
+  public static Command strafe(Drive drive, DoubleSupplier ySupplier) {
+    return Commands.run(
+      () -> {
+        // Get linear velocity
+        Translation2d linearVelocity = getLinearVelocityFromJoysticks(0, ySupplier.getAsDouble());
+
+        ChassisSpeeds speeds = new ChassisSpeeds(
+            0,
+            linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec() / 3,
+            0);
+        drive.runVelocity(speeds);
+      },
+      drive);
+  }
+
   /**
    * Measures the velocity feedforward constants for the drive motors.
    *
