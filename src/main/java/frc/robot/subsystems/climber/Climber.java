@@ -95,7 +95,6 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         io.updateInputs(inputs);
-        Logger.processInputs("Climber", inputs);
 
         if (inputs.climberMotorEncoderPosition == 1) {
             noEncoderAlarm.set(true);
@@ -126,6 +125,12 @@ public class Climber extends SubsystemBase {
             inputs.pidOutputClamped = voltage;
             setVoltage(voltage);
         }
+        inputs.climberMotorIsAtSetPosition = Math.abs(inputs.climberMotorEncoderPosition - setpoint) < 0.01;
+        if (climberState == ClimberState.EXTENDING && inputs.climberMotorIsAtSetPosition){
+            stop();
+        }
+
+        Logger.processInputs("Climber", inputs); 
     }
 
     /** Enables the PID control. Resets the controller. */

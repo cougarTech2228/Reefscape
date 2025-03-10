@@ -162,7 +162,7 @@ public class DriveCommands {
 
         ChassisSpeeds speeds = new ChassisSpeeds(
             0,
-            linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec() / 3,
+            linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec() / 5,
             0);
         drive.runVelocity(speeds);
       },
