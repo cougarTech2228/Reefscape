@@ -98,6 +98,25 @@
               }
             ]
           }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Short R2R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "collapse"
+                }
+              }
+            ]
+          }
         }
       ]
     }

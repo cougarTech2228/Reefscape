@@ -8,48 +8,35 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3320489322457596,
-        "y": 1.822140489125907
+        "x": 3.955,
+        "y": 3.10650635094611
       },
       "isLocked": false,
       "linkedName": "R2R"
     },
     {
       "anchor": {
-        "x": 1.125,
-        "y": 1.075
+        "x": 3.658,
+        "y": 2.590307502254592
       },
       "prevControl": {
-        "x": 1.6102702574154626,
-        "y": 1.9493642131674478
+        "x": 3.533,
+        "y": 2.373801151308482
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CR"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.85,
+      "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.5,
-        "maxAngularVelocity": 720.0,
-        "maxAngularAcceleration": 1440.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.85,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 2.5,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 720.0,
         "maxAngularAcceleration": 1440.0,
         "nominalVoltage": 12.0,
@@ -69,10 +56,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -125.00000000000001
+    "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "From R2",
+  "folder": "Reef Short Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 59.99999999999999

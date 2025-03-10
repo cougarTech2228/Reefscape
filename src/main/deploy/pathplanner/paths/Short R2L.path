@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.3,
-        "y": 2.6
+        "x": 3.55,
+        "y": 3.05
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.175,
-        "y": 2.81650635094611
+        "x": 3.675,
+        "y": 3.2665063509461096
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "R2L"
     },
     {
       "anchor": {
-        "x": 5.2,
-        "y": 2.8
+        "x": 3.38,
+        "y": 2.7499937787940096
       },
       "prevControl": {
-        "x": 5.325,
-        "y": 2.5834936490538905
+        "x": 3.255,
+        "y": 2.5334874278479
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 720.0,
+        "maxAngularAcceleration": 1440.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -42,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 59.99999999999999
   },
   "reversed": false,
   "folder": "Reef Short Paths",
   "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 119.99999999999999
+    "velocity": 0,
+    "rotation": 59.99999999999999
   },
   "useDefaultConstraints": true
 }

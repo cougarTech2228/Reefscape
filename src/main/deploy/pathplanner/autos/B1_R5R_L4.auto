@@ -41,6 +41,25 @@
               }
             ]
           }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Short R5R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "collapse"
+                }
+              }
+            ]
+          }
         }
       ]
     }
