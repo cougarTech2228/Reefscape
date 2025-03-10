@@ -15,10 +15,10 @@ public interface ElevatorIO {
     public double currentAmps_A = 0.0;
     public double pidOutput = 0.0;
 
-    public double position_B = 0.0;
-    public double velocity_B = 0.0;
-    public double appliedVolts_B = 0.0;
-    public double currentAmps_B = 0.0;
+    // public double position_B = 0.0;
+    // public double velocity_B = 0.0;
+    // public double appliedVolts_B = 0.0;
+    // public double currentAmps_B = 0.0;
 
     public boolean bottomLimit = false;
     public boolean isAtSetPosition = false;
@@ -26,9 +26,9 @@ public interface ElevatorIO {
     public double closedLoopError = 0.0;
 
     public double temp_A = 0.0;
-    public double temp_B = 0.0;
+    // public double temp_B = 0.0;
     public boolean tempFaultA = false;
-    public boolean tempFaultB = false;
+    // public boolean tempFaultB = false;
   }
 
   /** Update the set of loggable inputs. */

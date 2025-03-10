@@ -18,7 +18,6 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
@@ -47,7 +46,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     private final StatusSignal<Temperature> temperatureA = elevatorA.getDeviceTemp();
     // private final StatusSignal<Temperature> temperatureB = elevatorB.getDeviceTemp();
     private final StatusSignal<Boolean> tempFaultA = elevatorA.getFault_DeviceTemp();
-    private final StatusSignal<Boolean> tempFaultB = elevatorA.getFault_DeviceTemp();
+    // private final StatusSignal<Boolean> tempFaultB = elevatorB.getFault_DeviceTemp();
 
     // private final StatusSignal<Angle> positionRotB = elevatorB.getPosition();
     // private final StatusSignal<AngularVelocity> velocityRotPerSecB = elevatorB.getVelocity();
@@ -144,7 +143,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         inputs.temp_A = temperatureA.getValueAsDouble();
         // inputs.temp_B = temperatureB.getValueAsDouble();
         inputs.tempFaultA = tempFaultA.getValue();
-        inputs.tempFaultB = tempFaultB.getValue();
+        // inputs.tempFaultB = tempFaultB.getValue();
     }
 
     @Override
