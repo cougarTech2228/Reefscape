@@ -1,7 +1,7 @@
 package frc.robot.subsystems.algaeAcquirer;
 
 public class AlgaeAcquirerConstants {
-    public static final int acquireVoltage = -8; // to be changed
+    public static final int acquireVoltage = -12; // to be changed
     public static final int shootVoltage = 12; // to be changed
 
     public static final double offset = 0.09;
@@ -22,4 +22,10 @@ public class AlgaeAcquirerConstants {
     // below this velocity and above this current will be concidered loaded
     public static final double kLoadedVelocityThreshold = 1000;
     public static final double kLoadedCurrentDrawThreshold = 5;
+
+    public enum FlyMode {
+        LOAD,
+        HOLD,
+        FIRE
+    };
 }

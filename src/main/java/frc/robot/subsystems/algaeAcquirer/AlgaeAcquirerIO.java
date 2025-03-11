@@ -4,6 +4,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.Position;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.FlyMode;
 
 public interface AlgaeAcquirerIO {
     @AutoLog
@@ -26,6 +27,7 @@ public interface AlgaeAcquirerIO {
         public double flyCurrentAmpsRight = 0.0;
 
         public boolean isLoaded = false;
+        public String flyState = "";
     }
     /** Update the set of loggable inputs. */
     public default void updateInputs(AlgaeAcquirerIOInputs inputs) {}

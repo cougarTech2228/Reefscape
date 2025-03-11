@@ -12,6 +12,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.FlywheelState;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer.Position;
+import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.FlyMode;
 
 import static frc.robot.subsystems.algaeAcquirer.AlgaeAcquirerConstants.*;
 
@@ -26,28 +27,38 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
     private FlywheelState currentFlywheelState = FlywheelState.STOP;
 
     public AlgaeAcquirerIONeo() {
-        ClosedLoopConfig closedLoopConfig = new ClosedLoopConfig();
-        closedLoopConfig.maxMotion.maxAcceleration(2000);
-        closedLoopConfig.maxMotion.maxVelocity(600);
-        closedLoopConfig.maxMotion.positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal);
-        closedLoopConfig.maxMotion.allowedClosedLoopError(AlgaeAcquirerConstants.closedLoopAngleAllowedError);
-        closedLoopConfig.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
-        closedLoopConfig.pidf(0.4, 0, 0, 0);
+        ClosedLoopConfig angleClosedLoopConfig = new ClosedLoopConfig();
+        angleClosedLoopConfig.maxMotion.maxAcceleration(2000);
+        angleClosedLoopConfig.maxMotion.maxVelocity(600);
+        angleClosedLoopConfig.maxMotion.positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal);
+        angleClosedLoopConfig.maxMotion.allowedClosedLoopError(AlgaeAcquirerConstants.closedLoopAngleAllowedError);
+        angleClosedLoopConfig.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+        angleClosedLoopConfig.pidf(0.4, 0, 0, 0);
+
+        ClosedLoopConfig flyClosedLoopConfig = new ClosedLoopConfig();
+        flyClosedLoopConfig.maxMotion.maxAcceleration(2000);
+        flyClosedLoopConfig.maxMotion.maxVelocity(600);
+        flyClosedLoopConfig.maxMotion.positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal);
+        flyClosedLoopConfig.maxMotion.allowedClosedLoopError(AlgaeAcquirerConstants.closedLoopAngleAllowedError);
+        flyClosedLoopConfig.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        flyClosedLoopConfig.pidf(0.2, 0, 0, 0);
 
         angleMotorConfig.absoluteEncoder.setSparkMaxDataPortConfig();
         angleMotorConfig
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(20)
-            .apply(closedLoopConfig);
+            .apply(angleClosedLoopConfig);
         algaeAngleMotor.configure(angleMotorConfig, null, null);
 
         flywheelConfig
             .idleMode(IdleMode.kCoast)
-            .smartCurrentLimit(6
-            );
+            .smartCurrentLimit(6)
+            .apply(flyClosedLoopConfig);
 
         rightFlyWheel.configure(flywheelConfig, null, null);
-        leftFlyWheel.configure(flywheelConfig.follow(rightFlyWheel, true), null, null);
+        // leftFlyWheel.configure(flywheelConfig, null, null);
+        leftFlyWheel.configure(flywheelConfig.disableFollowerMode(), null, null);
+
     }
 
     @Override
@@ -73,15 +84,20 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
         if (Constants.currentMode == Constants.Mode.SIM && currentFlywheelState == FlywheelState.ACQUIRE) {
             inputs.isLoaded = true;
         } else {
-            inputs.isLoaded = currentFlywheelState == FlywheelState.ACQUIRE && 
+            inputs.isLoaded = (currentFlywheelState == FlywheelState.ACQUIRE && 
                 (Math.abs(inputs.flyVelocityRight) < kLoadedVelocityThreshold &&
-                (Math.abs(inputs.flyCurrentAmpsRight) > 0));
+                (Math.abs(inputs.flyCurrentAmpsRight) > 0))
+                || currentFlywheelState == FlywheelState.HOLD);
+            // inputs.isLoaded = currentFlywheelState == FlywheelState.HOLD;
         }
+
+        inputs.flyState = currentFlywheelState.toString();
     }
 
     @Override
     public void setFlyVoltage(double voltage) {
         rightFlyWheel.setVoltage(voltage);
+        leftFlyWheel.setVoltage(-voltage);
     }
 
     @Override
@@ -96,6 +112,10 @@ public class AlgaeAcquirerIONeo implements AlgaeAcquirerIO {
                 break;
             case STOP:
                 setFlyVoltage(0);
+            break;
+            case HOLD:
+                rightFlyWheel.getClosedLoopController().setReference(rightFlyWheel.getEncoder().getPosition(), ControlType.kMAXMotionPositionControl);
+                leftFlyWheel.getClosedLoopController().setReference(leftFlyWheel.getEncoder().getPosition(), ControlType.kMAXMotionPositionControl);
                 break;
         }
     }

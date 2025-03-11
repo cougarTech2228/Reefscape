@@ -5,6 +5,7 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,10 +24,12 @@ public class AlgaeAcquirer extends SubsystemBase {
     private final String manaulValueKey = "AlgaeAcquirer/manualSetpoint/value";
     private final String manaulEnableKey = "AlgaeAcquirer/manualSetpoint/enabled";
 
+    private double acquirerStartTime = 0;
     public enum FlywheelState {
         SHOOT,
         ACQUIRE,
-        STOP
+        STOP,
+        HOLD
     }
 
     public enum Position {
@@ -56,6 +59,11 @@ public class AlgaeAcquirer extends SubsystemBase {
     }
 
     public void setFlywheelState(FlywheelState state) {
+        if (state == FlywheelState.ACQUIRE) {
+            acquirerStartTime = Timer.getFPGATimestamp();
+        } else {
+            acquirerStartTime = 0;
+        }
         io.setAlgaeAcquirer(state);
     }
 
@@ -91,6 +99,12 @@ public class AlgaeAcquirer extends SubsystemBase {
             RobotContainer.algaeAcquirerPose.getY(),
             RobotContainer.algaeAcquirerPose.getZ(),
             new Rotation3d(0, Units.degreesToRadians(angle), 0));
+
+        double now = Timer.getFPGATimestamp();
+        if (isLoaded() && acquirerStartTime > 0 && ((now - acquirerStartTime) > 0.5)) {
+            setFlywheelState(FlywheelState.HOLD);
+        }
+        // setFlywheelState(FlywheelState.STOP);
     }
 
     public void manualUp() {
@@ -103,7 +117,7 @@ public class AlgaeAcquirer extends SubsystemBase {
 
     public void stop() {
         io.setAngleVoltage(0);
-        io.setFlyVoltage(0);
+        setFlywheelState(FlywheelState.STOP);
     }
 
     public boolean isLoaded() {
