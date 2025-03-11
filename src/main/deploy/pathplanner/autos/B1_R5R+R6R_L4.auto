@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "B3_R3R"
+                  "pathName": "B1_R5R"
                 }
               },
               {
@@ -49,13 +49,32 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "R3R_CR"
+                  "pathName": "R5R_CL"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "loadCoral"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.15
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireCoral"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "loadCoral"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -68,7 +87,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CR_R2R"
+                  "pathName": "CL_R6R"
                 }
               },
               {
@@ -106,13 +125,19 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Short R2R"
+                  "pathName": "Short R6R"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "collapse"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireCoral"
                 }
               }
             ]

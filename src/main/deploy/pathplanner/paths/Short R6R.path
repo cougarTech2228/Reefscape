@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.826040710702202,
+        "y": 5.188529410468977
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.951040710702202,
+        "y": 4.972023059522868
+      },
+      "isLocked": false,
+      "linkedName": "R6R"
+    },
+    {
+      "anchor": {
+        "x": 3.669,
+        "y": 5.461564602510179
+      },
+      "prevControl": {
+        "x": 3.544,
+        "y": 5.678070953456288
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 1440.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "reversed": false,
+  "folder": "Reef Short Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "useDefaultConstraints": true
+}

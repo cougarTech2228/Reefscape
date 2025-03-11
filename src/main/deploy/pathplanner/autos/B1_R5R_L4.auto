@@ -57,6 +57,12 @@
                 "data": {
                   "name": "collapse"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireCoral"
+                }
               }
             ]
           }
