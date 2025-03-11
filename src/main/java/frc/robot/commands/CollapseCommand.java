@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.coralCone.CoralCone;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorConstants;
 
 public class CollapseCommand extends Command {
 
@@ -12,8 +13,10 @@ public class CollapseCommand extends Command {
     private final CoralCone coralCone;
     private boolean initialized = false;
     private boolean elevatorSet = false;
+    private Elevator.Position position;
 
-    public CollapseCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone) {
+    public CollapseCommand(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Elevator.Position position) {
+        this.position = position;
         this.elevator = elevator;
         this.algaeAcquirer = algaeAcquirer;
         this.coralCone = coralCone;
@@ -45,7 +48,7 @@ public class CollapseCommand extends Command {
             if (algaeAcquirer.isLoaded()) {
                 elevator.setPosition(Elevator.Position.ALGAE_PROCESSOR);
             } else {
-                elevator.setPosition(Elevator.Position.TRANSIT);
+                elevator.setPosition(position);
             }
             elevatorSet = true;
         }

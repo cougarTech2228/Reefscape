@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "B1_R5L"
+                  "pathName": "B3_R3R"
                 }
               },
               {
@@ -24,15 +24,15 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.15
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -49,7 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "R5L_CL"
+                  "pathName": "R3R_CR"
                 }
               },
               {
@@ -68,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CL_R6R"
+                  "pathName": "CR_R2R"
                 }
               },
               {
@@ -81,15 +81,15 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.15
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -100,57 +100,19 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "R6R_CL"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "loadCoral"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "CL_R6L"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "prepL4Coral"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.15
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Short R2R"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
-                  "name": "fireCoral"
+                  "name": "collapse"
                 }
               }
             ]
@@ -160,6 +122,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "2 Coral Auto",
   "choreoAuto": false
 }

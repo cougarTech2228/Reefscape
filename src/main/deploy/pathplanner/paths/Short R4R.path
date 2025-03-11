@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1,
-        "y": 6.2
+        "x": 5.85,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.6,
-        "y": 6.2
+        "x": 6.1,
+        "y": 4.0
       },
       "isLocked": false,
-      "linkedName": "B1"
+      "linkedName": "R4R"
     },
     {
       "anchor": {
-        "x": 5.46962603894259,
-        "y": 5.014053477842491
+        "x": 6.15,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 5.932796080987154,
-        "y": 5.666336784506426
+        "x": 5.9,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R5L"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8,
+      "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.5,
@@ -56,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "From B1",
+  "folder": "Reef Short Paths",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -155.0
+    "velocity": 0.0,
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

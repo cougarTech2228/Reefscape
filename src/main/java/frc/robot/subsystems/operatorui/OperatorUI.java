@@ -155,7 +155,7 @@ public class OperatorUI extends SubsystemBase {
             if(algaeAcquirer.isLoaded()) {
                 Command cmd = new CTSequentialCommandGroup(
                         new FireAlgaeCommand(algaeAcquirer),
-                        new CollapseCommand(elevator, algaeAcquirer, coralCone)
+                        new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.TRANSIT)
                     );
                 startCommand(cmd);
             } else if (coralCone.isLoaded()) {
@@ -165,7 +165,7 @@ public class OperatorUI extends SubsystemBase {
                 }
                 Command cmd = new CTSequentialCommandGroup(
                     new FireCoralCommand(coralCone, isFast),
-                    new CollapseCommand(elevator, algaeAcquirer, coralCone)
+                    new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.TRANSIT)
                 );
                 startCommand(cmd);
             }
@@ -200,7 +200,7 @@ public class OperatorUI extends SubsystemBase {
             return;
         }
         if (getMode().equals("collapse")){
-            startCommand(new CollapseCommand(elevator, algaeAcquirer, coralCone));
+            startCommand(new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.TRANSIT));
             return;
         }
 
@@ -381,11 +381,7 @@ public class OperatorUI extends SubsystemBase {
                 // place a coral and pickup an algae from the reef
                 System.out.println("handleReef - Coral and Algae");
                 ReefLocation reefLocation;
-                if (segment == ReefSegment.Segment_1 || segment == ReefSegment.Segment_3 || segment == ReefSegment.Segment_5) {
-                    reefLocation = ReefLocation.L3_R;
-                } else {
-                    reefLocation = ReefLocation.L2_R;
-                }
+                reefLocation = ReefLocation.L3_R;
 
                 if (autoAlign) {
                     startCommand(new PlaceCoralCommand(true, segment, reefLocation, elevator, algaeAcquirer, coralCone, drive));

@@ -199,7 +199,7 @@ public class RobotContainer {
                 coralCone);
 
         Command prepProcessorCommand = new PrepProcessorCommand(elevator, algaeAcquirer, coralCone);
-        Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone);
+        Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.ALGAE_REEF_LOW);
         Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
                 algaeAcquirer, coralCone);
         Command prepL2CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L2_L,
@@ -294,6 +294,11 @@ public class RobotContainer {
                         () -> -driverController.getLeftX(),
                         () -> -driverController.getRightX()));
 
+        driverController.axisGreaterThan(XboxController.Axis.kRightTrigger.value, 0).whileTrue(
+                DriveCommands.strafe(drive, () -> -driverController.getRightTriggerAxis()));
+        driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, 0).whileTrue(
+                DriveCommands.strafe(drive, () -> driverController.getLeftTriggerAxis()));
+
         // Lock to 0° when A button is held
         driverController
                 .a()
@@ -372,5 +377,9 @@ public class RobotContainer {
                 drive.setAccelerationPercentage(currentPercentage);
             }
         }
+    }
+
+    public void teleopInit() {
+        coralCone.teleopInit();
     }
 }

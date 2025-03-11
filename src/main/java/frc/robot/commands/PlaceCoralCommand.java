@@ -20,24 +20,40 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
             new ZoneWatcherCommand(dest, drive),
 
             // Take over driving, and move all components to the right places
-            new PrepPlaceCoralCommand(coralAndAlgae, segment, location, elevator, algaeAcquirer, coralCone),
-            new AutoAlignCommand(drive, dest),
-
-            // once we're in the right place, shoot the coral
-            new WaitCommand(0.5),
-            new FireCoralCommand(coralCone, false)
-        );
+            new PrepPlaceCoralCommand(coralAndAlgae, segment, location, elevator, algaeAcquirer, coralCone));
         if (coralAndAlgae){
             // After the coral fires, then turn on the algae flywheels, giving it 1 se
             this.addCommands(new InstantCommand(() -> {
                 algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.ACQUIRE);
             }));
-        } else {
-            // if we're not also loading an algae, collapse things
+        }
+
+        this.addCommands(    // once we're in the right place, shoot the coral
+            new AutoAlignCommand(drive, dest),
+            new WaitCommand(0.25),
+            new FireCoralCommand(coralCone, false)
+        );
+        if (location.equals(ReefLocation.L2_L) || location.equals(ReefLocation.L2_R)) {
+            if (!coralAndAlgae){
+                // if we're not also loading an algae, collapse things
+                this.addCommands(
+                    // Once we've shot, go back to a safe state to transit
+                    new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_L2)
+                );
+            }
+        } else if (location.equals(ReefLocation.L1)) {
             this.addCommands(
                 // Once we've shot, go back to a safe state to transit
-                new CollapseCommand( elevator, algaeAcquirer, coralCone)
+                new CollapseCommand( elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_LOAD)
             );
+        } else {
+            if (!coralAndAlgae){
+                // if we're not also loading an algae, collapse things
+                this.addCommands(
+                    // Once we've shot, go back to a safe state to transit
+                    new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.ALGAE_REEF_LOW)
+                );
+            }
         }
     }
 

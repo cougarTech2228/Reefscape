@@ -39,8 +39,7 @@ public class ClimberIOTalonFX implements ClimberIO {
         inputs.climberMotorCurrentAmps = climberMotorCurrentAmps.getValueAsDouble();
         inputs.climberMotorEncoderPosition = mClimberMotorEncoder.get();
 
-        inputs.climberMotorIsAtSetPosition = climberMotor.getClosedLoopError()
-                .getValue() < ClimberConstants.ClosedLoopErrorThreshold;
+        
     }
 
     public void setClimberPosition(ClimberPosition climberPosition) {

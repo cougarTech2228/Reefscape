@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.0,
-        "y": 5.3
+        "x": 4.133491812291362,
+        "y": 5.375434105407023
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.0,
-        "y": 5.8
+        "x": 4.133491812291362,
+        "y": 5.875434105407023
       },
       "isLocked": false,
       "linkedName": "R6L"

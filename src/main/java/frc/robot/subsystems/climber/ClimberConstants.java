@@ -4,8 +4,8 @@ public class ClimberConstants {
 
     public static final double RAISE_VOLTAGE = 2;
     public static final double LOWER_VOLTAGE = -2;
-    public static final double servoLockedAngle = 0.1;
-    public static final double servoUnlockedAngle = 0.5;
+    public static final double servoLockedAngle = .5;
+    public static final double servoUnlockedAngle = servoLockedAngle - 0.36;
 
     public static final double climberAngleThreshold = 0.02; // to change
     public static final double kIZone = 0.02; // to change

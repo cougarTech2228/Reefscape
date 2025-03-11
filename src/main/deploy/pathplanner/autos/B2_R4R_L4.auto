@@ -24,15 +24,40 @@
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 0.1
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.1
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireCoral"
+                }
+              }
+            ]
           }
         },
         {
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Short R4R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "collapse"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -46,6 +71,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "1 Coral Auto",
   "choreoAuto": false
 }

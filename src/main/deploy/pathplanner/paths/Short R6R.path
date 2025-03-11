@@ -3,47 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1,
-        "y": 6.2
+        "x": 3.826040710702202,
+        "y": 5.188529410468977
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.6,
-        "y": 6.2
+        "x": 3.951040710702202,
+        "y": 4.972023059522868
       },
       "isLocked": false,
-      "linkedName": "B1"
+      "linkedName": "R6R"
     },
     {
       "anchor": {
-        "x": 5.46962603894259,
-        "y": 5.014053477842491
+        "x": 3.669,
+        "y": 5.461564602510179
       },
       "prevControl": {
-        "x": 5.932796080987154,
-        "y": 5.666336784506426
+        "x": 3.544,
+        "y": 5.678070953456288
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R5L"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.0,
-        "maxAngularVelocity": 720.0,
-        "maxAngularAcceleration": 1440.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -56,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "From B1",
+  "folder": "Reef Short Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -155.0
+    "rotation": -59.99999999999999
   },
   "useDefaultConstraints": true
 }
