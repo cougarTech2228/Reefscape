@@ -300,14 +300,14 @@ public class RobotContainer {
                 DriveCommands.strafe(drive, () -> driverController.getLeftTriggerAxis()));
 
         // Lock to 0° when A button is held
-        driverController
-                .a()
-                .whileTrue(
-                        DriveCommands.joystickDriveAtAngle(
-                                drive,
-                                () -> -driverController.getLeftY(),
-                                () -> -driverController.getLeftX(),
-                                () -> new Rotation2d()));
+        // driverController
+        //         .a()
+        //         .whileTrue(
+        //                 DriveCommands.joystickDriveAtAngle(
+        //                         drive,
+        //                         () -> -driverController.getLeftY(),
+        //                         () -> -driverController.getLeftX(),
+        //                         () -> new Rotation2d()));
 
         // Switch to X pattern when X button is pressed
         driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
@@ -324,19 +324,19 @@ public class RobotContainer {
                                 drive)
                                 .ignoringDisable(true));
 
-        driverController
-                .leftBumper()
-                .onTrue(
-                        new InstantCommand(() -> {
-                            elevator.manualUp();
-                        }));
+        // driverController
+        //         .leftBumper()
+        //         .onTrue(
+        //                 new InstantCommand(() -> {
+        //                     elevator.manualUp();
+        //                 }));
 
-        driverController
-                .leftTrigger()
-                .onTrue(
-                        new InstantCommand(() -> {
-                            elevator.manualDown();
-                        }));
+        // driverController
+        //         .leftTrigger()
+        //         .onTrue(
+        //                 new InstantCommand(() -> {
+        //                     elevator.manualDown();
+        //                 }));
 
         driverController.rightBumper()
                 .onTrue(new InstantCommand(() -> {
