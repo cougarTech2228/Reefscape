@@ -17,7 +17,7 @@ import static frc.robot.subsystems.vision.VisionConstants.aprilTagLayout;
  *  Thanks Java....
  */
 class DestConsts {
-    static double loaderCenterOffset = -0.115;
+    static double loaderCenterOffset = -0.16;
     static double loaderRightOffset = loaderCenterOffset + 0.6096;
     static double loaderLeftOffset = loaderCenterOffset - 0.6096;
     static double loaderXOffset = -0.05;
