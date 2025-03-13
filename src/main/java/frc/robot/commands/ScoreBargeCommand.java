@@ -29,7 +29,8 @@ public class ScoreBargeCommand extends CTSequentialCommandGroup {
             
             new AutoAlignCommand(drive, new Pose2d(
                 // DriverStation.getAlliance().get() == Alliance.Blue ? 7.48 : (17.55 - 7.48),
-                7.48,
+                // 7.81,
+                7.71,
                 -1,
                 DriverStation.getAlliance().get() == Alliance.Blue ? barge.getPose().getRotation() : barge.getPose().getRotation().rotateBy(new Rotation2d(Math.PI))),
                 pathConstraints),
