@@ -3,6 +3,8 @@ package frc.robot.subsystems.operatorui;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,6 +44,8 @@ public class OperatorUI extends SubsystemBase {
     private final Climber climber;
 
     private Command activeCommand = null;
+    Alert autoAlignOff = new Alert("Auto Align is off", AlertType.kWarning);
+
 
     // outgoing status topics
     private static final String coralLoadedTopic = "coralLoaded";
@@ -86,7 +90,7 @@ public class OperatorUI extends SubsystemBase {
         return table.getEntry(reefPostTopic).getString("");
     }
     private boolean getAutoAlign() {
-        return table.getEntry(autoAlignTopic).getBoolean(false);
+        return table.getEntry(autoAlignTopic).getBoolean(true);
     }
 
     public OperatorUI(Elevator elevator, AlgaeAcquirer algaeAcquirer, CoralCone coralCone, Drive drive, Climber climber) {
@@ -145,6 +149,8 @@ public class OperatorUI extends SubsystemBase {
         table.getEntry(climberAngleTopic).setDouble(climber.getClimberAngle());
         table.getEntry(climberStateTopic).setString(climber.getClimberState());
         table.getEntry(climberLockedTopic).setBoolean(climber.isLocked());
+
+        autoAlignOff.set(!getAutoAlign());
     }
 
     // The driver made their selections, and pressed "GO" figure out what we should be doing now

@@ -197,7 +197,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     currentLimitPercent = percentage;
     System.out.println("setAccelleration: " + percentage);
     driveTalon.getConfigurator().apply(
-        new ClosedLoopRampsConfigs().withTorqueClosedLoopRampPeriod((1 - (1* percentage)) + 0.1));
+        new ClosedLoopRampsConfigs().withVoltageClosedLoopRampPeriod((1 - (1* percentage)) + 0.1));
     
     // driveConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0.1;
     // driveTalon.getConfigurator().apply(new ClosedLoopRampsConfigs().withTorqueClosedLoopRampPeriod(2000));
