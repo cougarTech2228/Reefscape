@@ -27,12 +27,19 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
                 algaeAcquirer.setFlywheelState(AlgaeAcquirer.FlywheelState.ACQUIRE);
             }));
         }
-
-        this.addCommands(    // once we're in the right place, shoot the coral
-            new AutoAlignCommand(drive, dest),
-            new WaitCommand(0.25),
-            new FireCoralCommand(coralCone, false)
-        );
+        if (location == ReefLocation.L4_L || location == ReefLocation.L4_R) {
+            this.addCommands(    // once we're in the right place, shoot the coral
+                new AutoAlignCommand(drive, dest),
+                new WaitCommand(1.5),
+                new FireCoralCommand(coralCone, false)
+            );
+        } else {
+            this.addCommands(    // once we're in the right place, shoot the coral
+                new AutoAlignCommand(drive, dest),
+                new WaitCommand(0.25),
+                new FireCoralCommand(coralCone, false)
+            );
+        }
         if (location.equals(ReefLocation.L2_L) || location.equals(ReefLocation.L2_R)) {
             if (!coralAndAlgae){
                 // if we're not also loading an algae, collapse things
