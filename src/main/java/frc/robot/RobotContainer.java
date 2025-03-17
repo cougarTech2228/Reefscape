@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
+import frc.robot.commands.LoadAlgaeCommand;
 import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.pathplanner.LoadAlgaeAutoCommand;
 import frc.robot.commands.pathplanner.PrepLoadAlgaeCommand;
@@ -192,13 +193,8 @@ public class RobotContainer {
         Command fireCoralCommand = new FireCoralCommand(coralCone, false);
         Command fireAlgaeCommand = new FireAlgaeCommand(algaeAcquirer);
         Command loadCoralCommand = new LoadCoralCommand(elevator, algaeAcquirer, coralCone);
-        Command loadAlgaeCommand = new LoadAlgaeAutoCommand(elevator, algaeAcquirer, coralCone);
-        Command prepLowAlgaeCommand = new PrepLoadAlgaeCommand(AlgaeHeight.REEF_LOW, elevator, algaeAcquirer,
-                coralCone);
-        Command prepHighAlgaeCommand = new PrepLoadAlgaeCommand(AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer,
-                coralCone);
+        Command highAlgaeCommand = new LoadAlgaeCommand(true, AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone);
 
-        Command prepProcessorCommand = new PrepProcessorCommand(elevator, algaeAcquirer, coralCone);
         Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.ALGAE_REEF_LOW);
         Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
                 algaeAcquirer, coralCone);
@@ -215,10 +211,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("fireCoral", fireCoralCommand);
         NamedCommands.registerCommand("fireAlgae", fireAlgaeCommand);
         NamedCommands.registerCommand("loadCoral", loadCoralCommand);
-        NamedCommands.registerCommand("loadAlgae", loadAlgaeCommand);
-        NamedCommands.registerCommand("prepLowAlgae", prepLowAlgaeCommand);
-        NamedCommands.registerCommand("prepHighAlgae", prepHighAlgaeCommand);
-        NamedCommands.registerCommand("prepProcessor", prepProcessorCommand);
+        NamedCommands.registerCommand("highAlgae", highAlgaeCommand);
         NamedCommands.registerCommand("collapse", collapseCommand);
         NamedCommands.registerCommand("prepL1Coral", prepL1CoralCommand);
         NamedCommands.registerCommand("prepL2Coral", prepL2CoralCommand);
