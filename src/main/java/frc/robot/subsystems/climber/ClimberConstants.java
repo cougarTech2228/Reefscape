@@ -2,8 +2,8 @@ package frc.robot.subsystems.climber;
 
 public class ClimberConstants {
 
-    public static final double RAISE_VOLTAGE = 2;
-    public static final double LOWER_VOLTAGE = -2;
+    public static final double RAISE_VOLTAGE = 5;
+    public static final double LOWER_VOLTAGE = -5;
     public static final double servoLockedAngle = .5;
     public static final double servoUnlockedAngle = servoLockedAngle - 0.36;
 
