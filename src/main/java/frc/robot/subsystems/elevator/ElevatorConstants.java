@@ -22,19 +22,20 @@ public class ElevatorConstants {
   public static final double kManualUpVoltage = -1.5;
   public static final double kManualDownVoltage = 0;
 
+  public static final double RATIO = 0.6;
   // Enum Stuff
   public static final double HEIGHT_TRANSIT = 0;
-  public static final double HEIGHT_CORAL_LOAD = -22.16; // -25.12;
-  public static final double HEIGHT_CORAL_L1 = -9.44;
-  public static final double HEIGHT_CORAL_L2 = -21.34;
-  public static final double HEIGHT_CORAL_L3 = -45.62;
-  public static final double HEIGHT_CORAL_L4 = -99.73;
+  public static final double HEIGHT_CORAL_LOAD = -22.16*RATIO; // -25.12;
+  public static final double HEIGHT_CORAL_L1 = -9.44*RATIO;
+  public static final double HEIGHT_CORAL_L2 = -21.34*RATIO;
+  public static final double HEIGHT_CORAL_L3 = -45.62*RATIO;
+  public static final double HEIGHT_CORAL_L4 = -99.73*RATIO;
   public static final double HEIGHT_ALGAE_FLOOR = -0;
-  public static final double HEIGHT_ALGAE_ON_CORAL = -19.34;
-  public static final double HEIGHT_ALGAE_PROCESSOR = -15.33;
+  public static final double HEIGHT_ALGAE_ON_CORAL = -19.34*RATIO;
+  public static final double HEIGHT_ALGAE_PROCESSOR = -15.33*RATIO;
   public static final double HEIGHT_ALGAE_REEF_LOW = HEIGHT_CORAL_L3;
-  public static final double HEIGHT_ALGAE_REEF_HIGH = -69.2;
-  public static final double HEIGHT_ALGAE_BARGE = -125.5;
+  public static final double HEIGHT_ALGAE_REEF_HIGH = -69.2*RATIO;
+  public static final double HEIGHT_ALGAE_BARGE = -125.5*RATIO;
 
   public static final double HEIGHT_MIN = -125.5;
   public static final double HEIGHT_MAX = 0;

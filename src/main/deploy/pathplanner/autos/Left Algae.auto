@@ -1,0 +1,146 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B1_R5L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "prepL4Coral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "R5L_CL"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "loadCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CL_R6R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "prepL4Coral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "R6R_R5R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "highAlgae"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Short R5R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "collapse"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Main Autos",
+  "choreoAuto": false
+}
