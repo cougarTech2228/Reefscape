@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.elevator.ElevatorIO.ElevatorIOInputs;
 
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
@@ -169,5 +170,9 @@ public class Elevator extends SubsystemBase {
     public double getCurrentHeightPercentage() {
         return Math.abs((
             Math.abs(ElevatorConstants.HEIGHT_MIN) - Math.abs(inputs.position_A)) / ElevatorConstants.HEIGHT_MIN);
+    }
+
+    public double getMotorTemp() {
+        return inputs.temp_A;
     }
 }

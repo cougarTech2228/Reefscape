@@ -22,7 +22,7 @@ public class ElevatorConstants {
   public static final double kManualUpVoltage = -1.5;
   public static final double kManualDownVoltage = 0;
 
-  public static final double RATIO = 0.6;
+  public static final double RATIO = 0.8;
   // Enum Stuff
   public static final double HEIGHT_TRANSIT = 0;
   public static final double HEIGHT_CORAL_LOAD = -22.16*RATIO; // -25.12;

@@ -37,7 +37,7 @@ public class ScoreBargeCommand extends CTSequentialCommandGroup {
             // once we're in the right place, shoot the coral
             new FireAlgaeCommand(algaeAcquirer),
             new WaitCommand(0.5),
-            new CollapseCommand( elevator, algaeAcquirer, coralCone, Elevator.Position.TRANSIT)
+            new CollapseCommand( elevator, algaeAcquirer, coralCone, Elevator.Position.ALGAE_FLOOR_ON_CORAL)
         );
     }
 }

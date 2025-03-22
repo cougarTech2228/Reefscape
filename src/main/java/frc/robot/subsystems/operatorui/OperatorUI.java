@@ -55,6 +55,7 @@ public class OperatorUI extends SubsystemBase {
     private static final String climberAngleMinTopic = "climberAngleMin";
     private static final String climberAngleMaxTopic = "climberAngleMax";
     private static final String climberLockedTopic = "climberLocked";
+    private static final String elevatorTempTopic = "elevatorMotorTemp";
 
     // incoming control topics
     private static final String executeCommandTopic = "executeCommand";
@@ -115,6 +116,7 @@ public class OperatorUI extends SubsystemBase {
         table.getEntry(climberAngleMinTopic).setDouble(ClimberConstants.angleRetracted);
         table.getEntry(climberAngleMaxTopic).setDouble(ClimberConstants.angleExtended);
         table.getEntry(climberLockedTopic).setBoolean(false);
+        table.getEntry(elevatorTempTopic).setDouble(0);
 
         table.addListener(
             executeCommandTopic,
@@ -149,7 +151,7 @@ public class OperatorUI extends SubsystemBase {
         table.getEntry(climberAngleTopic).setDouble(climber.getClimberAngle());
         table.getEntry(climberStateTopic).setString(climber.getClimberState());
         table.getEntry(climberLockedTopic).setBoolean(climber.isLocked());
-
+        table.getEntry(elevatorTempTopic).setDouble(elevator.getMotorTemp());
         autoAlignOff.set(!getAutoAlign());
     }
 
