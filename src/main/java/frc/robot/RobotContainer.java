@@ -194,6 +194,7 @@ public class RobotContainer {
         Command fireAlgaeCommand = new FireAlgaeCommand(algaeAcquirer);
         Command loadCoralCommand = new LoadCoralCommand(elevator, algaeAcquirer, coralCone);
         Command highAlgaeCommand = new LoadAlgaeCommand(true, AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone);
+        Command lowAlgaeCommand = new LoadAlgaeCommand(true, AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone);
 
         Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_LOAD);
         Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
@@ -217,6 +218,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("prepL2Coral", prepL2CoralCommand);
         NamedCommands.registerCommand("prepL3Coral", prepL3CoralCommand);
         NamedCommands.registerCommand("prepL4Coral", prepL4CoralCommand);
+        NamedCommands.registerCommand("lowAlgae", lowAlgaeCommand);
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
