@@ -65,6 +65,7 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.Enums.*;
+import frc.robot.commands.BargeCommand;
 import frc.robot.commands.CollapseCommand;
 
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -201,6 +202,7 @@ public class RobotContainer {
         
 
         Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_LOAD);
+
         Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
                 algaeAcquirer, coralCone);
         Command prepL2CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L2_L,
@@ -217,6 +219,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("fireAlgae", fireAlgaeCommand);
         NamedCommands.registerCommand("loadCoral", loadCoralCommand);
         NamedCommands.registerCommand("highAlgae", highAlgaeCommand);
+        NamedCommands.registerCommand("lowAlgae", lowAlgaeCommand);
+        NamedCommands.registerCommand("prepBarge", prepBargeCommand);
+        NamedCommands.registerCommand("prepProcessor", prepProcessorCommand);
         NamedCommands.registerCommand("collapse", collapseCommand);
         NamedCommands.registerCommand("prepL1Coral", prepL1CoralCommand);
         NamedCommands.registerCommand("prepL2Coral", prepL2CoralCommand);
