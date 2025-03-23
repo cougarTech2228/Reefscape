@@ -111,26 +111,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "prepL3Coral"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "lowAlgae"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "fireCoral"
+                  "name": "algaeAndCoral"
                 }
               }
             ]

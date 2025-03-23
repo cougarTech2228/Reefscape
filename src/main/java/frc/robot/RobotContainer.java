@@ -31,6 +31,8 @@ import frc.robot.commands.FireAlgaeCommand;
 import frc.robot.commands.FireCoralCommand;
 import frc.robot.commands.LoadAlgaeCommand;
 import frc.robot.commands.LoadCoralCommand;
+import frc.robot.commands.PlaceCoralCommand;
+import frc.robot.commands.PrepAlgaeCommand;
 import frc.robot.commands.pathplanner.LoadAlgaeAutoCommand;
 import frc.robot.commands.pathplanner.PrepLoadAlgaeCommand;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
@@ -195,6 +197,8 @@ public class RobotContainer {
         Command loadCoralCommand = new LoadCoralCommand(elevator, algaeAcquirer, coralCone);
         Command highAlgaeCommand = new LoadAlgaeCommand(true, AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone);
         Command lowAlgaeCommand = new LoadAlgaeCommand(true, AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone);
+        Command algaeAndCoralCommand = new PlaceCoralCommand(true, ReefSegment.Segment_2, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone, drive);
+        
 
         Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_LOAD);
         Command prepL1CoralCommand = new PrepPlaceCoralCommand(ReefSegment.Segment_1, ReefLocation.L1, elevator,
@@ -219,6 +223,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("prepL3Coral", prepL3CoralCommand);
         NamedCommands.registerCommand("prepL4Coral", prepL4CoralCommand);
         NamedCommands.registerCommand("lowAlgae", lowAlgaeCommand);
+        NamedCommands.registerCommand("algaeAndCoral", algaeAndCoralCommand);
+        
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
