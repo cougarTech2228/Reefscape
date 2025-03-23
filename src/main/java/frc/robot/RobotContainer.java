@@ -199,7 +199,8 @@ public class RobotContainer {
         Command highAlgaeCommand = new LoadAlgaeCommand(true, AlgaeHeight.REEF_HIGH, elevator, algaeAcquirer, coralCone);
         Command lowAlgaeCommand = new LoadAlgaeCommand(true, AlgaeHeight.REEF_LOW, elevator, algaeAcquirer, coralCone);
         Command algaeAndCoralCommand = new PlaceCoralCommand(true, ReefSegment.Segment_2, ReefLocation.L2_R, elevator, algaeAcquirer, coralCone, drive);
-        
+        Command prepBargeCommand = new BargeCommand(elevator, algaeAcquirer, coralCone);
+        Command prepProcessorCommand = new PrepProcessorCommand(elevator, algaeAcquirer, coralCone);
 
         Command collapseCommand = new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.CORAL_LOAD);
 
