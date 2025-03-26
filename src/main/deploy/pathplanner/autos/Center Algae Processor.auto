@@ -5,13 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "lowAlgae"
+                  "name": "prepL4Coral"
                 }
               },
               {
@@ -30,7 +30,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 0.1
                 }
               },
               {
@@ -40,6 +40,24 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Short R4R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lowAlgae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Short R4R Inverse"
           }
         },
         {
@@ -66,18 +84,68 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "fireAlgae"
+                }
+              },
+              {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.1
+                  "waitTime": 0.35
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "P_R3R"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "fireAlgae"
+                  "name": "highAlgae"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "R3R_P"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "prepProcessor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fireAlgae"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.35
           }
         }
       ]

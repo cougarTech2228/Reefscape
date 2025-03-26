@@ -3,11 +3,13 @@
   "robotLength": 0.98425,
   "holonomicMode": true,
   "pathFolders": [
+    "Barge Paths",
     "From B1",
     "From B2",
     "From B3",
     "From CL",
     "From CR",
+    "Processor",
     "From R1",
     "From R2",
     "From R3",
@@ -15,7 +17,6 @@
     "From R5",
     "From R6",
     "Misc",
-    "Barge Paths",
     "Reef Short Paths",
     "Test Paths"
   ],
