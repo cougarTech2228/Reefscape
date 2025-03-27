@@ -87,7 +87,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.1
+                  "waitTime": 0.2
                 }
               },
               {
@@ -110,9 +110,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "highAlgae"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "highAlgae"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -126,12 +139,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Short R3R"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]

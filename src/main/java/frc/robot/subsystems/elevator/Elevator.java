@@ -175,4 +175,8 @@ public class Elevator extends SubsystemBase {
     public double getMotorTemp() {
         return inputs.temp_A;
     }
+
+    public boolean getFault() {
+        return inputs.tempFaultA;
+    }
 }

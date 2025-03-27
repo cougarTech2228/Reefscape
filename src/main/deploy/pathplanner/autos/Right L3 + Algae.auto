@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "B3_R3L"
+                  "pathName": "B3_R3R"
                 }
               },
               {
@@ -26,7 +26,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.15
           }
         },
         {
@@ -42,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "R3L_CR"
+                  "pathName": "R3R_CR"
                 }
               },
               {
@@ -115,6 +115,30 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fireCoral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lowAlgae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Short R2R"
           }
         }
       ]

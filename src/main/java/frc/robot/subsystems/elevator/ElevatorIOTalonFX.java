@@ -122,7 +122,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         BaseStatusSignal.refreshAll(
             positionRotA, velocityRotPerSecA, appliedVoltsA, currentAmpsA,
             // positionRotB, velocityRotPerSecB, appliedVoltsB, currentAmpsB,
-            forwardLimitA);
+            forwardLimitA, temperatureA, tempFaultA);
 
         inputs.position_A = positionRotA.getValueAsDouble();
         inputs.velocity_A = velocityRotPerSecA.getValueAsDouble();

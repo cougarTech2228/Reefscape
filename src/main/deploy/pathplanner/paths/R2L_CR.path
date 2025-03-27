@@ -28,33 +28,15 @@
       "linkedName": "CR"
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
-  "pointTowardsZones": [],
-  "eventMarkers": [
+  "rotationTargets": [
     {
-      "name": "prepEmptyTransit",
-      "waypointRelativePos": 0.05206463195691202,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "prepEmptyTransit"
-        }
-      }
-    },
-    {
-      "name": "loadCoral",
-      "waypointRelativePos": 0.5457809694793518,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "loadCoral"
-        }
-      }
+      "waypointRelativePos": 0.6981132075471707,
+      "rotationDegrees": -126.0
     }
   ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 2.0,
