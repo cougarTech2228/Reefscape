@@ -30,7 +30,7 @@ public class PlaceCoralCommand extends CTSequentialCommandGroup {
         if (location == ReefLocation.L4_L || location == ReefLocation.L4_R) {
             this.addCommands(    // once we're in the right place, shoot the coral
                 new AutoAlignCommand(drive, dest),
-                new WaitCommand(1.0),
+                new WaitCommand(0.5),
                 new FireCoralCommand(coralCone, false)
             );
         } else {
