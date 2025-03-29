@@ -11,7 +11,7 @@ import frc.robot.subsystems.coralCone.CoralCone.WheelState;
 public class FireCoralCommand extends Command {
     private final CoralCone coralCone;
 
-    private final double shootDurationSec = 0.25;
+    private final double shootDurationSec = 0.50;
     private double startTime = 0;
     private boolean isFast;
 

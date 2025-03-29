@@ -47,6 +47,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     // private final StatusSignal<Temperature> temperatureB = elevatorB.getDeviceTemp();
     private final StatusSignal<Boolean> tempFaultA = elevatorA.getFault_DeviceTemp();
     // private final StatusSignal<Boolean> tempFaultB = elevatorB.getFault_DeviceTemp();
+    private final double WARNING_TEMP = 90.0;
 
     // private final StatusSignal<Angle> positionRotB = elevatorB.getPosition();
     // private final StatusSignal<AngularVelocity> velocityRotPerSecB = elevatorB.getVelocity();
@@ -98,8 +99,8 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         talonFXConfigs.MotionMagic
             .withMotionMagicCruiseVelocity(RotationsPerSecond.of(100)) // 5 (mechanism) rotations per second cruise
         
-            .withMotionMagicExpo_kA(0.20) // lower is faster
-            .withMotionMagicExpo_kV(0.01); // lower is faster
+            .withMotionMagicExpo_kA(0.050) // lower is faster
+            .withMotionMagicExpo_kV(0.001); // lower is faster
 
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 100; // allow a spike of 80A
         talonFXConfigs.CurrentLimits.SupplyCurrentLowerLimit = 40; // typical current limit
@@ -142,7 +143,8 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
         inputs.temp_A = temperatureA.getValueAsDouble();
         // inputs.temp_B = temperatureB.getValueAsDouble();
-        inputs.tempFaultA = tempFaultA.getValue();
+        // inputs.tempFaultA = tempFaultA.getValue();
+        inputs.tempFaultA = (inputs.temp_A > WARNING_TEMP);
         // inputs.tempFaultB = tempFaultB.getValue();
     }
 
