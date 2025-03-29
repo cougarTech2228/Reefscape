@@ -39,7 +39,7 @@ public class ElevatorConstants {
   public static final double HEIGHT_ALGAE_REEF_HIGH = -55.360 + OFFSET;//69.2*RATIO;
   public static final double HEIGHT_ALGAE_BARGE = -100.4 + OFFSET;//125.5*RATIO;
 
-  public static final double HEIGHT_MIN = -100.5;
+  public static final double HEIGHT_MIN = -99.5;
   public static final double HEIGHT_MAX = 0;
 
   public static final double ClosedLoopErrorThreshold = 0.1;

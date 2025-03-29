@@ -30,7 +30,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.1
                 }
               },
               {
@@ -53,9 +53,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "loadCoral"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.75
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "loadCoral"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -72,9 +85,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "prepL4Coral"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "prepL4Coral"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -110,9 +136,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "highAlgae"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "highAlgae"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -126,12 +165,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Short R5R"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "collapse"
                 }
               }
             ]

@@ -27,7 +27,7 @@
     "Test Autos"
   ],
   "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 2.0,
+  "defaultMaxAccel": 2.5,
   "defaultMaxAngVel": 720.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,

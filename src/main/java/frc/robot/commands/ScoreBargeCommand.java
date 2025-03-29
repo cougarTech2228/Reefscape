@@ -18,7 +18,7 @@ public class ScoreBargeCommand extends CTSequentialCommandGroup {
     {
         Destination barge = Destination.BARGE;
         // when the elevator is all the way up, we need to be SUPER slow!
-        PathConstraints pathConstraints = new PathConstraints(1.5, 1, 2 * Math.PI, 3 * Math.PI);
+        PathConstraints pathConstraints = new PathConstraints(2, 2, 2 * Math.PI, 3 * Math.PI);
 
         //Destination dest = Destination.fromSegmentAndPosition(segment, location, DriverStation.getAlliance().get());
         this.addCommands(
