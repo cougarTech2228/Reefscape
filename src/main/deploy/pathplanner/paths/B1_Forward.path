@@ -48,7 +48,7 @@
   "folder": "Test Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -155.0
+    "rotation": -130.0
   },
   "useDefaultConstraints": true
 }

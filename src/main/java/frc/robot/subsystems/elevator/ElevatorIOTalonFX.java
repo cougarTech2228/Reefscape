@@ -17,6 +17,7 @@ import static frc.robot.subsystems.elevator.ElevatorConstants.*;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -58,6 +59,18 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
     protected double currentSetPosition = 0;
 
+    private final MotionMagicConfigs motionMagicConfigsFast = new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(RotationsPerSecond.of(100)) // 5 (mechanism) rotations per second cruise  
+        .withMotionMagicExpo_kA(0.050) // lower is faster
+        .withMotionMagicExpo_kV(0.001); // lower is faster
+
+    private final MotionMagicConfigs motionMagicConfigsSlow = new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(RotationsPerSecond.of(100)) // 5 (mechanism) rotations per second cruise  
+        .withMotionMagicExpo_kA(0.100) // lower is faster
+        .withMotionMagicExpo_kV(0.001); // lower is faster
+
+    private boolean elevatorIsFast = true;
+
     public ElevatorIOTalonFX() {
         var hardwareLimitSwitchConfig = new HardwareLimitSwitchConfigs();
 
@@ -96,11 +109,7 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
 
         // set Motion Magic Expo settings
-        talonFXConfigs.MotionMagic
-            .withMotionMagicCruiseVelocity(RotationsPerSecond.of(100)) // 5 (mechanism) rotations per second cruise
-        
-            .withMotionMagicExpo_kA(0.050) // lower is faster
-            .withMotionMagicExpo_kV(0.001); // lower is faster
+        talonFXConfigs.withMotionMagic(motionMagicConfigsFast);
 
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 100; // allow a spike of 80A
         talonFXConfigs.CurrentLimits.SupplyCurrentLowerLimit = 40; // typical current limit
@@ -150,11 +159,13 @@ public class ElevatorIOTalonFX implements ElevatorIO {
 
     @Override
     public void setPosition(Position position) {
+        boolean fast = true;
         switch (position) {
             case TRANSIT:
                 currentSetPosition = HEIGHT_TRANSIT;
                 break;
             case ALGAE_BARGE:
+                fast = false;
                 currentSetPosition = HEIGHT_ALGAE_BARGE;
                 break;
             case ALGAE_FLOOR:
@@ -188,7 +199,19 @@ public class ElevatorIOTalonFX implements ElevatorIO {
                 currentSetPosition = HEIGHT_CORAL_LOAD;
                 break;
         }
+        if (fast) {
+            if (!elevatorIsFast) {
+                elevatorA.getConfigurator().apply(motionMagicConfigsFast);
+                elevatorIsFast = true;
+            }
+        } else {
+            if (elevatorIsFast) {
+                elevatorIsFast = false;
+                elevatorA.getConfigurator().apply(motionMagicConfigsSlow);
+            }
+        }
         elevatorA.setControl(motionMagic.withPosition(currentSetPosition));
+
     }
 
     @Override

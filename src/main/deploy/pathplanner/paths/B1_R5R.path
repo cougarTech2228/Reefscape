@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.75,
+      "minWaypointRelativePos": 0.15260323159784897,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.5,
@@ -62,7 +62,7 @@
   "folder": "From B1",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -155.0
+    "rotation": -130.0
   },
   "useDefaultConstraints": true
 }

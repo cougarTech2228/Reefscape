@@ -55,7 +55,7 @@ public enum Destination {
     LOADER_LEFT_CENTER(13, DestConsts.loaderCenterOffset, 0, 0,4,6,8,0.5,8,0,7.5),
     LOADER_LEFT_RIGHT(13, DestConsts.loaderRightOffset, 0, 0,4,6,8,0.5,8,0,7.5),
 
-    BARGE(14, 0, 0, 8.2, 7.4, 6.75, 7.4, 6.75, 4.8, 8.2, 4.8);
+    BARGE(14, 0, 0, 8.2, 7.4, 6.5, 7.4, 6.5, 4.8, 8.2, 4.8);
 
     public static Destination fromSegmentAndPosition(ReefSegment segment, ReefLocation location) {
         Destination destination = null;
