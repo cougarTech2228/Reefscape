@@ -20,7 +20,7 @@ class DestConsts {
     static double loaderCenterOffset = -0.16;
     static double loaderRightOffset = loaderCenterOffset + 0.6096;
     static double loaderLeftOffset = loaderCenterOffset - 0.6096;
-    static double loaderXOffset = -0.05;
+    static double loaderXOffset = -0.07;
 
     static double reefLeftOffset = -0.33;
 
