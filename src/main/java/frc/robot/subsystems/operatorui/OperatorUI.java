@@ -20,6 +20,7 @@ import frc.robot.commands.PlaceCoralCommand;
 import frc.robot.commands.PrepProcessorCommand;
 import frc.robot.commands.ScoreBargeCommand;
 import frc.robot.commands.ScoreProcessorCommand;
+import frc.robot.commands.SpitCommand;
 import frc.robot.commands.pathplanner.PrepPlaceCoralCommand;
 import frc.robot.subsystems.algaeAcquirer.AlgaeAcquirer;
 import frc.robot.subsystems.climber.Climber;
@@ -213,6 +214,10 @@ public class OperatorUI extends SubsystemBase {
         }
         if (getMode().equals("collapse")){
             startCommand(new CollapseCommand(elevator, algaeAcquirer, coralCone, Elevator.Position.TRANSIT));
+            return;
+        }
+        if (getMode().equals("spit")) {
+            startCommand(new SpitCommand(coralCone, true));
             return;
         }
 
