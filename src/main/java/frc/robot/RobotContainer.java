@@ -231,6 +231,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("lowAlgae", lowAlgaeCommand);
         NamedCommands.registerCommand("algaeAndCoral", algaeAndCoralCommand);
         
+        
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

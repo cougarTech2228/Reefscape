@@ -51,18 +51,37 @@
                 "data": {
                   "pathName": "Short R4R"
                 }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Short R4R Inverse"
+                }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "collapse"
+                  "name": "lowAlgae"
                 }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
+          "data": {
+            "pathName": "Short R4R"
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -78,6 +97,74 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireAlgae"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.2
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BargeBackOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "collapse"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "bbo_R5R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "highAlgae"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Short R5R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Short R5R_bbo"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "prepBarge"
           }
         }
       ]

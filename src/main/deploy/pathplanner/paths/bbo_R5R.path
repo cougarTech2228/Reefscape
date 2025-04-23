@@ -3,47 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.175,
-        "y": 5.175
+        "x": 7.091200657894737,
+        "y": 5.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.3,
-        "y": 5.391506350946109
+        "x": 6.802549342105262,
+        "y": 5.766529605263157
       },
       "isLocked": false,
-      "linkedName": "R5R"
+      "linkedName": "bargebackout"
     },
     {
       "anchor": {
-        "x": 5.34,
-        "y": 5.44
+        "x": 5.175,
+        "y": 5.175
       },
       "prevControl": {
-        "x": 5.215,
-        "y": 5.223493649053891
+        "x": 5.7133725879019845,
+        "y": 6.107488675648579
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "short r5r"
+      "linkedName": "R5R"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.0,
-        "maxAngularVelocity": 720.0,
-        "maxAngularAcceleration": 1440.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -59,10 +45,10 @@
     "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": "Reef Short Paths",
+  "folder": "Barge Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
