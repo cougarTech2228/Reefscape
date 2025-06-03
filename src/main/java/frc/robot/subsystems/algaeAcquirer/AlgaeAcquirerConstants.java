@@ -20,7 +20,7 @@ public class AlgaeAcquirerConstants {
     public static final double kManualDownVoltage = -0.5;
     
     // below this velocity and above this current will be concidered loaded
-    public static final double kLoadedVelocityThreshold = 1000;
+    public static final double kLoadedVelocityThreshold = 2000;
     public static final double kLoadedCurrentDrawThreshold = 5;
 
     public enum FlyMode {
